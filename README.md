@@ -4,7 +4,19 @@ Welcome to the repository for my personal website! This site showcases my profes
 
 ## About Me
 
-I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I mainly do research in Graph Theory, Network Science, and Applications of Machine Learning
+I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I mainly work in in Graph Theory, Network Science, and Applications of Machine Learning
+## Curriculum Vitae
+
+### Contact
+- **Email**: [gagrah1@lsu.edu](mailto:gagrah1@lsu.edu)
+- Feel free to reach out through the channels provided.
+
+### Blog
+- [Read articles and tutorials](your-blog-url) on topics I am passionate about.
+
+### Projects
+- [View my Projects](./project.html) to explore what I’ve been working on.
+
 - **CV**:
 - **Contact**: gagrah1@lsu.edu
 - **Blog**: Read articles and tutorials on topics I am passionate about.
