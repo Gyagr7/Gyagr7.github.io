@@ -4,7 +4,19 @@ Welcome to the repository for my personal website! This site showcases my profes
 
 ## About Me
 
-I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I mainly work in in Graph Theory, Network Science, and Applications of Machine Learning
+I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I mainly work in Graph Theory, Network Science, and Applications of Machine Learning
+
+<div style="text-align: center; margin-top: 20px;">
+  <strong><a href="Projects.md" style="margin-right: 20px; text-decoration: none; color: black;">Projects</a></strong>
+  |
+  <strong><a href="Publications.md" style="margin-left: 20px; text-decoration: none; color: black;">Publications</a></strong>
+  |
+  <strong><a href="Education.md" style="margin-left: 20px; text-decoration: none; color: black;">Education</a></strong>
+  |
+  <strong><a href="Blogs.md" style="margin-left: 20px; text-decoration: none; color: black;">Blog</a></strong>
+</div>
+
+
 ## Curriculum Vitae
 
 ### Contact
