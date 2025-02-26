@@ -14,6 +14,7 @@ I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I 
   <strong><a href="Education.md" style="margin-left: 20px; text-decoration: none; color: black;">Education</a></strong>
   |
   <strong><a href="Blogs.md" style="margin-left: 20px; text-decoration: none; color: black;">Blog</a></strong>
+  |
    <strong><a href="cv1.pdf" target="_blank" style="margin-left: 20px; text-decoration: none; color: black;">CV</a></strong>
 </div>
 
