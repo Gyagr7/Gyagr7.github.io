@@ -1,6 +1,4 @@
-Hello, Welcome to my Personal Page
 
-Welcome to the repository for my personal website! This site showcases my professional portfolio, blog posts, and projects, providing insights into my interests and expertise.
 
 ## About Me
 
