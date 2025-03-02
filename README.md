@@ -18,8 +18,10 @@ I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I 
 
 ### Contact
 - **Email**: [gagrah1@lsu.edu](mailto:gagrah1@lsu.edu)
-- Feel free to reach out through the channels provided.
+<!--- Feel free to reach out through the channels provided.-->
 
+
+<!--
 ### Blog
 - [Read articles and tutorials](your-blog-url) on topics I am passionate about.
 
@@ -30,4 +32,5 @@ I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I 
 - **Contact**: gagrah1@lsu.edu
 - **Blog**: Read articles and tutorials on topics I am passionate about.
 - **Contact**: Get in touch with me through the provided channels.
-- - **Projects**: [View my Projects](./project.html)
+- - **Projects**: [View my Projects](./project.html) -->
+
