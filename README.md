@@ -1,5 +1,5 @@
 
-This website is under construction. Ceck out my CV. I will update on other projects soon.
+This website is under construction. Check out my CV. I will update you on other projects soon.
 ## About Me
 
 I am a third-year PhD student at Louisiana State University under Zhiyu Wang. I mainly work in Graph Theory, Network Science, and Applications of Machine Learning
