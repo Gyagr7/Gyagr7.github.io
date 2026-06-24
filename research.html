@@ -1,20 +1,14 @@
-<!doctype html>
-<html lang="en" class="auto-theme">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+<!DOCTYPE html><html lang="en" class="auto-theme"><head>
+
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Research — Gyaneshwar Agrahari</title>
-  <meta name="description" content="Papers, preprints, and talks." />
+  <meta name="description" content="Research in structural graph theory, graph labeling, and applied machine learning.">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
-
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
-    onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=IBM+Plex+Sans:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
 
   <style>
 /* Gyaneshwar Agrahari — Personal Site
@@ -416,6 +410,51 @@ a { color: inherit; }
   text-transform: uppercase;
 }
 
+/* ─── Research areas ─────────────────────────────────────────────── */
+.ma-areas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  margin: 8px 0 64px;
+}
+.ma-area {
+  border-top: 1.5px solid var(--ma-accent);
+  padding-top: 18px;
+}
+.ma-area-num {
+  font-family: var(--ma-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--ma-accent);
+  margin-bottom: 12px;
+}
+.ma-area h3 {
+  font-family: var(--ma-display);
+  font-weight: 400;
+  font-size: 27px;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+}
+.ma-area h3 em { font-style: italic; color: var(--ma-accent); }
+.ma-area p {
+  margin: 0 0 16px;
+  font-size: 14.5px;
+  color: var(--ma-ink-soft);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.ma-area-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-family: var(--ma-mono);
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ma-ink-faint);
+}
+
 /* ─── Blog ────────────────────────────────────────────────────────── */
 .ma-posts {
   display: grid;
@@ -535,6 +574,7 @@ a { color: inherit; }
   .ma-marg { grid-template-columns: 1fr; text-align: left !important; }
   .ma-marg > div { text-align: left !important; }
   .ma-posts { grid-template-columns: 1fr; }
+  .ma-areas { grid-template-columns: 1fr; gap: 32px; }
   .ma-h2 { font-size: 44px; }
   .ma-contact-h { font-size: 60px; }
   .ma-hero h1 { font-size: clamp(44px, 13vw, 72px); }
@@ -545,7 +585,7 @@ a { color: inherit; }
 
   </style>
 </head>
-<body>
+<body style="">
 
   <nav class="ma-nav">
     <a class="ma-mark" href="index.html">Gyaneshwar Agrahari<span class="ma-dot">.</span></a>
@@ -561,74 +601,96 @@ a { color: inherit; }
 
   <main class="ma-page">
     <div class="ma-h2-row">
-      <h1 class="ma-h2">Research <em>&amp; writing</em></h1>
-      <div class="ma-h2-meta">Updated May 2026</div>
+      <h1 class="ma-h2"><em>Research</em></h1>
+      <div class="ma-h2-meta">Louisiana State University</div>
     </div>
 
     <p class="ma-lede">
-      I work in structural and extremal graph theory — counting substructures like cycles in planar triangulations, and labeling graphs over abelian groups — with an active side interest in applying machine learning to real-world problems, from semi-supervised regression in healthcare to combinatorial questions. A typical paper of mine is about how local constraints on a graph force global structure — and lately, how learning algorithms can work with limited data.
+      My work lives in three connected places — the structure of graphs, the application of machine learning, and the teaching of mathematics.
     </p>
 
-    <div class="ma-subhead">Papers &amp; preprints — chronological</div>
-
-    <a class="ma-paper" href="https://doi.org/10.3389/fbinf.2026.1722578" target="_blank" rel="noopener">
-      <div class="ma-paper-year">2026</div>
-      <div>
-        <h3 class="ma-paper-title">Predicting anthropometric body composition variables using 3D optical imaging and machine learning</h3>
-        <div class="ma-paper-meta">
-          <span>with K. Bist, N. Drenska, et al.</span>
-          <span>·</span>
-          <span>Frontiers in Bioinformatics, Vol. 6</span>
-          <span class="ma-tag">ML applications</span>
+    <div class="ma-areas">
+      <div class="ma-area">
+        <div class="ma-area-num">01</div>
+        <h3>Graph <em>Theory</em></h3>
+        <p>I work in structural and extremal graph theory: counting substructures such as cycles in planar triangulations, and labeling graphs over abelian groups. The recurring question is how local constraints force global structure.</p>
+        <div class="ma-area-tags">
+          <span>extremal</span>
+          <span>planar triangulations</span>
+          <span>Γ-harmonious labeling</span>
         </div>
       </div>
-      <div class="ma-paper-status">published</div>
-    </a>
+
+      <div class="ma-area">
+        <div class="ma-area-num">02</div>
+        <h3>Applied <em>ML</em></h3>
+        <p>I apply machine learning to real-world problems where labeled data is scarce — from semi-supervised regression in healthcare to predicting body composition from 3D optical imaging.</p>
+        <div class="ma-area-tags">
+          <span>semi-supervised</span>
+          <span>p-Laplacian</span>
+          <span>healthcare</span>
+        </div>
+      </div>
+
+      <div class="ma-area">
+        <div class="ma-area-num">03</div>
+        <h3>Math <em>Education</em></h3>
+        <p>I care about making mathematics reachable: open and accessible resources, problem-driven learning, and writing that turns hard ideas into intuitions. Much of my <a href="blog.html" style="color:var(--ma-accent);text-decoration:none">notebook</a> lives here.</p>
+        <div class="ma-area-tags">
+          <span>open education</span>
+          <span>exposition</span>
+          <span>outreach</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ma-h2-row" style="margin-top: 56px;">
+      <h2 class="ma-h2" style="font-size:40px"><em>Papers</em></h2>
+      <div class="ma-h2-meta">Advisor: Zhiyu Wang</div>
+    </div>
+
+    <div class="ma-subhead">Graph Theory</div>
 
     <a class="ma-paper" href="https://arxiv.org/abs/2507.18090" target="_blank" rel="noopener">
       <div class="ma-paper-year">2025</div>
       <div>
-        <h3 class="ma-paper-title">Counting <em>k</em>-cycles in 5-connected planar triangulations</h3>
+        <div class="ma-paper-title">Counting <em>k</em>-cycles in 5-connected planar triangulations</div>
         <div class="ma-paper-meta">
-          <span>with Xiaonan Liu &amp; Zhiyu Wang</span>
-          <span>·</span>
-          <span>arXiv:2507.18090</span>
-          <span class="ma-tag">extremal graph theory</span>
+          <span>Gyaneshwar Agrahari, Xiaonan Liu, Zhiyu Wang</span>
+          <span class="ma-tag">graph theory</span>
         </div>
       </div>
-      <div class="ma-paper-status">preprint</div>
+      <div class="ma-paper-status">arXiv:2507.18090</div>
     </a>
 
-    <a class="ma-paper" href="https://arxiv.org/abs/2403.14098" target="_blank" rel="noopener">
+    <div class="ma-subhead" style="margin-top:40px">Graph Labeling</div>
+
+    <a class="ma-paper" href="https://combinatorialpress.com/article/um/Volume%20120/on-some-classes-of-cycles-related-gamma-harmonious-graphs.pdf" target="_blank" rel="noopener">
       <div class="ma-paper-year">2024</div>
       <div>
-        <h3 class="ma-paper-title">On some classes of cycles-related <em>&Gamma;</em>-harmonious graphs</h3>
+        <div class="ma-paper-title">On Some Classes of Cycles-Related Γ-Harmonious Graphs</div>
         <div class="ma-paper-meta">
-          <span>with Dalibor Froncek</span>
-          <span>·</span>
-          <span>Utilitas Mathematica, Vol. 120</span>
-          <span class="ma-tag">graph labeling</span>
+          <span>Gyaneshwar Agrahari, Dalibor Froncek</span>
+          <span class="ma-tag">GRAPH THEORY</span>
         </div>
       </div>
-      <div class="ma-paper-status">published</div>
+      <div class="ma-paper-status"><em>Utilitas Mathematica</em>, Vol. 120</div>
     </a>
 
-    <a class="ma-paper" href="https://scholar.google.com/citations?user=oBLRfvYAAAAJ&amp;hl=en" target="_blank" rel="noopener">
-      <div class="ma-paper-year">↗</div>
+    <div class="ma-subhead" style="margin-top:40px">Applied Machine Learning</div>
+
+    <a class="ma-paper" href="https://www.frontiersin.org/journals/bioinformatics/articles/10.3389/fbinf.2026.1722578/full" target="_blank" rel="noopener">
+      <div class="ma-paper-year">2026</div>
       <div>
-        <h3 class="ma-paper-title">See all on <em>Google Scholar</em></h3>
+        <div class="ma-paper-title">Predicting anthropometric body composition variables using 3D optical imaging and machine learning</div>
         <div class="ma-paper-meta">
-          <span>Full publication list, citation counts</span>
+          <span>Gyaneshwar Agrahari, Kiran Bist, Monika Pandey, et al.</span>
+          <span class="ma-tag">machine learning</span>
         </div>
       </div>
-      <div class="ma-paper-status">external</div>
+      <div class="ma-paper-status"><em>Front. Bioinform.</em>, Vol. 6</div>
     </a>
 
-    <div class="ma-talks-box">
-      <div class="ma-talks-head">Talks &amp; visits</div>
-      <div class="ma-talk-row"><span class="yr">2025</span><span class="ti">Γ-Harmonious Graphs</span><span>AMS Spring Southeastern Sectional Meeting</span></div>
-      <div class="ma-talk-row"><span class="yr">2024</span><span class="ti">Cycles-Related Γ-Harmonious Graphs</span><span>SEICCGTC, Boca Raton</span></div>
-    </div>
   </main>
 
   <footer class="ma-foot">
@@ -636,5 +698,6 @@ a { color: inherit; }
     <span><a href="mailto:agrahari.gyaneshwar77@gmail.com" style="text-decoration:none;color:inherit">agrahari.gyaneshwar77@gmail.com</a></span>
   </footer>
 
-</body>
-</html>
+
+
+</body></html>
