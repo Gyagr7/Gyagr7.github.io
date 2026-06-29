@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" class="auto-theme">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Projects — Gyaneshwar Agrahari</title>
+  <meta name="description" content="Projects by Gyaneshwar Agrahari.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+  <style>
+:root {
+  --ma-paper: #f5f0e6;
+  --ma-paper-2: #ece4d3;
+  --ma-ink: #1f1a14;
+  --ma-ink-soft: rgba(31, 26, 20, 0.66);
+  --ma-ink-faint: rgba(31, 26, 20, 0.42);
+  --ma-rule: rgba(31, 26, 20, 0.16);
+  --ma-accent: #7a1f17;
+  --ma-display: 'Newsreader', Georgia, serif;
+  --ma-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --ma-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --ma-pad: 28px;
+  --ma-body-size: 15.5px;
+  --ma-leading: 1.62;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root.auto-theme {
+    --ma-paper: #1b1714;
+    --ma-paper-2: #25201b;
+    --ma-ink: #f1ebdf;
+    --ma-ink-soft: rgba(241, 235, 223, 0.7);
+    --ma-ink-faint: rgba(241, 235, 223, 0.42);
+    --ma-rule: rgba(241, 235, 223, 0.18);
+    --ma-accent: #e89a8f;
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  font-family: var(--ma-body);
+  color: var(--ma-ink);
+  background: var(--ma-paper);
+  font-size: var(--ma-body-size);
+  line-height: var(--ma-leading);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+/* ─── Nav ─────────────────────────────────────────────────────────── */
+.ma-nav {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 22px var(--ma-pad) 16px;
+  border-bottom: 1px solid var(--ma-rule);
+  gap: 24px;
+}
+.ma-mark {
+  font-family: var(--ma-display);
+  font-size: 17px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ma-mark .ma-dot { color: var(--ma-accent); font-style: normal; }
+.ma-nav-links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.ma-nav-links a {
+  font-family: var(--ma-mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ma-ink-soft);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.ma-nav-links a:hover { color: var(--ma-ink); }
+.ma-nav-links a.active {
+  color: var(--ma-accent);
+  border-bottom-color: var(--ma-accent);
+}
+.ma-cv-pill {
+  font-family: var(--ma-mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border: 1.5px solid var(--ma-ink);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ma-paper);
+  background: var(--ma-ink);
+  font-weight: 600;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.ma-cv-pill:hover { background: var(--ma-accent); border-color: var(--ma-accent); color: var(--ma-paper); }
+
+/* ─── Page ─────────────────────────────────────────────────────────── */
+.ma-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 56px var(--ma-pad) 100px;
+}
+
+.ma-h2-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+.ma-h2 {
+  font-family: var(--ma-display);
+  font-size: 56px;
+  font-weight: 300;
+  line-height: 1.05;
+  margin: 0;
+  letter-spacing: -.02em;
+}
+.ma-h2 em { font-style: italic; color: var(--ma-accent); }
+
+.ma-lede {
+  font-family: var(--ma-display);
+  font-size: 19px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--ma-ink-soft);
+  max-width: 600px;
+  margin: 0 0 52px;
+}
+
+/* ─── Accordion ────────────────────────────────────────────────────── */
+.ma-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ma-acc-group {
+  border-top: 1px solid var(--ma-rule);
+}
+.ma-acc-group:last-child {
+  border-bottom: 1px solid var(--ma-rule);
+}
+
+.ma-acc-trigger {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 0;
+  gap: 16px;
+  color: var(--ma-ink);
+  text-align: left;
+}
+.ma-acc-trigger:hover .ma-acc-label { color: var(--ma-accent); }
+
+.ma-acc-label {
+  font-family: var(--ma-display);
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  transition: color .15s;
+}
+.ma-acc-label em { font-style: italic; color: var(--ma-accent); }
+
+.ma-acc-meta {
+  font-family: var(--ma-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ma-ink-faint);
+  white-space: nowrap;
+}
+
+.ma-acc-chevron {
+  font-size: 18px;
+  color: var(--ma-ink-faint);
+  transition: transform .25s ease, color .15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.ma-acc-group.open .ma-acc-chevron {
+  transform: rotate(180deg);
+  color: var(--ma-accent);
+}
+
+.ma-acc-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .3s ease;
+}
+.ma-acc-group.open .ma-acc-body {
+  grid-template-rows: 1fr;
+}
+.ma-acc-inner {
+  overflow: hidden;
+}
+
+/* ─── Project cards ────────────────────────────────────────────────── */
+.ma-proj-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 24px;
+}
+
+.ma-proj-item {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 0 20px;
+  padding: 20px 0;
+  border-top: 1px solid var(--ma-rule);
+  align-items: start;
+}
+.ma-proj-item:first-child { border-top: none; }
+
+.ma-proj-num {
+  font-family: var(--ma-mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--ma-ink-faint);
+  padding-top: 4px;
+}
+
+.ma-proj-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0 0;
+  font-family: var(--ma-mono);
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ma-ink-faint);
+  transition: color .15s;
+}
+.ma-proj-toggle:hover { color: var(--ma-accent); }
+.ma-proj-toggle-icon {
+  font-size: 12px;
+  transition: transform .25s ease;
+  display: inline-block;
+}
+.ma-proj-item.open .ma-proj-toggle-icon { transform: rotate(180deg); }
+.ma-proj-item.open .ma-proj-toggle { color: var(--ma-accent); }
+
+.ma-proj-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .3s ease;
+}
+.ma-proj-item.open .ma-proj-detail {
+  grid-template-rows: 1fr;
+}
+.ma-proj-detail-inner { overflow: hidden; padding-top: 0; }
+.ma-proj-item.open .ma-proj-detail-inner { padding-top: 10px; }
+
+.ma-proj-title {
+  font-family: var(--ma-display);
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+.ma-proj-title em { font-style: italic; color: var(--ma-accent); }
+
+.ma-proj-date {
+  font-family: var(--ma-mono);
+  font-size: 10px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--ma-ink-faint);
+  margin-bottom: 8px;
+}
+
+.ma-proj-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ma-ink-soft);
+  margin: 0 0 10px;
+}
+
+.ma-proj-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ma-proj-tag {
+  font-family: var(--ma-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--ma-paper-2);
+  padding: 3px 8px;
+  border-radius: 2px;
+  color: var(--ma-ink-faint);
+}
+
+/* ─── Footer ───────────────────────────────────────────────────────── */
+.ma-foot {
+  border-top: 1px solid var(--ma-rule);
+  padding: 28px var(--ma-pad);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--ma-mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: var(--ma-ink-faint);
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ─── Responsive ───────────────────────────────────────────────────── */
+@media (max-width: 820px) {
+  .ma-nav { padding: 18px 24px 14px; }
+  .ma-page { padding: 20px 24px 60px; }
+  .ma-foot { padding: 24px; }
+  .ma-h2 { font-size: 44px; }
+  .ma-acc-label { font-size: 22px; }
+  .ma-proj-item { grid-template-columns: 36px 1fr; }
+}
+  </style>
+</head>
+<body>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.ma-proj-content').forEach(function(content) {
+      const desc = content.querySelector('.ma-proj-desc');
+      const tags = content.querySelector('.ma-proj-tags');
+      const link = content.querySelector('a[href]');
+      if (!desc) return;
+
+      // Build detail wrapper
+      const detail = document.createElement('div');
+      detail.className = 'ma-proj-detail';
+      const inner = document.createElement('div');
+      inner.className = 'ma-proj-detail-inner';
+      detail.appendChild(inner);
+
+      // Move desc, tags, link into inner
+      inner.appendChild(desc);
+      if (tags) inner.appendChild(tags);
+      if (link) inner.appendChild(link);
+
+      // Build toggle button
+      const btn = document.createElement('button');
+      btn.className = 'ma-proj-toggle';
+      btn.innerHTML = '<span class="ma-proj-toggle-icon">↓</span><span class="ma-proj-toggle-label">Read more</span>';
+      btn.setAttribute('aria-expanded', 'false');
+
+      btn.addEventListener('click', function() {
+        const item = content.closest('.ma-proj-item');
+        const isOpen = item.classList.contains('open');
+        item.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+        btn.querySelector('.ma-proj-toggle-label').textContent = isOpen ? 'Read more' : 'Close';
+      });
+
+      content.appendChild(btn);
+      content.appendChild(detail);
+    });
+  });
+  </script>
+
+  <nav class="ma-nav">
+    <a class="ma-mark" href="index.html">Gyaneshwar Agrahari<span class="ma-dot">.</span></a>
+    <div class="ma-nav-links">
+      <a href="index.html">About</a>
+      <a href="research.html">Research</a>
+      <a href="teaching.html">Teaching</a>
+      <a href="blog.html">Notebook</a>
+      <a href="projects.html" class="active">Projects</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <a class="ma-cv-pill" href="CV.pdf" target="_blank" rel="noopener">CV ↗</a>
+  </nav>
+
+  <main class="ma-page">
+    <div class="ma-h2-row">
+      <h1 class="ma-h2"><em>Projects</em></h1>
+    </div>
+    <p class="ma-lede">Mathematical tools, data-driven experiments, and research prototypes from undergraduate and graduate work.</p>
+
+    <div class="ma-accordion">
+
+      <!-- Graduate Projects -->
+      <div class="ma-acc-group" id="group-grad">
+        <button class="ma-acc-trigger" aria-expanded="false" aria-controls="body-grad">
+          <span class="ma-acc-label">Graduate <em>Projects</em></span>
+          <span class="ma-acc-meta">7 PROJECTS · 2022–</span>
+          <span class="ma-acc-chevron">↓</span>
+        </button>
+        <div class="ma-acc-body" id="body-grad" role="region">
+          <div class="ma-acc-inner">
+            <div class="ma-proj-list">
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">01</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Geospatial Equity Analysis of School District Redistricting: <em>Louisiana</em> <span style="font-family:var(--ma-mono);font-size:10px;font-weight:400;color:var(--ma-ink-faint);letter-spacing:.06em;text-transform:uppercase;margin-left:6px;">Independent</span></div>
+                  <div class="ma-proj-date">June 2026 – Present</div>
+                  <p class="ma-proj-desc">Modeled 1,000+ hypothetical school district plans for East Baton Rouge Parish using GerryChain ReCom; computed Hansen gravity-based access scores weighted by car-ownership burden and school quality (SPS), and benchmarked actual district boundaries against the ensemble to quantify access gaps in low-mobility communities.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">geospatial</span>
+                    <span class="ma-proj-tag">redistricting</span>
+                    <span class="ma-proj-tag">python</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">02</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Geospatial Equity Analysis of EV Charging Infrastructure: <em>Dallas, TX</em> <span style="font-family:var(--ma-mono);font-size:10px;font-weight:400;color:var(--ma-ink-faint);letter-spacing:.06em;text-transform:uppercase;margin-left:6px;">Independent</span></div>
+                  <div class="ma-proj-date">August 2025 – Present</div>
+                  <p class="ma-proj-desc">Conducted multi-scale geospatial equity analysis of EV charging infrastructure in Dallas County using OLS regression, spatial autocorrelation, and spatial lag/error models; identified 204 infrastructure-desert block groups and a 3× income-based equity gap across quintiles.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">geospatial</span>
+                    <span class="ma-proj-tag">equity analysis</span>
+                    <span class="ma-proj-tag">ArcGIS</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">03</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Resistance Curvature and <em>Sprawling Graphs</em></div>
+                  <div class="ma-proj-date">January – May 2026</div>
+                  <p class="ma-proj-desc">Curvature tells you how a space bends — but what does that mean for a network with no geometry? Resistance curvature, introduced by Devriendt and Lambiotte, answers this using electrical resistance: assign edge weights, model the graph as a resistor network, and define vertex curvature from the relative resistances of incident edges. A graph is "resistance nonnegative" (RN) if some weight assignment makes every vertex curvature ≥ 0. The known characterization via polytope intersection is powerful but hard to check directly. This paper introduces the sprawling property as a purely combinatorial sufficient condition for being RN. A graph is sprawling if for every proper connected induced subgraph (a "sprout"), some Hamiltonian path of the full graph fails to span it — intuitively, the graph's paths are rich enough that no substructure gets locked in. We proved that all Hamiltonian graphs are sprawling, that sprawling implies 2-connectivity, that the property is preserved under edge addition, and — the main result — that sprawling graphs are RN. A SageMath program was written to test the sprawling property computationally, and several open conjectures about the relationship between RN, sprawling, and toughness were identified.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">graph theory</span>
+                    <span class="ma-proj-tag">sagemath</span>
+                  </div>
+                  <a href="https://drive.google.com/file/d/1u_QGJ5URQj1hyrJzelczh63uJKD0pLhg/view?usp=share_link" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">04</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Minimal Flag Triangulations of <em>Torus</em></div>
+                  <div class="ma-proj-date">August – December 2025</div>
+                  <p class="ma-proj-desc">Contributed to the proof that the diameter of minimal flag triangulations of a torus lies between 2 and 4 by constructing several examples and investigating their graph-theoretic properties.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">combinatorics</span>
+                    <span class="ma-proj-tag">topology</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">05</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Predicting Biometrics using 3D Optical Imaging — <em>Mentored Project</em></div>
+                  <div class="ma-proj-date">January – August 2024</div>
+                  <p class="ma-proj-desc">Mentored a team of nine undergraduates and five graduate students in collaboration with Pennington Biomedical Research Center. The project tackled a real data scarcity problem: predicting body composition metrics — lean mass, bone mineral density — from 3D optical scans, where labeled training data is expensive to obtain. The team was guided through the full research pipeline, from workshops on NumPy and supervised learning to p-Laplacian-based semi-supervised methods that leverage unlabeled data. Task allocation was managed via a structured GitHub workflow. The project achieved 90%+ accuracy on key biometric predictions.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">mentorship</span>
+                    <span class="ma-proj-tag">machine learning</span>
+                    <span class="ma-proj-tag">python</span>
+                  </div>
+                  <a href="https://docs.google.com/presentation/d/1elqAcr4vpAoKD7_lnsXBYxyYrTmCCf1ijfPfM7BPgls/edit?slide=id.p#slide=id.p" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">06</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Error-Correcting Codes from Combinatorial Objects — <em>Mentored Project</em></div>
+                  <div class="ma-proj-date">August – December 2023</div>
+                  <p class="ma-proj-desc">Mentored one graduate and two undergraduate students in an exploration of error-correcting codes built from combinatorial structures — projective planes, block designs, and Latin squares. These objects have rich algebraic symmetry that translates into codes with strong error-detection and correction properties. The team worked through both the theoretical development and a Python implementation of the codes, connecting abstract combinatorics to concrete computational tools.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">mentorship</span>
+                    <span class="ma-proj-tag">combinatorics</span>
+                    <span class="ma-proj-tag">coding theory</span>
+                    <span class="ma-proj-tag">python</span>
+                  </div>
+                  <a href="https://drive.google.com/file/d/1j7PzBXN9hsiWf1G__SMMziThio2carzM/view?usp=share_link" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">07</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Counting Frog Eggs with <em>Deep Learning</em></div>
+                  <div class="ma-proj-date">May – August 2023</div>
+                  <p class="ma-proj-desc">Frog eggs are small, tightly packed, and hard to count by hand — yet accurate counts are essential for ecological research at AGGRC. This project, run under LSU's Math Consultation Clinic, set out to automate that count using deep learning. The team started from scratch with a basic convolutional model, hit accuracy limits quickly, and then pivoted to StarDist — a library purpose-built for segmenting star-convex shapes (exactly what frog eggs are). With just 17 annotated training images, the first StarDist-based model produced surprisingly strong results. A second iteration expanded the dataset to 180 images and introduced custom performance metrics to validate the model rigorously. Final accuracy: 95+. The project was a full pipeline — data collection and annotation, model adaptation, training, and evaluation — carried out collaboratively by a team of 8 graduate and 11 undergraduate students.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">deep learning</span>
+                    <span class="ma-proj-tag">computer vision</span>
+                    <span class="ma-proj-tag">python</span>
+                  </div>
+                  <a href="https://github.com/sahithi0504/Summer-Research" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Undergraduate Projects -->
+      <div class="ma-acc-group" id="group-ug">
+        <button class="ma-acc-trigger" aria-expanded="false" aria-controls="body-ug">
+          <span class="ma-acc-label">Undergraduate <em>Projects</em></span>
+          <span class="ma-acc-meta">5 PROJECTS · 2018–2022</span>
+          <span class="ma-acc-chevron">↓</span>
+        </button>
+        <div class="ma-acc-body" id="body-ug" role="region">
+          <div class="ma-acc-inner">
+            <div class="ma-proj-list">
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">01</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Three-Dimensional <em>Colored Percolation</em> <span style="font-family:var(--ma-mono);font-size:11px;font-weight:400;color:var(--ma-ink-faint);letter-spacing:.04em">(Undergraduate Thesis)</span></div>
+                  <div class="ma-proj-date">August 2021 – May 2022</div>
+                  <p class="ma-proj-desc">Percolation theory asks a deceptively simple question: if you randomly occupy sites on a lattice with probability p, at what threshold does a connected cluster first span the entire system? That threshold p_c is a sharp phase transition — below it, only finite clusters exist; above it, a single infinite cluster suddenly appears. Classical percolation is binary (occupied or not), but a 2017 paper by Manna and Kundu introduced colored percolation: each occupied site gets its own color, and clusters only form between sites of the same color. The color count n becomes a new parameter, changing the universality class of the transition. This thesis had two goals: replicate the 2D results computationally, then push the model into three dimensions. The approach relied on enumerating all cluster configurations (including rotations) of each size, computing a perimeter polynomial for each, and then applying Dlog-Padé approximants to extract the percolation threshold and critical exponent γ from the divergence of the mean cluster size. The MATLAB implementation was extended to handle up to 100 colors — far beyond the original two-color case — achieving percolation thresholds within 2% of known values.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">statistical physics</span>
+                    <span class="ma-proj-tag">MATLAB</span>
+                    <span class="ma-proj-tag">combinatorics</span>
+                  </div>
+                  <a href="https://drive.google.com/file/d/16-lGOd5P0Ohy9nmkyLaXg8WbrYTJqokq/view?usp=share_link" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">02</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Multiplicative <em>Harmonious Labeling</em></div>
+                  <div class="ma-proj-date">August 2021 – May 2022</div>
+                  <p class="ma-proj-desc">Classical harmonious graph labelings assign integers from the additive group ℤₙ to vertices, so that the induced edge labels — vertex sums mod n — are all distinct. The question driving this project: what happens if you swap the additive group for the multiplicative group U(n), the integers relatively prime to n under modular multiplication? The structure of U(n) is richer and stranger than ℤₙ — it can be cyclic or not, depending on n — and that complexity propagates into which graphs can be labeled at all. We defined multiplicative harmonious labelings formally, wrote a multithreaded Java program to search for them computationally across graph families, and then used those computational results to guide and verify proofs. The outcome: a map of which graphs admit such labelings and which provably cannot, along with impossibility arguments that exploit the group-theoretic structure of U(n) directly.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">graph theory</span>
+                    <span class="ma-proj-tag">group theory</span>
+                    <span class="ma-proj-tag">java</span>
+                  </div>
+                  <a href="https://drive.google.com/file/d/1SQQnh8lOJpFkJhxVNByRAT9nQUMRrqsN/view?usp=share_link" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">03</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Portfolio Management — <em>COMAP MCM/ICM</em></div>
+                  <div class="ma-proj-date">February 2022 · Meritorious Winner</div>
+                  <p class="ma-proj-desc">The question: starting with $1,000 in 2016, how should a trader split their money between gold and bitcoin every single day for five years — without knowing the future? Gold is stable but slow; bitcoin is explosive but volatile. Getting the balance wrong in either direction is costly. We built a two-layer system. The first layer uses Markowitz minimum-variance portfolio theory to find the daily allocation between the two assets that minimizes risk given their historical covariance. The second layer uses an LSTM (a type of recurrent neural network well-suited to sequential data) to predict next-day prices and expected returns. A recommendation engine then combines these two signals: when both assets look bad, it parks 90% in cash; when both look good, it deploys 90% into the optimal risky mix. The result is a day-by-day trading strategy that adapts to market conditions rather than committing to a fixed allocation.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">time series</span>
+                    <span class="ma-proj-tag">R</span>
+                    <span class="ma-proj-tag">LSTM</span>
+                    <span class="ma-proj-tag">portfolio theory</span>
+                  </div>
+                  <a href="https://drive.google.com/file/d/1tTKS4bALERtTKrQU7NADiyBfxjXvbWRJ/view?usp=share_link" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">04</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Reducing Single-Use Plastic Waste — <em>COMAP MCM/ICM</em></div>
+                  <div class="ma-proj-date">February 2020 · Meritorious Winner</div>
+                  <p class="ma-proj-desc">By 2050, there could be more plastic than fish in the ocean — so what would an effective global policy to reverse that actually look like? This project built a three-part model. First, a Cobb-Douglas demand-optimization framework showed how firms shift between plastic types when relative prices change, letting us design a targeted tax (10% on most virgin plastics, 30% on the notoriously non-recyclable LDPE) paired with a 30% recycling subsidy. Second, a linear program minimized the true cost of the waste management system, finding that a $100/ton tax on dumping and incineration meaningfully changes corporate behavior. Third, we modeled a shift in PET recycling from bottle-to-bottle to bottle-to-fiber, reducing carbon emissions per recycled ton. Together, the plan projects an 11.33% annual reduction in single-use plastic waste — about 17 million metric tons — while raising average plastic costs by only 7%.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">optimization</span>
+                    <span class="ma-proj-tag">policy modeling</span>
+                    <span class="ma-proj-tag">economics</span>
+                  </div>
+                  <a href="https://drive.google.com/file/d/1ztEbRhjZXQ-rTwSqPwYuwybEhV2YiLZt/view?usp=share_link" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+              <div class="ma-proj-item">
+                <div class="ma-proj-num">05</div>
+                <div class="ma-proj-content">
+                  <div class="ma-proj-title">Environmental Cost of Development — <em>COMAP MCM/ICM</em></div>
+                  <div class="ma-proj-date">January 2019 · Meritorious Winner</div>
+                  <p class="ma-proj-desc">When economists evaluate a construction project, they typically count materials, labor, and permits — but not the cost of the wetland drained or the forest cleared to build it. This project asked: what would it actually cost society to undo that damage? We built a four-component model (EC = LRE + CIP + CLL + CFP) that prices out land replacement, lost ecosystem services, construction-phase carbon emissions, and factory pollution over its operational lifetime. The clearest finding: wetlands are an order of magnitude more costly to replace than any other land type, and for factories, long-run pollution dwarfs every other cost — it can exceed 99% of the total environmental bill. The model was designed to slot directly into standard cost-benefit analysis, so the environmental price tag sits alongside the accounting cost rather than being ignored.</p>
+                  <div class="ma-proj-tags">
+                    <span class="ma-proj-tag">economic modeling</span>
+                    <span class="ma-proj-tag">ecology</span>
+                    <span class="ma-proj-tag">optimization</span>
+                  </div>
+                  <a href="https://drive.google.com/file/d/1VkncG99hm9ibtCzocK9ern3L7aUm4X4X/view?usp=share_link" target="_blank" rel="noopener" style="display:inline-block;margin-top:10px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ma-accent);text-decoration:none;border-bottom:1px solid var(--ma-accent);padding-bottom:1px;">See more ↗</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="ma-foot">
+    <span>© 2026 Gyaneshwar Agrahari · Built with <em>love</em> and TeX.</span>
+    <span><a href="mailto:agrahari.gyaneshwar77@gmail.com" style="text-decoration:none;color:inherit">agrahari.gyaneshwar77@gmail.com</a></span>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.ma-acc-trigger').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var group = btn.closest('.ma-acc-group');
+        var isOpen = group.classList.contains('open');
+        group.classList.toggle('open', !isOpen);
+        btn.setAttribute('aria-expanded', String(!isOpen));
+      });
+    });
+  </script>
+
+</body>
+</html>

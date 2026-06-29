@@ -100,17 +100,19 @@ a { color: inherit; }
 }
 .ma-cv-pill {
   font-family: var(--ma-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: .08em;
   text-transform: uppercase;
-  padding: 6px 12px;
-  border: .5px solid var(--ma-ink);
+  padding: 7px 16px;
+  border: 1.5px solid var(--ma-ink);
   border-radius: 999px;
   text-decoration: none;
-  color: var(--ma-ink);
-  transition: background .15s, color .15s;
+  color: var(--ma-paper);
+  background: var(--ma-ink);
+  font-weight: 600;
+  transition: background .15s, color .15s, border-color .15s;
 }
-.ma-cv-pill:hover { background: var(--ma-ink); color: var(--ma-paper); }
+.ma-cv-pill:hover { background: var(--ma-accent); border-color: var(--ma-accent); color: var(--ma-paper); }
 
 /* ─── Page wrapper ────────────────────────────────────────────────── */
 .ma-page {
@@ -616,6 +618,7 @@ a { color: inherit; }
       <a href="research.html">Research</a>
       <a href="teaching.html">Teaching</a>
       <a href="blog.html">Notebook</a>
+      <a href="projects.html">Projects</a>
       <a href="contact.html">Contact</a>
     </div>
     <a class="ma-cv-pill" href="CV.pdf" target="_blank" rel="noopener">CV ↗</a>
@@ -683,7 +686,7 @@ a { color: inherit; }
         <!-- center v₀ -->
         <g data-v="v0" style="cursor:default">
           <circle class="gv-dot-c" cx="530" cy="275" r="22"></circle>
-          <text class="gv-vzero" x="530" y="283" text-anchor="middle">v₀</text>
+          <text class="gv-vzero" x="530" y="283" text-anchor="middle">G</text>
         </g>
 
         <!-- identity: Graph Theory -->
