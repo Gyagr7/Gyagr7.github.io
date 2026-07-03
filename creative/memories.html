@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en" class="auto-theme">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Memories — Gyaneshwar Agrahari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
+  <style>
+:root {
+  --ma-paper: #f5f0e6; --ma-paper-2: #ece4d3; --ma-ink: #1f1a14;
+  --ma-ink-soft: rgba(31,26,20,.66); --ma-ink-faint: rgba(31,26,20,.42);
+  --ma-rule: rgba(31,26,20,.16); --ma-accent: #7a1f17;
+  --ma-display: 'Newsreader', Georgia, serif;
+  --ma-body: 'IBM Plex Sans', system-ui, sans-serif;
+  --ma-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --ma-body-size: 15.5px; --ma-leading: 1.62;
+}
+@media (prefers-color-scheme: dark) {
+  :root.auto-theme {
+    --ma-paper: #1b1714; --ma-paper-2: #25201b; --ma-ink: #f1ebdf;
+    --ma-ink-soft: rgba(241,235,223,.7); --ma-ink-faint: rgba(241,235,223,.42);
+    --ma-rule: rgba(241,235,223,.18); --ma-accent: #e89a8f;
+  }
+}
+* { box-sizing: border-box; } html, body { margin: 0; padding: 0; }
+body { font-family: var(--ma-body); color: var(--ma-ink); background: var(--ma-paper); font-size: var(--ma-body-size); line-height: var(--ma-leading); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+
+/* ─── Nav ─────────────────────────────────────────────────────── */
+.ma-nav { display: flex; align-items: baseline; justify-content: space-between; padding: 22px 48px 18px; border-bottom: .5px solid var(--ma-rule); gap: 24px; flex-wrap: wrap; }
+.ma-mark { font-family: var(--ma-display); font-style: italic; font-size: 22px; letter-spacing: -0.01em; color: var(--ma-ink); text-decoration: none; }
+.ma-mark .ma-dot { color: var(--ma-accent); font-style: normal; }
+.ma-nav-links { display: flex; gap: 24px; font-family: var(--ma-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; align-items: center; }
+.ma-nav-links a { text-decoration: none; color: var(--ma-ink-soft); padding: 4px 0; border-bottom: 1px solid transparent; transition: color .15s, border-color .15s; }
+.ma-nav-links a:hover { color: var(--ma-ink); }
+.ma-nav-links a.active { color: var(--ma-accent); border-bottom-color: var(--ma-accent); }
+.ma-cv-pill { font-family: var(--ma-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; padding: 6px 12px; border: .5px solid var(--ma-ink); border-radius: 999px; text-decoration: none; color: var(--ma-ink); transition: background .15s, color .15s; }
+.ma-cv-pill:hover { background: var(--ma-ink); color: var(--ma-paper); }
+.ma-nav-drop { position: relative; }
+.ma-nav-drop > span { cursor: pointer; color: var(--ma-ink-soft); font-family: var(--ma-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 4px 0; display: flex; align-items: center; gap: 5px; transition: color .15s; }
+.ma-nav-drop:hover > span { color: var(--ma-ink); }
+.ma-nav-drop > span::after { content: '▾'; font-size: 9px; opacity: .7; }
+.ma-nav-drop-menu { display: none; position: absolute; top: calc(100% + 10px); left: -16px; background: var(--ma-paper-2); border: .5px solid var(--ma-rule); padding: 6px 0; min-width: 150px; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+.ma-nav-drop.open .ma-nav-drop-menu { display: block; }
+.ma-nav-drop-menu a { display: block; padding: 8px 16px; text-decoration: none; color: var(--ma-ink-soft); font-family: var(--ma-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; border-bottom: none; transition: color .15s, background .15s; }
+.ma-nav-drop-menu a:hover { color: var(--ma-accent); background: var(--ma-paper-2); }
+.ma-nav-drop-menu a.active { color: var(--ma-accent); }
+
+/* ─── Page ────────────────────────────────────────────────────── */
+.ma-page { max-width: 1100px; margin: 0 auto; padding: 56px 48px 100px; }
+.ma-hero-eyebrow { display: flex; align-items: center; gap: 16px; font-family: var(--ma-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ma-ink-faint); margin-bottom: 20px; }
+.ma-rule-line { flex: 1; height: .5px; background: var(--ma-rule); }
+.ma-h2 { font-family: var(--ma-display); font-weight: 300; font-size: clamp(52px,8vw,80px); line-height: 1.0; letter-spacing: -0.025em; margin: 0 0 12px; }
+.ma-h2 em { font-style: italic; color: var(--ma-accent); }
+.ma-lede { font-family: var(--ma-display); font-style: italic; font-size: 20px; line-height: 1.5; color: var(--ma-ink-soft); margin: 0 0 56px; }
+
+/* ─── Grid ────────────────────────────────────────────────────── */
+.ma-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.ma-grid-item {
+  position: relative;
+  overflow: hidden;
+  background: var(--ma-paper-2);
+  cursor: pointer;
+}
+.ma-grid-item img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+.ma-grid-item:hover img { transform: scale(1.03); }
+.ma-grid-item[data-empty] {
+  aspect-ratio: 4/3;
+  background: var(--ma-paper-2);
+  border: .5px dashed var(--ma-rule);
+  display: flex; align-items: center; justify-content: center;
+}
+.ma-grid-item[data-empty]::before {
+  content: attr(data-label);
+  font-family: var(--ma-mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ma-ink-faint);
+}
+.ma-grid-item.wide { grid-column: span 2; }
+.ma-grid-item.tall { grid-row: span 2; }
+.ma-grid-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 16px 14px;
+  background: linear-gradient(to top, rgba(31,26,20,.55) 0%, transparent 100%);
+  font-family: var(--ma-mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: rgba(241,235,223,.82);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity .25s;
+}
+.ma-grid-item:hover .ma-grid-caption { opacity: 1; }
+
+/* ─── Lightbox ────────────────────────────────────────────────── */
+.ma-lightbox {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(20,16,12,.92);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.ma-lightbox.open { display: flex; }
+.ma-lightbox img {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+  display: block;
+}
+.ma-lightbox-close {
+  position: absolute; top: 20px; right: 24px;
+  font-family: var(--ma-mono); font-size: 13px; letter-spacing: .08em;
+  color: rgba(241,235,223,.6); cursor: pointer; text-transform: uppercase;
+  background: none; border: none; padding: 8px;
+  transition: color .15s;
+}
+.ma-lightbox-close:hover { color: #f1ebdf; }
+.ma-lightbox-caption {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  font-family: var(--ma-mono); font-size: 11px; letter-spacing: .08em;
+  color: rgba(241,235,223,.5); text-transform: uppercase; white-space: nowrap;
+}
+.ma-lb-prev, .ma-lb-next {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: none; border: .5px solid rgba(241,235,223,.2);
+  color: rgba(241,235,223,.7); width: 44px; height: 44px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 18px; transition: background .15s, color .15s;
+}
+.ma-lb-prev:hover, .ma-lb-next:hover { background: rgba(241,235,223,.12); color: #f1ebdf; }
+.ma-lb-prev { left: 20px; }
+.ma-lb-next { right: 20px; }
+
+@media (max-width: 700px) {
+  .ma-nav { padding: 16px 20px; }
+  .ma-page { padding: 32px 20px 60px; }
+  .ma-grid { grid-template-columns: repeat(2, 1fr); }
+  .ma-grid-item.wide { grid-column: span 1; }
+}
+@media (max-width: 480px) {
+  .ma-grid { grid-template-columns: 1fr; }
+}
+  </style>
+</head>
+<body>
+
+<nav class="ma-nav">
+  <a class="ma-mark" href="../index.html">Gyan<span class="ma-dot">.</span></a>
+  <div class="ma-nav-links">
+    <a href="../index.html">About</a>
+    <a href="../research.html">Research</a>
+    <a href="../teaching.html">Teaching</a>
+    <a href="../blog.html">Notebook</a>
+    <a href="../projects.html">Projects</a>
+    <a href="../contact.html">Contact</a>
+    <div class="ma-nav-drop">
+      <span class="active">Lagniappe</span>
+      <div class="ma-nav-drop-menu">
+        <a href="poetry.html">Poetry</a>
+        <a href="photography.html">Photography</a>
+        <a href="food.html">Food</a>
+        <a href="memories.html" class="active">Memories</a>
+      </div>
+    </div>
+  </div>
+  <a class="ma-cv-pill" href="../CV.pdf" target="_blank">CV ↗</a>
+</nav>
+
+<main class="ma-page">
+  <div class="ma-hero-eyebrow">
+    <span>lagniappe · memories</span>
+    <span class="ma-rule-line"></span>
+    <span id="counter-eyebrow"></span>
+  </div>
+
+  <h2 class="ma-h2"><em>Mem</em>ories</h2>
+  <p class="ma-lede">It's not the place, it's people</p>
+
+  <div class="ma-grid" id="grid">
+
+    <div class="ma-grid-item wide" data-caption="">
+      <img src="photos/MEM_grand_canyon.jpg" alt="Grand Canyon" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_camping.jpg" alt="Camping" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_graduation_ysu.jpg" alt="Graduation YSU" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item wide" data-caption="">
+      <img src="photos/MEM_graduation_field.jpg" alt="Graduation" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_teepee.jpg" alt="Teepee" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_hiking.jpg" alt="Hiking" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_fau.jpg" alt="FAU" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+
+    <div class="ma-grid-item wide" data-caption="">
+      <img src="photos/MEM_restaurant_1.jpg" alt="Department dinner" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_gnome.jpg" alt="Gnome" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_teaching_awards.jpg" alt="Teaching awards" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_ethiopian.jpg" alt="Ethiopian food" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_crawfish.jpg" alt="Crawfish boil" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+
+    <div class="ma-grid-item wide" data-caption="">
+      <img src="photos/MEM_restaurant_2.jpg" alt="Dinner" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_mac.jpg" alt="Mac and cheese" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+    <div class="ma-grid-item" data-caption="">
+      <img src="photos/MEM_dinwiddie.jpg" alt="Dinwiddie Hall" loading="lazy" />
+      <div class="ma-grid-caption"></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Lightbox -->
+<div class="ma-lightbox" id="lightbox">
+  <button class="ma-lightbox-close" id="lb-close">✕ close</button>
+  <button class="ma-lb-prev" id="lb-prev">←</button>
+  <button class="ma-lb-next" id="lb-next">→</button>
+  <img id="lb-img" alt="" />
+  <div class="ma-lightbox-caption" id="lb-caption"></div>
+</div>
+
+<script>
+(function () {
+  // Nav dropdown
+  var drop = document.querySelector('.ma-nav-drop');
+  if (drop) {
+    drop.querySelector('span').addEventListener('click', function (e) {
+      drop.classList.toggle('open');
+      e.stopPropagation();
+    });
+    document.addEventListener('click', function () { drop.classList.remove('open'); });
+  }
+
+  // Gallery + lightbox
+  var items = Array.from(document.querySelectorAll('.ma-grid-item'));
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbCaption = document.getElementById('lb-caption');
+  var current = 0;
+
+  // Update eyebrow count
+  document.getElementById('counter-eyebrow').textContent = items.length + ' photograph' + (items.length !== 1 ? 's' : '');
+
+  // Set captions
+  items.forEach(function (item) {
+    var cap = item.getAttribute('data-caption');
+    if (cap) item.querySelector('.ma-grid-caption').textContent = cap;
+  });
+
+  function openLightbox(index) {
+    current = index;
+    var img = items[current].querySelector('img');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbCaption.textContent = items[current].getAttribute('data-caption') || '';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function lbMove(dir) {
+    current = (current + dir + items.length) % items.length;
+    var img = items[current].querySelector('img');
+    lbImg.src = img.src;
+    lbImg.alt = img.alt;
+    lbCaption.textContent = items[current].getAttribute('data-caption') || '';
+  }
+
+  items.forEach(function (item, i) {
+    item.addEventListener('click', function () { openLightbox(i); });
+  });
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', function () { lbMove(-1); });
+  document.getElementById('lb-next').addEventListener('click', function () { lbMove(1); });
+
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'ArrowRight') lbMove(1);
+    if (e.key === 'ArrowLeft') lbMove(-1);
+    if (e.key === 'Escape') closeLightbox();
+  });
+})();
+</script>
+</body>
+</html>
