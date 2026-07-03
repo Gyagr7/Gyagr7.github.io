@@ -109,6 +109,50 @@ a { color: inherit; }
 }
 .ma-cv-pill:hover { background: var(--ma-ink); color: var(--ma-paper); }
 
+/* ─── Creative dropdown ─────────────────────────────────────────── */
+.ma-nav-drop { position: relative; }
+.ma-nav-drop > span {
+  cursor: default;
+  color: var(--ma-ink-soft);
+  font-family: var(--ma-mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color .15s;
+}
+.ma-nav-drop:hover > span { color: var(--ma-ink); }
+.ma-nav-drop > span::after { content: '▾'; font-size: 9px; opacity: .7; }
+.ma-nav-drop-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -16px;
+  background: var(--ma-paper-2);
+  border: .5px solid var(--ma-rule);
+  padding: 6px 0;
+  min-width: 150px;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+.ma-nav-drop.open .ma-nav-drop-menu { display: block; }
+.ma-nav-drop-menu a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--ma-ink-soft);
+  font-family: var(--ma-mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border-bottom: none;
+  transition: color .15s, background .15s;
+}
+.ma-nav-drop-menu a:hover { color: var(--ma-accent); background: var(--ma-paper-2); }
+
 /* ─── Page wrapper ────────────────────────────────────────────────── */
 .ma-page {
   padding: var(--ma-pad) 48px 80px;
@@ -596,6 +640,14 @@ a { color: inherit; }
       <a href="blog.html">Notebook</a>
       <a href="projects.html">Projects</a>
       <a href="contact.html">Contact</a>
+      <div class="ma-nav-drop">
+        <span>Creative</span>
+        <div class="ma-nav-drop-menu">
+          <a href="creative/poetry.html">Poetry</a>
+          <a href="creative/photography.html">Photography</a>
+          <a href="creative/food.html">Food</a>
+        </div>
+      </div>
     </div>
     <a class="ma-cv-pill" href="CV.pdf" target="_blank" rel="noopener">CV ↗</a>
   </nav>
@@ -629,6 +681,7 @@ a { color: inherit; }
         <div class="ma-area-tags">
           <span>semi-supervised</span>
           <span>p-Laplacian</span>
+          <span>GNNs</span>
           <span>healthcare</span>
         </div>
       </div>
@@ -650,7 +703,33 @@ a { color: inherit; }
       <div class="ma-h2-meta">Advisor: Zhiyu Wang</div>
     </div>
 
-    <div class="ma-subhead">Graph Theory</div>
+    <div class="ma-subhead">In Preparation</div>
+
+    <div class="ma-paper" style="cursor:default">
+      <div class="ma-paper-year">—</div>
+      <div>
+        <div class="ma-paper-title">On the number of <em>K</em><sub>1,t</sub> and <em>K</em><sub>2,t</sub> in 4- or 5-connected planar triangulations</div>
+        <div class="ma-paper-meta">
+          <span>Gyaneshwar Agrahari, Zhiyu Wang</span>
+          <span class="ma-tag">graph theory</span>
+        </div>
+      </div>
+      <div class="ma-paper-status">In preparation</div>
+    </div>
+
+    <div class="ma-paper" style="cursor:default">
+      <div class="ma-paper-year">—</div>
+      <div>
+        <div class="ma-paper-title">On some structural properties of graphs with non-negative resistance curvature</div>
+        <div class="ma-paper-meta">
+          <span>G. Agrahari, C. Bibby, S. Boros, H. Garcia, F. Heidercheit, Z. Wang</span>
+          <span class="ma-tag">graph theory</span>
+        </div>
+      </div>
+      <div class="ma-paper-status">In preparation</div>
+    </div>
+
+    <div class="ma-subhead" style="margin-top:40px">Graph Theory</div>
 
     <a class="ma-paper" href="https://arxiv.org/abs/2507.18090" target="_blank" rel="noopener">
       <div class="ma-paper-year">2025</div>
@@ -701,4 +780,15 @@ a { color: inherit; }
 
 
 
+<script>
+(function() {
+  var drop = document.querySelector('.ma-nav-drop');
+  if (!drop) return;
+  drop.querySelector('span').addEventListener('click', function(e) {
+    drop.classList.toggle('open');
+    e.stopPropagation();
+  });
+  document.addEventListener('click', function() { drop.classList.remove('open'); });
+})();
+</script>
 </body></html>

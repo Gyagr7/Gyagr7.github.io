@@ -114,6 +114,16 @@ a { color: inherit; }
 }
 .ma-cv-pill:hover { background: var(--ma-accent); border-color: var(--ma-accent); color: var(--ma-paper); }
 
+/* ─── Creative dropdown ─────────────────────────────────────────── */
+.ma-nav-drop { position: relative; }
+.ma-nav-drop > span { cursor: pointer; color: var(--ma-ink-soft); font-family: var(--ma-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; padding: 4px 0; display: flex; align-items: center; gap: 5px; transition: color .15s; }
+.ma-nav-drop:hover > span { color: var(--ma-ink); }
+.ma-nav-drop > span::after { content: '▾'; font-size: 9px; opacity: .7; }
+.ma-nav-drop-menu { display: none; position: absolute; top: calc(100% + 10px); left: -16px; background: var(--ma-paper-2); border: .5px solid var(--ma-rule); padding: 6px 0; min-width: 150px; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+.ma-nav-drop.open .ma-nav-drop-menu { display: block; }
+.ma-nav-drop-menu a { display: block; padding: 8px 16px; text-decoration: none; color: var(--ma-ink-soft); font-family: var(--ma-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; border-bottom: none; transition: color .15s, background .15s; }
+.ma-nav-drop-menu a:hover { color: var(--ma-accent); background: var(--ma-paper-2); }
+
 /* ─── Page wrapper ────────────────────────────────────────────────── */
 .ma-page {
   padding: var(--ma-pad) 48px 80px;
@@ -620,6 +630,14 @@ a { color: inherit; }
       <a href="blog.html">Notebook</a>
       <a href="projects.html">Projects</a>
       <a href="contact.html">Contact</a>
+      <div class="ma-nav-drop">
+        <span>Creative</span>
+        <div class="ma-nav-drop-menu">
+          <a href="creative/poetry.html">Poetry</a>
+          <a href="creative/photography.html">Photography</a>
+          <a href="creative/food.html">Food</a>
+        </div>
+      </div>
     </div>
     <a class="ma-cv-pill" href="CV.pdf" target="_blank" rel="noopener">CV ↗</a>
   </nav>
@@ -628,9 +646,9 @@ a { color: inherit; }
     <section class="ma-hero">
       <div>
         <div class="ma-hero-eyebrow">
-          <span>Fourth-year PhD candidate · Mathematics</span>
+          <span>Fifth-year PhD candidate · Mathematics</span>
           <span class="ma-rule"></span>
-          <span>Est. 2022</span>
+          <span>Since 2022</span>
         </div>
         <h1>Gyaneshwar<br /><em>Agrahari</em></h1>
         <p class="ma-hero-tag">A graph theorist at heart and an advocate for education for everyone.</p>
@@ -653,8 +671,14 @@ a { color: inherit; }
           <img src="photo.jpg" data-portrait alt="Gyaneshwar Agrahari" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
           <div class="ma-portrait-placeholder" style="display:none">Drop <code>photo.jpg</code> in the repo root</div>
         </div>
-        <div class="ma-portrait-caption">Boca Raton, FL</div>
+        <div class="ma-portrait-caption">Boca Raton, FL CREDIT: BISHAL LAMICHHANE</div>
       </div>
+    </section>
+
+    <section class="ma-intro">
+      <p>Hi, my name is Gyaneshwar Agrahari — you can also call me Gyan or G (My students call me Mr. G) . I was born and raised in <a href="https://en.wikipedia.org/wiki/Butwal" target="_blank" rel="noopener" style="color:var(--ma-accent);text-decoration:none;border-bottom:.5px solid var(--ma-accent);">Butwal, Nepal</a>. I am currently a PhD candidate at <a href="https://www.lsu.edu" target="_blank" rel="noopener" style="color:var(--ma-accent);text-decoration:none;border-bottom:.5px solid var(--ma-accent);">Louisiana State University</a> in the <a href="https://www.math.lsu.edu" target="_blank" rel="noopener" style="color:var(--ma-accent);text-decoration:none;border-bottom:.5px solid var(--ma-accent);">Mathematics Department</a> working under <a href="https://www.math.lsu.edu/~zhiyuw/" target="_blank" rel="noopener" style="color:var(--ma-accent);text-decoration:none;border-bottom:.5px solid var(--ma-accent);">Zhiyu Wang</a>. I completed my Bachelor's at <a href="https://www.ysu.edu" target="_blank" rel="noopener" style="color:var(--ma-accent);text-decoration:none;border-bottom:.5px solid var(--ma-accent);">Youngstown State University</a> with majors in Physics and Mathematics.</p>
+      <p style="break-before: column;">I primarily work in structural and extremal graph theory, applied machine learning, math education, and geospatial equity analysis. My dissertation focuses on counting subgraphs in planar graphs with higher connectivity and characterizing the extremal graphs.</p>
+      <p>My dissertation began with a question my advisor asked after a talk by Ryan Martin in April 2024: what happens to cycle counts in planar graphs when you add a connectivity condition? That question has kept us busy ever since. <a href="posts/dissertation-origin.html" style="color:var(--ma-accent);text-decoration:none;border-bottom:.5px solid var(--ma-accent);">Read the story →</a></p>
     </section>
 
     <section class="ma-graphfig">
@@ -817,5 +841,16 @@ a { color: inherit; }
 })();
 </script>
 
+<script>
+(function() {
+  var drop = document.querySelector('.ma-nav-drop');
+  if (!drop) return;
+  drop.querySelector('span').addEventListener('click', function(e) {
+    drop.classList.toggle('open');
+    e.stopPropagation();
+  });
+  document.addEventListener('click', function() { drop.classList.remove('open'); });
+})();
+</script>
 </body>
 </html>

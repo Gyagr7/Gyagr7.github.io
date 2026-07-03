@@ -110,6 +110,50 @@ a { color: inherit; }
 }
 .ma-cv-pill:hover { background: var(--ma-ink); color: var(--ma-paper); }
 
+/* ─── Creative dropdown ─────────────────────────────────────────── */
+.ma-nav-drop { position: relative; }
+.ma-nav-drop > span {
+  cursor: default;
+  color: var(--ma-ink-soft);
+  font-family: var(--ma-mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color .15s;
+}
+.ma-nav-drop:hover > span { color: var(--ma-ink); }
+.ma-nav-drop > span::after { content: '▾'; font-size: 9px; opacity: .7; }
+.ma-nav-drop-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: -16px;
+  background: var(--ma-paper-2);
+  border: .5px solid var(--ma-rule);
+  padding: 6px 0;
+  min-width: 150px;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+.ma-nav-drop.open .ma-nav-drop-menu { display: block; }
+.ma-nav-drop-menu a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--ma-ink-soft);
+  font-family: var(--ma-mono);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border-bottom: none;
+  transition: color .15s, background .15s;
+}
+.ma-nav-drop-menu a:hover { color: var(--ma-accent); background: var(--ma-paper-2); }
+
 /* ─── Page wrapper ────────────────────────────────────────────────── */
 .ma-page {
   padding: var(--ma-pad) 48px 80px;
@@ -592,6 +636,14 @@ a { color: inherit; }
       <a href="blog.html">Notebook</a>
       <a href="projects.html">Projects</a>
       <a href="contact.html">Contact</a>
+      <div class="ma-nav-drop">
+        <span>Creative</span>
+        <div class="ma-nav-drop-menu">
+          <a href="creative/poetry.html">Poetry</a>
+          <a href="creative/photography.html">Photography</a>
+          <a href="creative/food.html">Food</a>
+        </div>
+      </div>
     </div>
     <a class="ma-cv-pill" href="CV.pdf" target="_blank" rel="noopener">CV ↗</a>
   </nav>
@@ -706,5 +758,16 @@ a { color: inherit; }
     <span><a href="mailto:agrahari.gyaneshwar77@gmail.com" style="text-decoration:none;color:inherit">agrahari.gyaneshwar77@gmail.com</a></span>
   </footer>
 
+<script>
+(function() {
+  var drop = document.querySelector('.ma-nav-drop');
+  if (!drop) return;
+  drop.querySelector('span').addEventListener('click', function(e) {
+    drop.classList.toggle('open');
+    e.stopPropagation();
+  });
+  document.addEventListener('click', function() { drop.classList.remove('open'); });
+})();
+</script>
 </body>
 </html>
