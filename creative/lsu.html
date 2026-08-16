@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Clock Tower — Gyaneshwar Agrahari</title>
+  <title>LSU &amp; Around — Gyaneshwar Agrahari</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
@@ -28,7 +28,6 @@
 body { font-family: var(--ma-body); color: var(--ma-ink); background: var(--ma-paper); font-size: var(--ma-body-size); line-height: var(--ma-leading); -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 
-/* ─── Nav ─────────────────────────────────────────────────────── */
 .ma-nav { display: flex; align-items: baseline; justify-content: space-between; padding: 22px 48px 18px; border-bottom: .5px solid var(--ma-rule); gap: 24px; flex-wrap: wrap; }
 .ma-mark { font-family: var(--ma-display); font-style: italic; font-size: 22px; letter-spacing: -0.01em; color: var(--ma-ink); text-decoration: none; }
 .ma-mark .ma-dot { color: var(--ma-accent); font-style: normal; }
@@ -47,7 +46,6 @@ a { color: inherit; }
 .ma-nav-drop-menu a { display: block; padding: 8px 16px; text-decoration: none; color: var(--ma-ink-soft); font-family: var(--ma-mono); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; border-bottom: none; transition: color .15s, background .15s; }
 .ma-nav-drop-menu a:hover { color: var(--ma-accent); background: var(--ma-paper-2); }
 
-/* ─── Page ────────────────────────────────────────────────────── */
 .ma-page { max-width: 1100px; margin: 0 auto; padding: 56px 48px 100px; }
 .ma-hero-eyebrow { display: flex; align-items: center; gap: 16px; font-family: var(--ma-mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ma-ink-faint); margin-bottom: 20px; }
 .ma-rule-line { flex: 1; height: .5px; background: var(--ma-rule); }
@@ -57,73 +55,23 @@ a { color: inherit; }
 .ma-back { display: inline-flex; align-items: center; gap: 8px; font-family: var(--ma-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ma-ink-faint); text-decoration: none; margin-bottom: 40px; transition: color .15s; }
 .ma-back:hover { color: var(--ma-accent); }
 
-/* ─── Carousel ────────────────────────────────────────────────── */
-.ma-carousel {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-.ma-carousel-track {
-  display: flex;
-  gap: 0;
-}
-.ma-slide {
-  min-width: 100%;
-  position: relative;
-}
-.ma-slide img {
-  width: 100%;
-  max-height: 72vh;
-  object-fit: contain;
-  display: block;
-  background: var(--ma-paper-2);
-}
-.ma-slide-caption {
-  font-family: var(--ma-mono);
-  font-size: 11px;
-  color: var(--ma-ink-faint);
-  letter-spacing: .05em;
-  padding: 12px 0 0;
-}
-.ma-carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--ma-paper);
-  border: .5px solid var(--ma-rule);
-  color: var(--ma-ink);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 18px;
-  transition: background .15s, color .15s, border-color .15s;
-  z-index: 10;
-  box-shadow: 0 2px 12px rgba(0,0,0,.1);
-}
+.ma-carousel { position: relative; width: 100%; overflow: hidden; }
+.ma-carousel-track { display: flex; gap: 0; }
+.ma-slide { min-width: 100%; position: relative; }
+.ma-slide img { width: 100%; max-height: 72vh; object-fit: contain; display: block; background: var(--ma-paper-2); }
+.ma-slide-caption { font-family: var(--ma-mono); font-size: 11px; color: var(--ma-ink-faint); letter-spacing: .05em; padding: 12px 0 0; }
+.ma-carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: var(--ma-paper); border: .5px solid var(--ma-rule); color: var(--ma-ink); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: background .15s, color .15s, border-color .15s; z-index: 10; box-shadow: 0 2px 12px rgba(0,0,0,.1); }
 .ma-carousel-btn:hover { background: var(--ma-ink); color: var(--ma-paper); border-color: var(--ma-ink); }
 .ma-carousel-btn:disabled { opacity: .25; cursor: default; }
 .ma-carousel-btn:disabled:hover { background: var(--ma-paper); color: var(--ma-ink); border-color: var(--ma-rule); }
 .ma-btn-prev { left: -22px; }
 .ma-btn-next { right: -22px; }
-
-.ma-carousel-counter {
-  font-family: var(--ma-mono);
-  font-size: 11px;
-  letter-spacing: .08em;
-  color: var(--ma-ink-faint);
-  text-align: center;
-  margin-top: 20px;
-}
+.ma-carousel-counter { font-family: var(--ma-mono); font-size: 11px; letter-spacing: .08em; color: var(--ma-ink-faint); text-align: center; margin-top: 20px; }
+.ma-placeholder { text-align: center; padding: 80px 0; font-family: var(--ma-mono); font-size: 12px; color: var(--ma-ink-faint); letter-spacing: .08em; text-transform: uppercase; }
 
 @media (max-width: 600px) {
   .ma-nav { padding: 16px 20px; }
   .ma-page { padding: 32px 20px 60px; }
-  .ma-btn-prev { left: 4px; }
-  .ma-btn-next { right: 4px; }
 }
   </style>
 </head>
@@ -144,7 +92,7 @@ a { color: inherit; }
         <a href="poetry.html">Poetry</a>
         <a href="photography.html">Photography</a>
         <a href="food.html">Food</a>
-            <a href="memories.html">Memories</a>
+        <a href="memories.html">Memories</a>
       </div>
     </div>
   </div>
@@ -155,54 +103,52 @@ a { color: inherit; }
   <a class="ma-back" href="photography.html">← Photography</a>
 
   <div class="ma-hero-eyebrow">
-    <span>lagniappe · photography</span>
+    <span>lagniappe · photography · lsu &amp; around</span>
     <span class="ma-rule-line"></span>
-    <span id="counter-eyebrow">6 photographs</span>
+    <span id="photo-count">photographs</span>
   </div>
 
-  <h2 class="ma-h2">Clock <em>Tower</em></h2>
-  <p class="ma-lede">Time, ticking above.</p>
+  <h2 class="ma-h2">LSU &amp; <em>Around</em></h2>
+  <p class="ma-lede">Life in Baton Rouge and beyond.</p>
 
   <div class="ma-carousel">
     <button class="ma-carousel-btn ma-btn-prev" id="btn-prev" onclick="move(-1)" disabled>←</button>
     <button class="ma-carousel-btn ma-btn-next" id="btn-next" onclick="move(1)">→</button>
-
     <div class="ma-carousel-track" id="track">
       <div class="ma-slide">
-        <img src="photos/CT_snow.jpg" alt="LSU Tower in the snow" loading="lazy" />
-        <p class="ma-slide-caption">LSU — rare snow day</p>
+        <img src="photos/LSU_azaleas_path.jpg" alt="Azaleas along a campus walkway" loading="lazy" />
+        <p class="ma-slide-caption">Azaleas in bloom, winter sky</p>
       </div>
       <div class="ma-slide">
-        <img src="photos/CT_IMG_0244.jpg" alt="LSU Memorial Tower through azaleas, film" loading="lazy" />
-        <p class="ma-slide-caption">LSU — azaleas, film</p>
+        <img src="photos/LSU_quad_oaks.jpg" alt="Quad path under live oaks" loading="lazy" />
+        <p class="ma-slide-caption">Under the oaks</p>
       </div>
       <div class="ma-slide">
-        <img src="photos/CT_IMG_0291.jpg" alt="LSU Tower from below through bare branches, film" loading="lazy" />
-        <p class="ma-slide-caption">LSU — winter, film</p>
+        <img src="photos/LSU_hill_farm.jpg" alt="Bike parked at Hill Farm" loading="lazy" />
+        <p class="ma-slide-caption">Hill Farm, evening ride</p>
       </div>
       <div class="ma-slide">
-        <img src="photos/CT_IMG_1120.jpg" alt="Spokane clock tower at night with river reflection" loading="lazy" />
-        <p class="ma-slide-caption">Spokane — blue hour</p>
+        <img src="photos/LSU_cvs_dusk.jpg" alt="CVS at dusk" loading="lazy" />
+        <p class="ma-slide-caption">Corner store at dusk</p>
       </div>
       <div class="ma-slide">
-        <img src="photos/CT_IMG_2867.jpg" alt="Iowa State University campanile, film" loading="lazy" />
-        <p class="ma-slide-caption">Iowa State — campanile, film</p>
+        <img src="photos/LSU_pmac.jpg" alt="PMAC arena during a game" loading="lazy" />
+        <p class="ma-slide-caption">Game night at the PMAC</p>
       </div>
       <div class="ma-slide">
-        <img src="photos/CT_IMG_0398.jpg" alt="LSU Tower through magnolia blossoms" loading="lazy" />
-        <p class="ma-slide-caption">LSU — magnolias</p>
+        <img src="photos/LSU_coffee_shop.jpg" alt="Working at a coffee shop" loading="lazy" />
+        <p class="ma-slide-caption">Writing session, local coffee shop</p>
       </div>
     </div>
   </div>
+  <p class="ma-carousel-counter" id="counter">1 / 6</p>
 
-  <p class="ma-carousel-counter" id="counter">1 / 5</p>
 </main>
 
 <script>
   const track = document.getElementById('track');
   const total = track.children.length;
   let current = 0;
-
   function move(dir) {
     current = Math.max(0, Math.min(total - 1, current + dir));
     track.style.transform = 'translateX(-' + (current * 100) + '%)';
@@ -211,8 +157,7 @@ a { color: inherit; }
     document.getElementById('btn-prev').disabled = current === 0;
     document.getElementById('btn-next').disabled = current === total - 1;
   }
-
-  document.addEventListener('keydown', e => {
+  document.addEventListener('keydown', function(e) {
     if (e.key === 'ArrowRight') move(1);
     if (e.key === 'ArrowLeft') move(-1);
   });
