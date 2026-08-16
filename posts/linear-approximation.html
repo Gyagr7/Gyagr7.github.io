@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en" class="auto-theme">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>They Already Know the Formula — Gyaneshwar Agrahari</title>
+<meta name="description" content="Notes on teaching linear approximation backwards: a concrete-to-abstract case study from a supported calculus pilot at LSU." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" />
+<style>
+:root{--ma-paper:#f5f0e6;--ma-paper-2:#ece4d3;--ma-ink:#1f1a14;--ma-ink-soft:rgba(31,26,20,.66);--ma-ink-faint:rgba(31,26,20,.42);--ma-rule:rgba(31,26,20,.16);--ma-accent:#7a1f17;--ma-final:#7a1f17;--ma-init:#2d5670;--ma-rate:#3d6b4a;--ma-time:#6b4a7a;--ma-display:'Newsreader',Georgia,serif;--ma-body:'IBM Plex Sans',system-ui,sans-serif;--ma-mono:'IBM Plex Mono',ui-monospace,monospace;--ma-body-size:15.5px;--ma-leading:1.72}
+@media (prefers-color-scheme:dark){:root.auto-theme{--ma-paper:#1b1714;--ma-paper-2:#25201b;--ma-ink:#f1ebdf;--ma-ink-soft:rgba(241,235,223,.7);--ma-ink-faint:rgba(241,235,223,.42);--ma-rule:rgba(241,235,223,.18);--ma-accent:#e89a8f;--ma-final:#e89a8f;--ma-init:#8ab6d0;--ma-rate:#8cc09c;--ma-time:#c0a0cc}}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:var(--ma-body);color:var(--ma-ink);background:var(--ma-paper);font-size:var(--ma-body-size);line-height:var(--ma-leading);-webkit-font-smoothing:antialiased}
+a{color:var(--ma-accent)}a:hover{color:var(--ma-ink)}
+.ma-nav{display:flex;align-items:baseline;justify-content:space-between;padding:22px 48px 18px;border-bottom:.5px solid var(--ma-rule);gap:24px;flex-wrap:wrap}
+.ma-mark{font-family:var(--ma-display);font-style:italic;font-size:22px;letter-spacing:-.01em;color:var(--ma-ink);text-decoration:none}
+.ma-mark .ma-dot{color:var(--ma-accent);font-style:normal}
+.ma-nav-links{display:flex;gap:24px;font-family:var(--ma-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+.ma-nav-links a{text-decoration:none;color:var(--ma-ink-soft);padding:4px 0;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
+.ma-nav-links a:hover{color:var(--ma-ink)}
+.ma-nav-links a.active{color:var(--ma-accent);border-bottom-color:var(--ma-accent)}
+.ma-cv-pill{font-family:var(--ma-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border:.5px solid var(--ma-ink);border-radius:999px;text-decoration:none;color:var(--ma-ink);transition:background .15s,color .15s}
+.ma-cv-pill:hover{background:var(--ma-ink);color:var(--ma-paper)}
+.ma-nav-drop{position:relative}
+.ma-nav-drop>span{cursor:default;color:var(--ma-ink-soft);font-family:var(--ma-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:4px 0;display:flex;align-items:center;gap:5px;transition:color .15s}
+.ma-nav-drop:hover>span{color:var(--ma-ink)}
+.ma-nav-drop>span::after{content:'▾';font-size:9px;opacity:.7}
+.ma-nav-drop-menu{display:none;position:absolute;top:calc(100% + 10px);left:-16px;background:var(--ma-paper-2);border:.5px solid var(--ma-rule);padding:6px 0;min-width:150px;z-index:100;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.ma-nav-drop.open .ma-nav-drop-menu{display:block}
+.ma-nav-drop-menu a{display:block;padding:8px 16px;text-decoration:none;color:var(--ma-ink-soft);font-family:var(--ma-mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;border-bottom:none;transition:color .15s,background .15s}
+.ma-nav-drop-menu a:hover{color:var(--ma-accent);background:var(--ma-paper-2)}
+.ma-article-wrap{max-width:720px;margin:0 auto;padding:48px 48px 100px}
+.ma-back{display:inline-flex;align-items:center;gap:8px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ma-ink-faint);text-decoration:none;margin-bottom:40px;transition:color .15s}
+.ma-back:hover{color:var(--ma-accent)}
+.ma-art-eyebrow{display:flex;align-items:center;gap:16px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ma-ink-faint);margin-bottom:20px;flex-wrap:wrap}
+.ma-art-eyebrow .ma-post-tag{color:var(--ma-accent)}
+.ma-art-eyebrow .sep{width:1px;height:12px;background:var(--ma-rule);display:inline-block}
+.ma-art-title{font-family:var(--ma-display);font-weight:400;font-size:clamp(36px,6vw,58px);line-height:1.08;letter-spacing:-.022em;margin:0 0 20px}
+.ma-art-title em{font-style:italic;color:var(--ma-accent)}
+.ma-art-dek{font-family:var(--ma-display);font-style:italic;font-size:20px;line-height:1.5;color:var(--ma-ink-soft);margin:0 0 28px;max-width:52ch}
+.ma-art-byline{display:flex;align-items:baseline;gap:20px;font-family:var(--ma-mono);font-size:12px;color:var(--ma-ink-soft);padding-bottom:28px;border-bottom:.5px solid var(--ma-rule);margin-bottom:44px;flex-wrap:wrap}
+.ma-art-byline .author{color:var(--ma-ink)}
+.ma-art-body p{margin:0 0 1.5em;text-wrap:pretty}
+.ma-art-body p.tight{margin-bottom:.7em}
+.ma-art-body>p:first-child::first-letter{font-family:var(--ma-display);font-weight:400;font-size:5.6em;line-height:.82;float:left;padding:6px 10px 0 0;color:var(--ma-accent)}
+.ma-art-body h2{font-family:var(--ma-display);font-weight:400;font-size:28px;line-height:1.2;letter-spacing:-.01em;margin:56px 0 4px;color:var(--ma-ink);display:flex;align-items:baseline;gap:12px}
+.ma-art-body h2 em{font-style:italic;color:var(--ma-accent)}
+.ma-art-body h2 .num{font-family:var(--ma-mono);font-size:13px;color:var(--ma-ink-faint);letter-spacing:.06em}
+.ma-art-body .subhead{font-family:var(--ma-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ma-ink-faint);margin:0 0 26px}
+strong{color:var(--ma-ink);font-weight:600}
+.ma-journey{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:stretch;margin:0 0 40px}
+.ma-journey .card{background:var(--ma-paper-2);border:.5px solid var(--ma-rule);padding:16px 14px;text-align:center}
+.ma-journey .card .k{font-family:var(--ma-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ma-ink-faint);margin-bottom:8px}
+.ma-journey .card .eq{font-family:var(--ma-mono);font-size:14px;color:var(--ma-ink)}
+.ma-journey .card:last-child .eq{color:var(--ma-accent)}
+.ma-journey .arrow{display:flex;align-items:center;justify-content:center;padding:0 8px;color:var(--ma-ink-faint);font-size:16px}
+@media (max-width:640px){.ma-journey{grid-template-columns:1fr;gap:8px}.ma-journey .arrow{transform:rotate(90deg);padding:2px 0}}
+.ma-termkey{display:flex;flex-wrap:wrap;gap:18px;font-family:var(--ma-mono);font-size:11px;letter-spacing:.04em;color:var(--ma-ink-faint);margin:0 0 44px}
+.ma-termkey span{display:inline-flex;align-items:center;gap:7px}
+.ma-termkey i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.ma-fig{margin:40px 0}
+.ma-fig img{width:100%;display:block;border:.5px solid var(--ma-rule)}
+.ma-fig figcaption{font-family:var(--ma-mono);font-size:10.5px;color:var(--ma-ink-faint);letter-spacing:.04em;margin-top:10px;line-height:1.5}
+.ma-quote{font-family:var(--ma-display);font-style:italic;font-weight:400;font-size:24px;line-height:1.45;color:var(--ma-ink);margin:40px 0;padding:4px 0 4px 24px;border-left:2px solid var(--ma-accent)}
+.ma-stats{display:flex;flex-wrap:wrap;gap:40px;margin:8px 0 32px;padding:24px 28px;background:var(--ma-paper-2)}
+.ma-stats .n{font-family:var(--ma-display);font-weight:400;font-size:34px;color:var(--ma-ink);line-height:1;letter-spacing:-.02em}
+.ma-stats .n.accent{color:var(--ma-accent);font-size:26px}
+.ma-stats .l{font-family:var(--ma-mono);font-size:11px;color:var(--ma-ink-faint);margin-top:8px;letter-spacing:.04em}
+.ma-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+.ma-compare .col{padding:22px;border:.5px solid var(--ma-rule)}
+.ma-compare .col.now{border-top:1.5px solid var(--ma-accent);background:var(--ma-paper-2)}
+.ma-compare h3{font-family:var(--ma-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 12px;font-weight:500;color:var(--ma-ink-faint)}
+.ma-compare .col.now h3{color:var(--ma-accent)}
+.ma-compare p{font-size:14.5px;color:var(--ma-ink-soft);margin:0;line-height:1.6}
+@media (max-width:640px){.ma-compare{grid-template-columns:1fr}}
+.ma-eqbox{background:var(--ma-paper-2);border:.5px solid var(--ma-rule);padding:22px 26px;text-align:center;font-family:var(--ma-mono);font-size:16px;margin:28px 0;overflow-x:auto}
+.ma-eqbox.final{border-top:1.5px solid var(--ma-accent)}
+.ma-eqbox .line{margin:6px 0}
+.ma-eqbox .cap{font-family:var(--ma-body);font-size:13px;color:var(--ma-ink-faint);font-style:italic;margin-top:14px;line-height:1.5}
+.tf{color:var(--ma-final);font-weight:600}.ti{color:var(--ma-init);font-weight:600}.tr{color:var(--ma-rate);font-weight:600}.tt{color:var(--ma-time);font-weight:600}
+.mono{font-family:var(--ma-mono);font-size:.94em}
+.ma-steps{list-style:none;margin:24px 0;padding:0;counter-reset:step}
+.ma-steps li{counter-increment:step;display:flex;gap:16px;padding:14px 0;border-bottom:.5px solid var(--ma-rule);align-items:baseline}
+.ma-steps li:last-child{border-bottom:none}
+.ma-steps li::before{content:counter(step);font-family:var(--ma-display);color:var(--ma-accent);font-size:22px;line-height:1;flex:none}
+.ma-results{margin:28px 0}
+.ma-result{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:20px 0;border-top:.5px solid var(--ma-rule);align-items:baseline}
+.ma-result:first-child{border-top:none}
+.ma-result .mark{font-family:var(--ma-mono);font-size:12px;color:var(--ma-accent);letter-spacing:.06em}
+.ma-result h4{font-family:var(--ma-display);font-weight:400;margin:0 0 4px;font-size:20px;color:var(--ma-ink);letter-spacing:-.01em}
+.ma-result p{margin:0;font-size:14.5px;color:var(--ma-ink-soft)}
+.ma-bar{margin:48px 0 10px;height:6px;background:linear-gradient(90deg,var(--ma-init),var(--ma-accent))}
+.ma-bar-labels{display:flex;justify-content:space-between;font-family:var(--ma-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ma-ink-faint)}
+.ma-endnote{margin-top:64px;padding-top:28px;border-top:.5px solid var(--ma-rule);font-family:var(--ma-mono);font-size:12px;color:var(--ma-ink-soft);line-height:1.7}
+.ma-foot{padding:32px 48px;border-top:.5px solid var(--ma-rule);display:flex;justify-content:space-between;font-family:var(--ma-mono);font-size:11px;color:var(--ma-ink-faint);letter-spacing:.04em;flex-wrap:wrap;gap:16px}
+.ma-foot em{font-style:italic;color:var(--ma-accent);font-family:var(--ma-display)}
+@media (max-width:680px){.ma-nav{padding:18px 24px 14px}.ma-article-wrap{padding:32px 24px 72px}.ma-foot{padding:24px}.ma-art-title{font-size:clamp(32px,8vw,44px)}.ma-stats{gap:28px;padding:20px}}
+</style>
+</head>
+<body>
+
+<nav class="ma-nav">
+  <a class="ma-mark" href="../index.html">Gyaneshwar Agrahari<span class="ma-dot">.</span></a>
+  <div class="ma-nav-links">
+    <a href="../index.html">About</a>
+    <a href="../research.html">Research</a>
+    <a href="../teaching.html">Teaching</a>
+    <a href="../blog.html" class="active">Notebook</a>
+    <a href="../projects.html">Projects</a>
+    <a href="../contact.html">Contact</a>
+    <div class="ma-nav-drop">
+      <span>Lagniappe</span>
+      <div class="ma-nav-drop-menu">
+        <a href="../creative/poetry.html">Poetry</a>
+        <a href="../creative/photography.html">Photography</a>
+        <a href="../creative/food.html">Food</a>
+        <a href="../creative/memories.html">Memories</a>
+      </div>
+    </div>
+  </div>
+  <a class="ma-cv-pill" href="../CV.pdf" target="_blank" rel="noopener">CV ↗</a>
+</nav>
+
+<div class="ma-article-wrap">
+
+  <a class="ma-back" href="../blog.html">← Notebook</a>
+
+  <header>
+    <div class="ma-art-eyebrow">
+      <span class="ma-post-tag">Teaching Notes</span>
+      <span class="sep"></span>
+      <span>Math 1530, LSU</span>
+      <span class="sep"></span>
+      <span>6 min read</span>
+    </div>
+    <h1 class="ma-art-title">They Already Know the Formula — They Just Don't Know <em>Its Name</em> Yet</h1>
+    <p class="ma-art-dek">Notes on teaching linear approximation backwards: building a formula out of arithmetic students already trust, instead of handing it down and hoping it lands.</p>
+    <div class="ma-art-byline">
+      <span class="author">Gyaneshwar Agrahari</span>
+      <span>Louisiana State University, Department of Mathematics</span>
+    </div>
+  </header>
+
+  <div class="ma-journey">
+    <div class="card"><div class="k">Step 1 · Arithmetic</div><div class="eq">2.9 = 2.5 + 0.8&thinsp;×&thinsp;0.5</div></div>
+    <div class="arrow">→</div>
+    <div class="card"><div class="k">Step 2 · A Function</div><div class="eq">f(0)+f′(0)(0.5)=2.9</div></div>
+    <div class="arrow">→</div>
+    <div class="card"><div class="k">Step 3 · General Rule</div><div class="eq">L(x)=f(a)+f′(a)(x−a)</div></div>
+  </div>
+  <div class="ma-termkey">
+    <span><i style="background:var(--ma-final)"></i>final quantity</span>
+    <span><i style="background:var(--ma-init)"></i>initial value</span>
+    <span><i style="background:var(--ma-rate)"></i>rate of change</span>
+    <span><i style="background:var(--ma-time)"></i>time elapsed</span>
+  </div>
+
+  <div class="ma-art-body">
+
+    <p>Hand a student <span class="mono">L(x) = f(a) + f′(a)(x−a)</span> cold, and most of them will do exactly what you'd expect: stare at the letters. Not because they can't do the arithmetic sitting underneath it — they can, easily. Because nobody told them the arithmetic came first.</p>
+
+    <p>This is an account of a small bet I made in a supported section of Math 1530, differential calculus, at LSU: delay the formula. Build its content out of arithmetic students already trust, one familiar piece at a time, and only attach the notation once there's something for the notation to name.</p>
+
+    <h2><span class="num">01</span> The Class</h2>
+    <p class="subhead">Who this was for, and why it existed</p>
+    <p>Regular Math 1530 sections run 3 credits, 3 hours a week. This section was also 3 credits, but met <strong>5 hours a week</strong> — a pilot for students whose ALEKS placement scores fell just short of the standard cutoff. Twenty-five students, mostly headed into pre-medicine, pre-nursing, biology, and chemistry.</p>
+
+    <div class="ma-stats">
+      <div><div class="n">25</div><div class="l">students</div></div>
+      <div><div class="n">5 hrs</div><div class="l">class time / week, vs. 3 standard</div></div>
+      <div><div class="n accent">Fall 2025</div><div class="l">pilot semester</div></div>
+    </div>
+
+    <p>The extra two hours weren't for covering more material. They were for covering the <em>same</em> material differently — with room to build ideas up instead of handing them down. The goal was never just to get students through one exam. It was short-term support for a long-term outcome: <strong>graduating on time</strong>, on the same timeline as students who placed directly into the standard sequence.</p>
+
+    <h2><span class="num">02</span> Two Ways to Run Fifty Minutes</h2>
+    <p class="subhead">What changes when you stop lecturing at students</p>
+    <p>Traditional lecture has a simple shape: I write on the board, students copy it down. It's efficient, and it's honest about who's doing the thinking — which is part of the problem for students who are already unsure whether they belong in the room.</p>
+
+    <div class="ma-compare">
+      <div class="col">
+        <h3>Traditional Lecture</h3>
+        <p>Instructor writes on the board; students transcribe. The thinking happens once, at the front of the room.</p>
+      </div>
+      <div class="col now">
+        <h3>Scaffolded Handout</h3>
+        <p>A daily handout, worked through together. Concrete before abstract, and support fades as the semester goes on.</p>
+      </div>
+    </div>
+
+    <p>Every class meeting ran on a handout designed around one idea: <strong>concreteness before abstraction</strong>. We solved it together. Early in the semester, I carried most of the weight — explaining, prompting, filling gaps. By the back half, students were doing the heavy lifting themselves, solo or in groups, and I was mostly getting out of the way.</p>
+
+    <blockquote class="ma-quote">I do → we do → you do — solo or in groups.</blockquote>
+
+    <h2><span class="num">03</span> What Linearization Actually Is</h2>
+    <p class="subhead">The topic this case study is built around</p>
+    <p>Linearization is one of the first times students use the derivative for something beyond slope: <strong>estimating a quantity you can't easily recompute</strong> — a drug concentration, a population, a distance traveled — using its value and rate of change at one known instant. It lands right after derivatives are introduced, which makes it an early test of whether the abstraction actually landed.</p>
+    <p>Shown cold, the formula is just symbols. So we didn't show it cold.</p>
+
+    <h2><span class="num">04</span> The Same Equation, Three Times</h2>
+    <p class="subhead">The case study, step by step</p>
+
+    <p class="tight"><strong>Step 1 — an equation they already trust.</strong> A nurse records a drug concentration of <span class="ti">2.5 mg/L</span>, increasing at <span class="tr">0.8 mg/L</span> per hour. What should we expect <span class="tt">30 minutes</span> later? No function, no derivative — just arithmetic. By the end, the class has written, in their own words:</p>
+
+    <figure class="ma-fig">
+      <img src="drug_concentration.png" alt="A nurse charting a patient's rising drug concentration against a line graph" />
+      <figcaption>The setup students start from: a known concentration, a known rate, and a question about thirty minutes from now.</figcaption>
+    </figure>
+
+    <div class="ma-eqbox">
+      <div class="line"><span class="tf">Final</span> = <span class="ti">Initial</span> + <span class="tr">Rate</span> × <span class="tt">Time</span></div>
+      <div class="line"><span class="tf">2.9</span> = <span class="ti">2.5</span> + <span class="tr">0.8</span> × <span class="tt">0.5</span></div>
+      <div class="cap">Not a formula with letters in it — the equation they carry into the next problem.</div>
+    </div>
+
+    <p class="tight"><strong>Step 2 — the same question, harder.</strong> Now the concentration is a function: <span class="mono">f(t) = 2.5 + 0.8t − 0.1t²</span>. Same question, same equation from Step 1 — the only new question is what <em>Initial</em> and <em>Rate</em> even mean now. Plug in <span class="mono">t = 0</span> for the initial value. For the rate, we've said it all semester: rate is derivative. Plug <span class="mono">t = 0</span> into <span class="mono">f′(t)</span>.</p>
+
+    <div class="ma-eqbox">
+      <div class="line"><span class="tf">f(0)+f′(0)(0.5)</span> = <span class="ti">2.5</span> + <span class="tr">0.8</span> × <span class="tt">0.5</span> = <span class="tf">2.9</span></div>
+      <div class="cap">Same equation as Step 1. Same numbers. Only the source of Initial and Rate has changed.</div>
+    </div>
+
+    <p class="tight"><strong>Step 3 — renaming what they already know.</strong> Nothing new happens here. Every piece already exists — it just needs a name that works for any function, at any point <span class="mono">a</span>:</p>
+
+    <p style="font-size:14.5px;color:var(--ma-ink-soft);margin:18px 0 4px">
+      <span class="tf">Final quantity</span> → <span class="tf mono">L(x)</span> &nbsp;·&nbsp;
+      <span class="ti">Initial value</span> → <span class="ti mono">f(a)</span> &nbsp;·&nbsp;
+      <span class="tr">Rate of change</span> → <span class="tr mono">f′(a)</span> &nbsp;·&nbsp;
+      <span class="tt">Time elapsed</span> → <span class="tt mono">(x−a)</span>
+    </p>
+
+    <div class="ma-eqbox final">
+      <div class="line" style="font-size:21px"><span class="tf">L(x)</span> = <span class="ti">f(a)</span> + <span class="tr">f′(a)</span><span class="tt">(x−a)</span></div>
+      <div class="cap">Same structure as Step 1. Same numbers as Step 2. Now it has a name: the linearization of f at a.</div>
+    </div>
+
+    <div class="ma-bar"></div>
+    <div class="ma-bar-labels"><span>Concreteness</span><span>Abstraction</span></div>
+
+    <h2><span class="num">05</span> Why Delay the Notation</h2>
+    <p class="subhead">The actual dilemma this design solves</p>
+    <p>When students see <span class="mono">L(x)=f(a)+f′(a)(x−a)</span> first, most of them focus on decoding the symbols instead of understanding the idea underneath. The fix isn't a clearer explanation of the formula. It's sequencing:</p>
+    <ol class="ma-steps">
+      <li>Build the idea.</li>
+      <li>Connect familiar pieces.</li>
+      <li>Introduce the notation.</li>
+    </ol>
+    <blockquote class="ma-quote">Notation goes on last, not first.</blockquote>
+
+    <h2><span class="num">06</span> What We're Seeing</h2>
+    <p class="subhead">Early results from the pilot</p>
+    <div class="ma-results">
+      <div class="ma-result">
+        <div class="mark">01</div>
+        <div><h4>Nearly all students</h4><p>correctly solved the linearization problem on the exam. Many also transferred the technique to a new setting on their own — estimating roots — with minimal help.</p></div>
+      </div>
+      <div class="ma-result">
+        <div class="mark">02</div>
+        <div><h4>Every low-ALEKS-score student</h4><p>passed the class with an A or a B.</p></div>
+      </div>
+      <div class="ma-result">
+        <div class="mark">03</div>
+        <div><h4>Now a permanent course</h4><p>What started as a one-semester pilot is now part of LSU Math's standing course offerings.</p></div>
+      </div>
+    </div>
+
+    <h2><span class="num">07</span> A Reusable Pattern</h2>
+    <p>The same build — easy version first, formula assembled from pieces the class already trusts, notation attached last — recurs across the section's daily handouts, from related rates to root approximation. Rigor doesn't drop; students still reach the general formula and apply it cold. What changes is which door they walk through first.</p>
+    <p>None of this required new mathematics. It required deciding, deliberately, that the formula is a destination — not a starting point.</p>
+
+  </div>
+
+  <div class="ma-endnote">
+    <p>This case study was presented as a poster at MAA MathFest 2026, Boston.</p>
+  </div>
+
+</div>
+
+<footer class="ma-foot">
+  <span>© 2026 Gyaneshwar Agrahari · Built with <em>love</em> and TeX.</span>
+  <span><a href="mailto:agrahari.gyaneshwar77@gmail.com" style="text-decoration:none;color:inherit">agrahari.gyaneshwar77@gmail.com</a></span>
+</footer>
+
+<script>
+(function(){var drop=document.querySelector('.ma-nav-drop');if(!drop)return;drop.querySelector('span').addEventListener('click',function(e){drop.classList.toggle('open');e.stopPropagation();});document.addEventListener('click',function(){drop.classList.remove('open');});})();
+</script>
+</body>
+</html>
