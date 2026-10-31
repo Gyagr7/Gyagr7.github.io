@@ -15,13 +15,16 @@
     #header { background: linear-gradient(135deg,#1a3a5c,#0e2336); border-bottom: 3px solid #e8641a; padding: 8px 14px; flex-shrink: 0; }
     #header h1 { font-size: 15px; font-weight: 700; }
     #header p  { font-size: 10px; color: #8ab4d4; margin-top: 1px; }
-
-    /* TOOLBAR */
-    #toolbar { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
+    #toolbar { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
     a.home-btn { background: none; border: 1px solid #2a4d6e; color: #6899ba; padding: 3px 10px; border-radius: 10px; font-size: 10px; text-decoration: none; white-space: nowrap; }
 
-    /* TABS */
-    #tabs { display: flex; gap: 0; overflow-x: auto; flex-shrink: 0; background: #0d1e2e; border-bottom: 1px solid #1a3a5c; padding: 0 14px; }
+    /* TAB + YEAR ROW */
+    #tab-row {
+      display: flex; align-items: stretch; background: #0d1e2e;
+      border-bottom: 1px solid #1a3a5c; flex-shrink: 0;
+      padding: 0 14px; gap: 0; justify-content: space-between;
+    }
+    #tabs { display: flex; gap: 0; overflow-x: auto; flex: 1; }
     .tab {
       padding: 9px 16px; font-size: 12px; font-weight: 500; cursor: pointer;
       color: #6899ba; border-bottom: 2px solid transparent; white-space: nowrap;
@@ -30,6 +33,22 @@
     }
     .tab.active { color: #e8edf2; border-bottom-color: #e8641a; }
     .tab:hover:not(.active) { color: #8ab4d4; }
+
+    /* YEAR TOGGLE */
+    #year-wrap {
+      display: flex; align-items: center; gap: 8px; padding: 6px 0 6px 14px;
+      border-left: 1px solid #1a3a5c; flex-shrink: 0;
+    }
+    #year-label { font-size: 10px; color: #4a6e8e; white-space: nowrap; }
+    #year-toggle {
+      display: flex; border: 1px solid #2a4d6e; border-radius: 14px; overflow: hidden;
+    }
+    .yr-btn {
+      padding: 3px 12px; font-size: 11px; font-weight: 600; cursor: pointer;
+      background: transparent; border: none; color: #6899ba;
+      transition: background .15s, color .15s; -webkit-tap-highlight-color: transparent;
+    }
+    .yr-btn.active { background: #e8641a; color: #fff; }
 
     /* MAP */
     #map-wrap { flex: 1; position: relative; min-height: 0; }
@@ -43,6 +62,14 @@
       font-size: 12px; line-height: 1.5; pointer-events: none;
     }
     #callout .tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #e8641a; margin-bottom: 3px; }
+
+    /* YEAR BADGE on map */
+    #year-badge {
+      position: absolute; top: 10px; right: 10px; z-index: 900;
+      background: rgba(11,22,34,.93); border: 2px solid #e8641a;
+      border-radius: 8px; padding: 6px 14px; font-size: 22px; font-weight: 700;
+      color: #e8641a; pointer-events: none; letter-spacing: 0.03em;
+    }
 
     /* LEGEND */
     #legend {
@@ -59,7 +86,6 @@
       position: absolute; bottom: 0; left: 0; right: 0; z-index: 900;
       background: rgba(11,22,34,.96); border-top: 1px solid #2a4d6e;
       padding: 7px 14px 9px; display: flex; align-items: center; justify-content: space-between;
-      font-size: 11px; color: #6899ba;
     }
     #info-left  { font-size: 13px; font-weight: 600; color: #e8edf2; }
     #info-right { font-size: 11px; color: #6899ba; text-align: right; }
@@ -73,7 +99,7 @@
     .ph-badge {
       background: rgba(11,22,34,.88); border: 1px solid #2a4d6e;
       border-radius: 10px; padding: 12px 20px; text-align: center;
-      font-size: 13px; color: #4a6e8e; max-width: 240px; line-height: 1.5;
+      font-size: 13px; color: #4a6e8e; max-width: 260px; line-height: 1.5;
     }
     .ph-badge strong { color: #6899ba; display: block; margin-bottom: 4px; font-size: 14px; }
 
@@ -90,18 +116,27 @@
 <div id="app">
   <div id="header">
     <h1>Dallas EV Equity — City Maps</h1>
-    <p>354 census tracts · 806 block groups · 2021–24 buildout window</p>
+    <p>354 census tracts · 806 block groups · AFDC snapshots 2020 &amp; 2024</p>
     <div id="toolbar">
       <a href="index.html" class="home-btn">← Dashboard</a>
     </div>
   </div>
 
-  <!-- TAB BAR -->
-  <div id="tabs">
-    <button class="tab active" id="tab-chargers"  onclick="setTab('chargers')">Charger Locations</button>
-    <button class="tab"        id="tab-density"   onclick="setTab('density')">Port Density</button>
-    <button class="tab"        id="tab-income"    onclick="setTab('income')">Income Quintiles</button>
-    <button class="tab"        id="tab-hotspots"  onclick="setTab('hotspots')">Hot / Cold Spots</button>
+  <!-- TAB + YEAR ROW -->
+  <div id="tab-row">
+    <div id="tabs">
+      <button class="tab active" id="tab-chargers" onclick="setTab('chargers')">Charger Locations</button>
+      <button class="tab"        id="tab-density"  onclick="setTab('density')">Port Density</button>
+      <button class="tab"        id="tab-income"   onclick="setTab('income')">Income Quintiles</button>
+      <button class="tab"        id="tab-hotspots" onclick="setTab('hotspots')">Hot / Cold Spots</button>
+    </div>
+    <div id="year-wrap">
+      <span id="year-label">Snapshot</span>
+      <div id="year-toggle">
+        <button class="yr-btn active" id="yr-2020" onclick="setYear(2020)">2020</button>
+        <button class="yr-btn"        id="yr-2024" onclick="setYear(2024)">2024</button>
+      </div>
+    </div>
   </div>
 
   <div id="map-wrap">
@@ -112,15 +147,20 @@
       <span id="callout-body">Public EV charging stations in Dallas city limits. Circles sized by number of ports.</span>
     </div>
 
+    <div id="year-badge">2020</div>
+
     <div id="legend"><h3 id="legend-title">Legend</h3><div id="legend-body"></div></div>
 
     <div id="placeholder">
-      <div class="ph-badge"><strong id="ph-title">Charger Locations</strong><span id="ph-body">Add charger point data to populate this map.</span></div>
+      <div class="ph-badge">
+        <strong id="ph-title">Charger Locations — 2020</strong>
+        <span id="ph-body">Add AFDC 2020 snapshot point data to populate this map.</span>
+      </div>
     </div>
 
     <div id="info">
       <div id="info-left">Hover or tap a feature</div>
-      <div id="info-right" id="info-right">Dallas, TX · ACS 2019–23 · AFDC 2021–24</div>
+      <div id="info-right">Dallas, TX · ACS 2019–23 · AFDC snapshots</div>
     </div>
 
     <div id="loading"><div class="spin"></div><div id="loading-msg">Loading…</div></div>
@@ -143,66 +183,87 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
 }).addTo(map);
 L.control.zoom({ position: 'topright' }).addTo(map);
 
+/* ── STATE ── */
+let currentTab  = 'chargers';
+let currentYear = 2020;
+
 /* ── TAB CONFIG ── */
 const TABS = {
   chargers: {
     tag:     'Charger Locations',
-    callout: 'Public EV charging stations in Dallas city limits. Circles sized by number of ports.',
-    ph:      'Add charger point data to populate this map.',
-    info:    'AFDC public stations · 2021–24 additions highlighted',
+    callout: (yr) => `Public EV charging stations in Dallas city limits as of ${yr}. Circles sized by number of ports.`,
+    ph:      (yr) => `Add AFDC ${yr} snapshot point data to populate this map.`,
+    info:    (yr) => `AFDC public stations · ${yr} snapshot`,
   },
   density: {
     tag:     'Port Density',
-    callout: 'Choropleth of EV port count per 1,000 residents by census tract. Toggle tract vs block group.',
-    ph:      'Add tract/block-group GeoJSON with port-density values.',
-    info:    'NB model outcome · tract (354 units) or block group (806 units)',
+    callout: (yr) => `EV ports per 1,000 residents by census tract · ${yr} snapshot.`,
+    ph:      (yr) => `Add tract GeoJSON with ${yr} port-density values.`,
+    info:    (yr) => `${yr} port stock · tract (354 units) or block group (806 units)`,
   },
   income: {
     tag:     'Income Quintiles',
-    callout: 'Tracts shaded by 2020 income quintile. Overlays new ports 2021–24 as proportional circles.',
-    ph:      'Add income-quintile GeoJSON and port overlay.',
-    info:    'ACS 2019–23 median household income · 5 quintiles',
+    callout: (yr) => `Tracts shaded by 2020 income quintile. Port circles show ${yr} stock.`,
+    ph:      (yr) => `Add income-quintile GeoJSON and ${yr} port overlay.`,
+    info:    (yr) => `ACS 2019–23 income quintiles · ${yr} port overlay`,
   },
   hotspots: {
     tag:     'Hot / Cold Spots',
-    callout: 'Local Moran\'s I cluster map. Red = high-high clusters; blue = low-low cold spots.',
-    ph:      'Add LISA cluster classification GeoJSON (HH / LL / HL / LH / NS).',
-    info:    'Global Moran\'s I = 0.22 (tract) · 0.06 (block group)',
+    callout: (yr) => `Local Moran's I cluster map · ${yr} port stock. Red = HH, blue = LL cold spots.`,
+    ph:      (yr) => `Add ${yr} LISA cluster GeoJSON (HH / LL / HL / LH / NS).`,
+    info:    (yr) => `Moran's I · ${yr} port stock · tract scale`,
   },
 };
 
-let currentTab = 'chargers';
+/* ── UPDATE UI TEXT ── */
+function updateText() {
+  const cfg = TABS[currentTab];
+  const yr  = currentYear;
+  document.getElementById('callout-tag').textContent  = cfg.tag;
+  document.getElementById('callout-body').textContent = cfg.callout(yr);
+  document.getElementById('ph-title').textContent     = cfg.tag + ' — ' + yr;
+  document.getElementById('ph-body').textContent      = cfg.ph(yr);
+  document.getElementById('info-right').textContent   = cfg.info(yr);
+  document.getElementById('info-left').textContent    = 'Hover or tap a feature';
+  document.getElementById('year-badge').textContent   = yr;
+}
 
+/* ── SET TAB ── */
 function setTab(id) {
   if (id === currentTab) return;
   currentTab = id;
-
-  /* Update tab highlights */
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
-
-  const cfg = TABS[id];
-  document.getElementById('callout-tag').textContent   = cfg.tag;
-  document.getElementById('callout-body').textContent  = cfg.callout;
-  document.getElementById('ph-title').textContent      = cfg.tag;
-  document.getElementById('ph-body').textContent       = cfg.ph;
-  document.getElementById('info-left').textContent     = 'Hover or tap a feature';
-  document.getElementById('info-right').textContent    = cfg.info;
-
-  /* Each tab's rendering logic goes here as maps are built */
-  renderTab(id);
+  updateText();
+  renderTab(id, currentYear);
 }
 
-/* ── PER-TAB RENDER (expand as each map is built) ── */
-function renderTab(id) {
-  /* Placeholder: map resets to Dallas view */
+/* ── SET YEAR ── */
+function setYear(yr) {
+  if (yr === currentYear) return;
+  currentYear = yr;
+  document.getElementById('yr-2020').classList.toggle('active', yr === 2020);
+  document.getElementById('yr-2024').classList.toggle('active', yr === 2024);
+  updateText();
+  renderTab(currentTab, yr);
+}
+
+/* ── PER-TAB RENDER (fill in as each map is built) ── */
+function renderTab(id, yr) {
   map.setView([32.7767, -96.7970], 11);
   document.getElementById('placeholder').style.display = 'flex';
   document.getElementById('legend').style.display = 'none';
+
+  /* Individual tab rendering will go here, keyed by id + yr */
+  /* e.g.:
+     if (id === 'chargers') renderChargers(yr);
+     if (id === 'density')  renderDensity(yr);
+  */
 }
 
 /* ── INIT ── */
-renderTab('chargers');
+updateText();
+renderTab('chargers', 2020);
 </script>
 </body>
 </html>
