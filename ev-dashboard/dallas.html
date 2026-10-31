@@ -156,8 +156,8 @@
 
 /* ── MAP ── */
 const map = L.map('map', { center:[32.7767,-96.7970], zoom:11, minZoom:9, zoomControl:false, tap:true });
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-  attribution:'© CartoDB © OSM', subdomains:'abcd', maxZoom:19
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  attribution:'Tiles © Esri', maxZoom:16
 }).addTo(map);
 L.control.zoom({ position:'topright' }).addTo(map);
 
@@ -189,18 +189,27 @@ let currentChoro = null;   // null | 'ports' | indicator key
 let currentSta   = 'off';  // 'off' | '2020' | '2024' | 'both'
 let portYear     = 2020;
 let TRACTS = null, STATIONS = null, ids2020 = null;
-let tractLayer = null, stationLayer = null;
+let tractLayer = null, stationLayer = null, boundaryLayer = null;
 
 /* ── LOAD ── */
 async function loadData() {
   const base = window.location.href.replace(/\/[^/]*$/, '/');
-  const [tRes, sRes] = await Promise.all([
+  const [tRes, sRes, bRes] = await Promise.all([
     fetch(base + 'dallas_tracts.geojson'),
     fetch(base + 'dallas_stations.json'),
+    fetch(base + 'dallas_boundary.geojson'),
   ]);
   TRACTS   = await tRes.json();
   STATIONS = await sRes.json();
   ids2020  = new Set(STATIONS['2020'].map(s => s.id));
+
+  /* Draw city boundary once — always on top */
+  const boundary = await bRes.json();
+  boundaryLayer = L.geoJSON(boundary, {
+    style: { color: '#e8641a', weight: 2, fillOpacity: 0, dashArray: '6 4' },
+    interactive: false,
+  }).addTo(map);
+
   document.getElementById('loading').style.display = 'none';
 }
 
@@ -216,9 +225,13 @@ function colorFor(val, breaks, pal) {
 }
 
 /* ── CHOROPLETH LAYER ── */
+function bringBoundaryToFront() {
+  if (boundaryLayer) boundaryLayer.bringToFront();
+}
+
 function drawChoro(key, yr) {
   if (tractLayer) { map.removeLayer(tractLayer); tractLayer = null; }
-  if (!key) { hideLegend(); updateCallout(); return; }
+  if (!key) { hideLegend(); updateCallout(); bringBoundaryToFront(); return; }
 
   let getVal, breaks, pal, title, fmt;
 
@@ -261,6 +274,7 @@ function drawChoro(key, yr) {
 
   buildLegend(breaks, pal, title, fmt);
   updateCallout();
+  bringBoundaryToFront();
 }
 
 /* ── STATION LAYER ── */
@@ -297,6 +311,7 @@ function drawStations(mode) {
   document.getElementById('sl-orange').style.display   = shows2024 ? 'flex' : 'none';
   document.getElementById('sta-legend').style.display  = 'block';
   updateCallout();
+  bringBoundaryToFront();
 }
 
 /* ── LEGEND ── */
