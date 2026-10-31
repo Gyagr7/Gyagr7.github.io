@@ -15,98 +15,71 @@
     #header { background: linear-gradient(135deg,#1a3a5c,#0e2336); border-bottom: 3px solid #e8641a; padding: 8px 14px; flex-shrink: 0; }
     #header h1 { font-size: 15px; font-weight: 700; }
     #header p  { font-size: 10px; color: #8ab4d4; margin-top: 1px; }
-    #toolbar { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
+    #toolbar   { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
     a.home-btn { background: none; border: 1px solid #2a4d6e; color: #6899ba; padding: 3px 10px; border-radius: 10px; font-size: 10px; text-decoration: none; white-space: nowrap; }
 
     /* TAB + YEAR ROW */
-    #tab-row {
-      display: flex; align-items: stretch; background: #0d1e2e;
-      border-bottom: 1px solid #1a3a5c; flex-shrink: 0;
-      padding: 0 14px; gap: 0; justify-content: space-between;
-    }
-    #tabs { display: flex; gap: 0; overflow-x: auto; flex: 1; }
+    #tab-row { display: flex; align-items: stretch; background: #0d1e2e; border-bottom: 1px solid #1a3a5c; flex-shrink: 0; padding: 0 14px; }
+    #tabs    { display: flex; flex: 1; overflow-x: auto; }
     .tab {
-      padding: 9px 16px; font-size: 12px; font-weight: 500; cursor: pointer;
-      color: #6899ba; border-bottom: 2px solid transparent; white-space: nowrap;
-      background: none; border-top: none; border-left: none; border-right: none;
+      padding: 8px 14px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;
+      color: #6899ba; border-bottom: 2px solid transparent; background: none;
+      border-top: none; border-left: none; border-right: none;
       transition: color .15s, border-color .15s; -webkit-tap-highlight-color: transparent;
     }
     .tab.active { color: #e8edf2; border-bottom-color: #e8641a; }
     .tab:hover:not(.active) { color: #8ab4d4; }
 
     /* YEAR TOGGLE */
-    #year-wrap {
-      display: flex; align-items: center; gap: 8px; padding: 6px 0 6px 14px;
-      border-left: 1px solid #1a3a5c; flex-shrink: 0;
-    }
-    #year-label { font-size: 10px; color: #4a6e8e; white-space: nowrap; }
-    #year-toggle {
-      display: flex; border: 1px solid #2a4d6e; border-radius: 14px; overflow: hidden;
-    }
-    .yr-btn {
-      padding: 3px 12px; font-size: 11px; font-weight: 600; cursor: pointer;
-      background: transparent; border: none; color: #6899ba;
-      transition: background .15s, color .15s; -webkit-tap-highlight-color: transparent;
-    }
+    #year-wrap { display: flex; align-items: center; gap: 7px; padding: 0 0 0 12px; border-left: 1px solid #1a3a5c; flex-shrink: 0; }
+    #year-label { font-size: 10px; color: #4a6e8e; }
+    #year-toggle { display: flex; border: 1px solid #2a4d6e; border-radius: 14px; overflow: hidden; }
+    .yr-btn { padding: 3px 11px; font-size: 11px; font-weight: 600; cursor: pointer; background: transparent; border: none; color: #6899ba; transition: background .15s, color .15s; -webkit-tap-highlight-color: transparent; }
     .yr-btn.active { background: #e8641a; color: #fff; }
+
+    /* INDICATOR ROW (overlay tab only) */
+    #ind-row { display: none; background: #0d1e2e; border-bottom: 1px solid #1a3a5c; flex-shrink: 0; padding: 5px 14px; gap: 6px; flex-wrap: wrap; }
+    .ind-btn { padding: 4px 11px; font-size: 11px; font-weight: 500; cursor: pointer; border-radius: 12px; border: 1px solid #2a4d6e; background: transparent; color: #6899ba; white-space: nowrap; transition: all .15s; -webkit-tap-highlight-color: transparent; }
+    .ind-btn.active { background: #1a3a5c; border-color: #4ec9b0; color: #4ec9b0; }
 
     /* MAP */
     #map-wrap { flex: 1; position: relative; min-height: 0; }
     #map { width: 100%; height: 100%; }
 
-    /* CALLOUT */
-    #callout {
-      position: absolute; top: 10px; left: 10px; z-index: 900;
-      background: rgba(11,22,34,.93); border: 1px solid #e8641a;
-      border-radius: 8px; padding: 9px 12px; max-width: 220px;
-      font-size: 12px; line-height: 1.5; pointer-events: none;
-    }
-    #callout .tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #e8641a; margin-bottom: 3px; }
+    /* YEAR BADGE */
+    #year-badge { position: absolute; top: 10px; right: 10px; z-index: 900; background: rgba(11,22,34,.92); border: 2px solid #e8641a; border-radius: 8px; padding: 5px 13px; font-size: 22px; font-weight: 700; color: #e8641a; pointer-events: none; }
 
-    /* YEAR BADGE on map */
-    #year-badge {
-      position: absolute; top: 10px; right: 10px; z-index: 900;
-      background: rgba(11,22,34,.93); border: 2px solid #e8641a;
-      border-radius: 8px; padding: 6px 14px; font-size: 22px; font-weight: 700;
-      color: #e8641a; pointer-events: none; letter-spacing: 0.03em;
-    }
+    /* CALLOUT */
+    #callout { position: absolute; top: 10px; left: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #e8641a; border-radius: 8px; padding: 8px 12px; max-width: 200px; font-size: 11px; line-height: 1.5; pointer-events: none; }
+    #callout .ctag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #e8641a; margin-bottom: 3px; }
 
     /* LEGEND */
-    #legend {
-      display: none; position: absolute; bottom: 72px; right: 10px; z-index: 900;
-      background: rgba(11,22,34,.93); border: 1px solid #2a4d6e;
-      border-radius: 8px; padding: 8px 11px; min-width: 144px; font-size: 11px;
-    }
+    #legend { position: absolute; bottom: 60px; right: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; min-width: 140px; font-size: 11px; display: none; }
     #legend h3 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #6899ba; margin-bottom: 4px; }
     .lrow { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
-    .lswatch { width: 16px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+    .lsw  { width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+    /* STATION LEGEND */
+    #sta-legend { position: absolute; bottom: 60px; left: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; font-size: 11px; display: none; }
+    #sta-legend h3 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #6899ba; margin-bottom: 5px; }
+    .sleg-row { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
+    .sleg-dot { border-radius: 50%; flex-shrink: 0; }
 
     /* INFO BAR */
-    #info {
-      position: absolute; bottom: 0; left: 0; right: 0; z-index: 900;
-      background: rgba(11,22,34,.96); border-top: 1px solid #2a4d6e;
-      padding: 7px 14px 9px; display: flex; align-items: center; justify-content: space-between;
-    }
+    #info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 900; background: rgba(11,22,34,.96); border-top: 1px solid #2a4d6e; padding: 6px 14px 8px; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
     #info-left  { font-size: 13px; font-weight: 600; color: #e8edf2; }
-    #info-right { font-size: 11px; color: #6899ba; text-align: right; }
-
-    /* PLACEHOLDER OVERLAY */
-    #placeholder {
-      position: absolute; inset: 0; z-index: 800;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 10px; pointer-events: none;
-    }
-    .ph-badge {
-      background: rgba(11,22,34,.88); border: 1px solid #2a4d6e;
-      border-radius: 10px; padding: 12px 20px; text-align: center;
-      font-size: 13px; color: #4a6e8e; max-width: 260px; line-height: 1.5;
-    }
-    .ph-badge strong { color: #6899ba; display: block; margin-bottom: 4px; font-size: 14px; }
+    #info-sub   { font-size: 10px; color: #6899ba; margin-top: 1px; }
+    #info-val   { font-size: 20px; font-weight: 700; color: #4ec9b0; text-align: right; white-space: nowrap; }
 
     /* LOADING */
-    #loading { position: absolute; inset: 0; z-index: 1000; background: rgba(11,22,34,.88); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: 13px; color: #8ab4d4; }
+    #loading { position: absolute; inset: 0; z-index: 1000; background: rgba(11,22,34,.88); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: 13px; color: #8ab4d4; }
     .spin { width: 36px; height: 36px; border: 3px solid #2a4d6e; border-top-color: #e8641a; border-radius: 50%; animation: sp .85s linear infinite; }
     @keyframes sp { to { transform: rotate(360deg); } }
+
+    /* PLACEHOLDER */
+    #placeholder { position: absolute; inset: 0; z-index: 800; display: none; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+    .ph-badge { background: rgba(11,22,34,.88); border: 1px solid #2a4d6e; border-radius: 10px; padding: 14px 22px; text-align: center; font-size: 13px; color: #4a6e8e; max-width: 260px; line-height: 1.5; }
+    .ph-badge strong { color: #6899ba; display: block; margin-bottom: 4px; font-size: 14px; }
 
     .leaflet-control-zoom a { background: #1a3a5c !important; color: #e8edf2 !important; border-color: #2a4d6e !important; }
     .leaflet-control-attribution { font-size: 9px !important; background: rgba(11,22,34,.7) !important; color: #6899ba !important; }
@@ -116,22 +89,19 @@
 <div id="app">
   <div id="header">
     <h1>Dallas EV Equity — City Maps</h1>
-    <p>354 census tracts · 806 block groups · AFDC snapshots 2020 &amp; 2024</p>
-    <div id="toolbar">
-      <a href="index.html" class="home-btn">← Dashboard</a>
-    </div>
+    <p>354 census tracts · AFDC snapshots 2020 &amp; 2024 · ACS 2019–23 indicators</p>
+    <div id="toolbar"><a href="index.html" class="home-btn">← Dashboard</a></div>
   </div>
 
-  <!-- TAB + YEAR ROW -->
   <div id="tab-row">
     <div id="tabs">
       <button class="tab active" id="tab-chargers" onclick="setTab('chargers')">Charger Locations</button>
       <button class="tab"        id="tab-density"  onclick="setTab('density')">Port Density</button>
-      <button class="tab"        id="tab-income"   onclick="setTab('income')">Income Quintiles</button>
+      <button class="tab"        id="tab-overlay"  onclick="setTab('overlay')">Indicator Overlay</button>
       <button class="tab"        id="tab-hotspots" onclick="setTab('hotspots')">Hot / Cold Spots</button>
     </div>
     <div id="year-wrap">
-      <span id="year-label">Snapshot</span>
+      <span id="year-label">Year</span>
       <div id="year-toggle">
         <button class="yr-btn active" id="yr-2020" onclick="setYear(2020)">2020</button>
         <button class="yr-btn"        id="yr-2024" onclick="setYear(2024)">2024</button>
@@ -139,31 +109,50 @@
     </div>
   </div>
 
+  <div id="ind-row">
+    <button class="ind-btn active" data-ind="median_income"   onclick="setIndicator(this)">Income</button>
+    <button class="ind-btn"        data-ind="pov_rate"        onclick="setIndicator(this)">Poverty</button>
+    <button class="ind-btn"        data-ind="edu_bach_plus"   onclick="setIndicator(this)">Education</button>
+    <button class="ind-btn"        data-ind="sf_detached_pct" onclick="setIndicator(this)">Single-family</button>
+    <button class="ind-btn"        data-ind="employment_rate" onclick="setIndicator(this)">Employment</button>
+    <button class="ind-btn"        data-ind="minority_pct"    onclick="setIndicator(this)">Minority %</button>
+    <button class="ind-btn"        data-ind="black_pct"       onclick="setIndicator(this)">Black %</button>
+    <button class="ind-btn"        data-ind="hispanic_pct"    onclick="setIndicator(this)">Hispanic %</button>
+    <button class="ind-btn"        data-ind="no_vehicle_pct"  onclick="setIndicator(this)">No vehicle</button>
+    <button class="ind-btn"        data-ind="renter_pct"      onclick="setIndicator(this)">Renter</button>
+  </div>
+
   <div id="map-wrap">
     <div id="map"></div>
 
     <div id="callout">
-      <div class="tag" id="callout-tag">Charger Locations</div>
-      <span id="callout-body">Public EV charging stations in Dallas city limits. Circles sized by number of ports.</span>
+      <div class="ctag" id="ctag">Charger Locations</div>
+      <span id="cbody">Public EV stations in Dallas city. Orange = new 2021–24, teal = existing. Circle size = port count.</span>
     </div>
 
     <div id="year-badge">2020</div>
 
-    <div id="legend"><h3 id="legend-title">Legend</h3><div id="legend-body"></div></div>
+    <div id="legend"><h3 id="leg-title">Legend</h3><div id="leg-body"></div></div>
+
+    <div id="sta-legend">
+      <h3>Stations</h3>
+      <div class="sleg-row"><div class="sleg-dot" style="width:10px;height:10px;background:#4ec9b0;border:1px solid #0b1622"></div><span id="sleg-existing">Existing 2020</span></div>
+      <div class="sleg-row" id="sleg-new-row"><div class="sleg-dot" style="width:10px;height:10px;background:#e8641a;border:1px solid #0b1622"></div><span>New 2021–24</span></div>
+    </div>
 
     <div id="placeholder">
-      <div class="ph-badge">
-        <strong id="ph-title">Charger Locations — 2020</strong>
-        <span id="ph-body">Add AFDC 2020 snapshot point data to populate this map.</span>
-      </div>
+      <div class="ph-badge"><strong>Hot / Cold Spots</strong>Per-tract LISA classifications require re-running the spatial model. Run <code>run_baseline.py</code> with LISA output enabled, then regenerate.</div>
     </div>
 
     <div id="info">
-      <div id="info-left">Hover or tap a feature</div>
-      <div id="info-right">Dallas, TX · ACS 2019–23 · AFDC snapshots</div>
+      <div>
+        <div id="info-left">Hover or tap a feature</div>
+        <div id="info-sub">354 city tracts · Dallas, TX</div>
+      </div>
+      <div id="info-val">—</div>
     </div>
 
-    <div id="loading"><div class="spin"></div><div id="loading-msg">Loading…</div></div>
+    <div id="loading"><div class="spin"></div><div id="load-msg">Loading map data…</div></div>
   </div>
 </div>
 
@@ -171,99 +160,273 @@
 'use strict';
 
 /* ── MAP ── */
-const map = L.map('map', {
-  center: [32.7767, -96.7970],
-  zoom: 11,
-  minZoom: 9,
-  zoomControl: false,
-  tap: true,
-});
+const map = L.map('map', { center:[32.7767,-96.7970], zoom:11, minZoom:9, zoomControl:false, tap:true });
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-  attribution: '© CartoDB © OSM', subdomains: 'abcd', maxZoom: 19,
+  attribution:'© CartoDB © OSM', subdomains:'abcd', maxZoom:19
 }).addTo(map);
-L.control.zoom({ position: 'topright' }).addTo(map);
+L.control.zoom({ position:'topright' }).addTo(map);
+
+/* ── INDICATOR CONFIG ── */
+const IND = {
+  median_income:   { label:'Median Income',    fmt: v => '$'+Math.round(v/1000)+'k',  pal:'green' },
+  pov_rate:        { label:'Poverty Rate',     fmt: v => v.toFixed(1)+'%',            pal:'red'   },
+  edu_bach_plus:   { label:"Bachelor's+",      fmt: v => v.toFixed(1)+'%',            pal:'blue'  },
+  sf_detached_pct: { label:'Single-family %',  fmt: v => v.toFixed(1)+'%',            pal:'purple'},
+  employment_rate: { label:'Employment Rate',  fmt: v => v.toFixed(1)+'%',            pal:'green' },
+  minority_pct:    { label:'Minority %',       fmt: v => v.toFixed(1)+'%',            pal:'orange'},
+  black_pct:       { label:'Black %',          fmt: v => v.toFixed(1)+'%',            pal:'orange'},
+  hispanic_pct:    { label:'Hispanic %',       fmt: v => v.toFixed(1)+'%',            pal:'orange'},
+  no_vehicle_pct:  { label:'No Vehicle %',     fmt: v => v.toFixed(1)+'%',            pal:'red'   },
+  renter_pct:      { label:'Renter %',         fmt: v => v.toFixed(1)+'%',            pal:'blue'  },
+};
+
+const PALS = {
+  green:  ['#edf8fb','#b2e2e2','#66c2a4','#2ca25f','#006d2c','#00441b'],
+  red:    ['#fff5f0','#fee0d2','#fcbba1','#fc9272','#e34a33','#a50f15'],
+  blue:   ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c','#08306b'],
+  purple: ['#f2f0f7','#dadaeb','#bcbddc','#9e9ac8','#756bb1','#54278f'],
+  teal:   ['#e5f5f9','#99d8c9','#66c2a4','#41ae76','#238b45','#005824'],
+  orange: ['#fff7ec','#fee8c8','#fdd49e','#fdbb84','#e34a33','#b30000'],
+};
+
+const PORT_PAL = ['#1a3a5c','#fef0d9','#fdd49e','#fdbb84','#e34a33','#b30000'];
 
 /* ── STATE ── */
 let currentTab  = 'chargers';
 let currentYear = 2020;
+let currentInd  = 'median_income';
+let TRACTS = null;   // GeoJSON FeatureCollection
+let STATIONS = null; // {2020:[...], 2024:[...]}
+let ids2020 = null;  // Set of station IDs in 2020 snapshot
+let tractLayer  = null;
+let stationLayer = null;
 
-/* ── TAB CONFIG ── */
-const TABS = {
-  chargers: {
-    tag:     'Charger Locations',
-    callout: (yr) => `Public EV charging stations in Dallas city limits as of ${yr}. Circles sized by number of ports.`,
-    ph:      (yr) => `Add AFDC ${yr} snapshot point data to populate this map.`,
-    info:    (yr) => `AFDC public stations · ${yr} snapshot`,
-  },
-  density: {
-    tag:     'Port Density',
-    callout: (yr) => `EV ports per 1,000 residents by census tract · ${yr} snapshot.`,
-    ph:      (yr) => `Add tract GeoJSON with ${yr} port-density values.`,
-    info:    (yr) => `${yr} port stock · tract (354 units) or block group (806 units)`,
-  },
-  income: {
-    tag:     'Income Quintiles',
-    callout: (yr) => `Tracts shaded by 2020 income quintile. Port circles show ${yr} stock.`,
-    ph:      (yr) => `Add income-quintile GeoJSON and ${yr} port overlay.`,
-    info:    (yr) => `ACS 2019–23 income quintiles · ${yr} port overlay`,
-  },
-  hotspots: {
-    tag:     'Hot / Cold Spots',
-    callout: (yr) => `Local Moran's I cluster map · ${yr} port stock. Red = HH, blue = LL cold spots.`,
-    ph:      (yr) => `Add ${yr} LISA cluster GeoJSON (HH / LL / HL / LH / NS).`,
-    info:    (yr) => `Moran's I · ${yr} port stock · tract scale`,
-  },
-};
-
-/* ── UPDATE UI TEXT ── */
-function updateText() {
-  const cfg = TABS[currentTab];
-  const yr  = currentYear;
-  document.getElementById('callout-tag').textContent  = cfg.tag;
-  document.getElementById('callout-body').textContent = cfg.callout(yr);
-  document.getElementById('ph-title').textContent     = cfg.tag + ' — ' + yr;
-  document.getElementById('ph-body').textContent      = cfg.ph(yr);
-  document.getElementById('info-right').textContent   = cfg.info(yr);
-  document.getElementById('info-left').textContent    = 'Hover or tap a feature';
-  document.getElementById('year-badge').textContent   = yr;
+/* ── LOAD DATA ── */
+async function loadData() {
+  document.getElementById('loading').style.display = 'flex';
+  const base = window.location.pathname.endsWith('/') ?
+    window.location.href : window.location.href.replace(/\/[^/]*$/, '/');
+  const [tResp, sResp] = await Promise.all([
+    fetch(base + 'dallas_tracts.geojson'),
+    fetch(base + 'dallas_stations.json'),
+  ]);
+  TRACTS   = await tResp.json();
+  STATIONS = await sResp.json();
+  ids2020  = new Set(STATIONS['2020'].map(s => s.id));
+  document.getElementById('loading').style.display = 'none';
+  renderTab(currentTab, currentYear, currentInd);
 }
 
-/* ── SET TAB ── */
+/* ── COLOUR HELPERS ── */
+function quantileBreaks(vals, n) {
+  const s = vals.filter(v => v != null && !isNaN(v)).sort((a,b)=>a-b);
+  return Array.from({length:n}, (_,i) => s[Math.floor((i+1)*s.length/n)-1]);
+}
+function colorFor(val, breaks, pal) {
+  if (val == null || isNaN(val)) return '#1c2a38';
+  for (let i=0; i<breaks.length; i++) if (val <= breaks[i]) return pal[i];
+  return pal[pal.length-1];
+}
+
+/* ── LEGEND ── */
+function buildLegend(breaks, pal, title, fmtFn) {
+  const fmtShort = v => {
+    if (v >= 1000000) return '$'+(v/1000000).toFixed(1)+'M';
+    if (v >= 1000)    return '$'+(v/1000).toFixed(0)+'k';
+    return v.toFixed ? v.toFixed(1) : v;
+  };
+  document.getElementById('leg-title').textContent = title;
+  document.getElementById('leg-body').innerHTML = pal.map((c,i) => {
+    const lo = i===0 ? 0 : breaks[i-1];
+    const hi = breaks[i];
+    const txt = i===0 && c === PORT_PAL[0] ? '0 ports' :
+                `${fmtShort(lo)} – ${fmtShort(hi)}`;
+    return `<div class="lrow"><div class="lsw" style="background:${c}"></div><span>${txt}</span></div>`;
+  }).join('');
+  document.getElementById('legend').style.display = 'block';
+}
+
+function hideLegend() { document.getElementById('legend').style.display = 'none'; }
+
+function buildStaLegend(yr) {
+  const el = document.getElementById('sta-legend');
+  document.getElementById('sleg-existing').textContent = yr === 2020 ? 'Station' : 'Existing (pre-2021)';
+  document.getElementById('sleg-new-row').style.display = yr === 2020 ? 'none' : 'flex';
+  el.style.display = 'block';
+}
+function hideStaLegend() { document.getElementById('sta-legend').style.display = 'none'; }
+
+/* ── CLEAR LAYERS ── */
+function clearLayers() {
+  if (tractLayer)   { map.removeLayer(tractLayer);   tractLayer   = null; }
+  if (stationLayer) { map.removeLayer(stationLayer); stationLayer = null; }
+}
+
+/* ── TRACT CHOROPLETH ── */
+function drawTracts(getVal, breaks, pal, hoverFmt) {
+  tractLayer = L.geoJSON(TRACTS, {
+    style: f => {
+      const v = getVal(f.properties);
+      return { fillColor: colorFor(v, breaks, pal), fillOpacity: 0.75, color: '#0b1622', weight: 0.4 };
+    },
+    onEachFeature: (f, layer) => {
+      const p = f.properties;
+      layer.on('mouseover', function() {
+        this.setStyle({ weight: 1.5, color: '#fff', fillOpacity: 0.92 });
+        const v = getVal(p);
+        document.getElementById('info-left').textContent = 'Tract ' + p.GEOID.slice(-6);
+        document.getElementById('info-sub').textContent  =
+          `Pop ${(p.pop||0).toLocaleString()} · ports 2020: ${p.ports_2020} · 2024: ${p.ports_2024}`;
+        document.getElementById('info-val').textContent  = v != null ? hoverFmt(v) : '—';
+      });
+      layer.on('mouseout', function() {
+        tractLayer.resetStyle(this);
+        resetInfo();
+      });
+    }
+  }).addTo(map);
+}
+
+/* ── STATION CIRCLES ── */
+function drawStations(yr) {
+  const pts = STATIONS[String(yr)];
+  stationLayer = L.layerGroup();
+  pts.forEach(s => {
+    const isNew = yr === 2024 && !ids2020.has(s.id);
+    const color = isNew ? '#e8641a' : '#4ec9b0';
+    const r = Math.max(3, 3 + Math.sqrt(s.ports) * 1.4);
+    const m = L.circleMarker([s.lat, s.lon], {
+      radius: r, fillColor: color, fillOpacity: 0.85,
+      color: '#0b1622', weight: 0.8,
+    });
+    m.on('mouseover', () => {
+      document.getElementById('info-left').textContent = s.name;
+      document.getElementById('info-sub').textContent  = isNew ? 'New 2021–24' : (yr===2020?'In service 2020':'Pre-2021 station');
+      document.getElementById('info-val').textContent  = s.ports + (s.ports===1?' port':' ports');
+    });
+    m.on('mouseout', resetInfo);
+    stationLayer.addLayer(m);
+  });
+  stationLayer.addTo(map);
+}
+
+/* ── INFO BAR ── */
+function resetInfo() {
+  const tabLabels = { chargers:'stations', density:'tracts', overlay:'tracts', hotspots:'tracts' };
+  document.getElementById('info-left').textContent = 'Hover or tap a feature';
+  document.getElementById('info-sub').textContent  = '354 city tracts · Dallas, TX';
+  document.getElementById('info-val').textContent  = '—';
+}
+
+/* ── CALLOUT TEXT ── */
+const CALLOUTS = {
+  chargers: (yr) => ({
+    tag: 'Charger Locations',
+    body: yr===2020
+      ? '131 public stations in Dallas city as of Dec 2020. Circle size = ports.'
+      : '255 stations as of Dec 2024. Orange = new 2021–24 (124 stations). Teal = existing.',
+  }),
+  density: (yr) => ({
+    tag: 'Port Density',
+    body: `Ports per 10,000 residents by census tract · ${yr} snapshot. Dark blue = 0 ports.`,
+  }),
+  overlay: (yr, ind) => ({
+    tag: IND[ind]?.label + ' · ' + yr,
+    body: `Choropleth = ${IND[ind]?.label.toLowerCase()}. Circles = ${yr} EV stations. Orange = new 2021–24.`,
+  }),
+  hotspots: () => ({
+    tag: 'Hot / Cold Spots',
+    body: 'Tract-level LISA cluster map. Per-tract classifications pending.',
+  }),
+};
+
+function updateCallout(tab, yr, ind) {
+  const fn = CALLOUTS[tab];
+  const c  = tab==='overlay' ? fn(yr, ind) : fn(yr);
+  document.getElementById('ctag').textContent  = c.tag;
+  document.getElementById('cbody').textContent = c.body;
+}
+
+/* ── RENDER ── */
+function renderTab(tab, yr, ind) {
+  clearLayers();
+  hideLegend();
+  hideStaLegend();
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('year-badge').textContent = yr;
+  updateCallout(tab, yr, ind);
+
+  if (!TRACTS) return;
+
+  if (tab === 'chargers') {
+    drawStations(yr);
+    buildStaLegend(yr);
+    resetInfo();
+  }
+
+  else if (tab === 'density') {
+    const col   = yr===2020 ? 'ports_2020' : 'ports_2024';
+    const vals  = TRACTS.features.map(f => f.properties[col]).filter(v => v > 0);
+    const brks  = quantileBreaks(vals, 5);
+    const allBrks = [0, ...brks];
+    const pal   = PORT_PAL;
+    drawTracts(
+      p => p[col],
+      allBrks,
+      pal,
+      v => v + (v===1?' port':' ports')
+    );
+    buildLegend(allBrks, pal, `Ports · ${yr}`, v => v.toFixed ? v.toFixed(0) : v);
+    drawStations(yr);
+    buildStaLegend(yr);
+    resetInfo();
+  }
+
+  else if (tab === 'overlay') {
+    const cfg   = IND[ind];
+    const pal   = PALS[cfg.pal];
+    const vals  = TRACTS.features.map(f => f.properties[ind]).filter(v => v != null && !isNaN(v));
+    const brks  = quantileBreaks(vals, pal.length);
+    drawTracts(p => p[ind], brks, pal, cfg.fmt);
+    buildLegend(brks, pal, cfg.label, cfg.fmt);
+    drawStations(yr);
+    buildStaLegend(yr);
+    resetInfo();
+  }
+
+  else if (tab === 'hotspots') {
+    document.getElementById('placeholder').style.display = 'flex';
+    resetInfo();
+  }
+}
+
+/* ── CONTROLS ── */
 function setTab(id) {
   if (id === currentTab) return;
   currentTab = id;
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
-  updateText();
-  renderTab(id, currentYear);
+  document.getElementById('ind-row').style.display = (id === 'overlay') ? 'flex' : 'none';
+  if (TRACTS) renderTab(id, currentYear, currentInd);
 }
 
-/* ── SET YEAR ── */
 function setYear(yr) {
   if (yr === currentYear) return;
   currentYear = yr;
-  document.getElementById('yr-2020').classList.toggle('active', yr === 2020);
-  document.getElementById('yr-2024').classList.toggle('active', yr === 2024);
-  updateText();
-  renderTab(currentTab, yr);
+  document.getElementById('yr-2020').classList.toggle('active', yr===2020);
+  document.getElementById('yr-2024').classList.toggle('active', yr===2024);
+  if (TRACTS) renderTab(currentTab, yr, currentInd);
 }
 
-/* ── PER-TAB RENDER (fill in as each map is built) ── */
-function renderTab(id, yr) {
-  map.setView([32.7767, -96.7970], 11);
-  document.getElementById('placeholder').style.display = 'flex';
-  document.getElementById('legend').style.display = 'none';
-
-  /* Individual tab rendering will go here, keyed by id + yr */
-  /* e.g.:
-     if (id === 'chargers') renderChargers(yr);
-     if (id === 'density')  renderDensity(yr);
-  */
+function setIndicator(btn) {
+  document.querySelectorAll('.ind-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentInd = btn.dataset.ind;
+  if (TRACTS) renderTab(currentTab, currentYear, currentInd);
 }
 
-/* ── INIT ── */
-updateText();
-renderTab('chargers', 2020);
+/* ── BOOT ── */
+loadData();
 </script>
 </body>
 </html>
