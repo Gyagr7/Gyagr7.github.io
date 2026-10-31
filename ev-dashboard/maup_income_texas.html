@@ -25,9 +25,6 @@
     .vtbtn { padding: 4px 13px; font-size: 11px; font-weight: 500; background: transparent; border: none; color: #6899ba; cursor: pointer; transition: background .15s, color .15s; -webkit-tap-highlight-color: transparent; }
     .vtbtn.active { background: #1a3a5c; color: #e8edf2; }
 
-    /* BACK BUTTON */
-    #back-btn { display: none; background: #e8641a; border: none; color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-
     /* SEARCH */
     #search-wrap { position: relative; flex: 1; min-width: 160px; max-width: 280px; }
     #search-input { width: 100%; background: #0d1e2e; border: 1px solid #2a4d6e; border-radius: 14px; color: #e8edf2; font-size: 11px; padding: 4px 12px; outline: none; }
@@ -49,12 +46,8 @@
     #callout { position: absolute; top: 10px; left: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #e8641a; border-radius: 8px; padding: 9px 12px; max-width: 210px; font-size: 12px; line-height: 1.45; pointer-events: none; }
     #callout .tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #e8641a; margin-bottom: 3px; }
 
-    /* EV LINK */
-    #ev-tag { display: none; position: absolute; top: 10px; right: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; max-width: 190px; font-size: 11px; line-height: 1.4; pointer-events: none; }
-    #ev-tag .tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #4ec9b0; margin-bottom: 3px; }
-
     /* LEGEND */
-    #legend { position: absolute; bottom: 88px; right: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; min-width: 144px; font-size: 11px; }
+    #legend { position: absolute; bottom: 72px; right: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; min-width: 144px; font-size: 11px; }
     #legend h3 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #6899ba; margin-bottom: 4px; }
     .lrow { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
     .lswatch { width: 16px; height: 11px; border-radius: 2px; flex-shrink: 0; }
@@ -89,7 +82,6 @@
         <button class="vtbtn active" id="btn-state"  onclick="switchView('state')">State</button>
         <button class="vtbtn"        id="btn-county" onclick="switchView('county')">County</button>
       </div>
-      <button id="back-btn" onclick="backToCounties()">← Counties</button>
       <div id="search-wrap">
         <input id="search-input" type="text" placeholder="Search county / parish…" autocomplete="off"
                oninput="onSearch(this.value)" onfocus="onSearch(this.value)" onblur="hideDropdown()">
@@ -102,7 +94,6 @@
   <div id="map-wrap">
     <div id="map"></div>
     <div id="callout"><div class="tag">MAUP demo</div><span id="callout-body">Two states, one income figure each. Switch to <strong>County</strong> to see the variation hidden inside.</span></div>
-    <div id="ev-tag"><div class="tag">EV paper connection</div>In our EV study, <strong>poverty</strong> is non-significant at tract level but highly significant at block-group level — same MAUP effect.</div>
     <div id="legend"><h3>Median household income</h3><div id="legend-body"></div></div>
     <div id="info">
       <div><div id="info-name">Hover or tap a region</div><div id="info-sub">Showing state-level medians</div></div>
@@ -114,8 +105,6 @@
 
 <script>
 'use strict';
-const CENSUS_KEY = 'bb0c714677af8eb0eb2fbc42b7ea3e69a530b813';
-const ACS = 'https://api.census.gov/data/2022/acs/acs5';
 
 /* ── STATE MEDIANS (ACS 2022 5-yr) ── */
 const STATE_INCOME = {
@@ -130,11 +119,10 @@ const COUNTY_INCOME = {"48001":{"income":57445,"name":"Anderson County"},"48003"
 const PAL = ['#edf8fb','#b2e2e2','#66c2a4','#2ca25f','#006d2c','#00441b'];
 
 /* ── STATE ── */
-let map, stateLayer, ctyLayer, trLayer;
+let map, stateLayer, ctyLayer;
 let ctyGeoJSON = null;
-let ctyFeatureByFips = {};   // fips -> {layer, feature, bounds}
-let cur = null;
-let currentView = 'state';   // 'state' | 'county' | 'tract'
+let ctyFeatureByFips = {};
+let currentView = 'state';
 let stateLabels = [];
 
 /* ── MAP INIT ── */
@@ -158,7 +146,7 @@ function fmt$(n) { return (!n||n<=0) ? 'N/A' : '$'+n.toLocaleString(); }
 
 const CTY_BREAKS = quantileBreaks(Object.values(COUNTY_INCOME).map(d => d.income), PAL.length);
 
-function drawLegend(breaks, label) {
+function drawLegend(breaks) {
   const fmt = v => v >= 1000 ? '$'+(v/1000).toFixed(0)+'k' : '$'+v;
   document.getElementById('legend-body').innerHTML = PAL.map((c,i) => {
     const lo = i===0 ? 0 : breaks[i-1]+1;
@@ -172,7 +160,6 @@ function setInfo(name, income, sub) {
   document.getElementById('info-sub').textContent  = sub;
 }
 function resetInfo() {
-  if (cur) { setInfo(cur.name, cur.income, 'County median · hover a tract for details'); return; }
   const subs = { state: 'Showing state-level medians', county: 'TX & LA · 318 counties/parishes' };
   document.getElementById('info-name').textContent = 'Hover or tap a region';
   document.getElementById('info-val').textContent  = '—';
@@ -189,7 +176,6 @@ function setLoading(show, msg='') {
 /* ── STATE VIEW ── */
 async function showStateView() {
   setLoading(true, 'Loading state boundaries…');
-  clearTractLayer();
   clearCountyLayer();
   clearStateLabels();
 
@@ -197,8 +183,7 @@ async function showStateView() {
   const all  = topojson.feature(topo, topo.objects.states);
   const features = all.features.filter(f => [48, 22].includes(+f.id));
 
-  // State-level breaks (just 2 values, use county scale for visual consistency)
-  drawLegend(CTY_BREAKS, 'Median household income');
+  drawLegend(CTY_BREAKS);
 
   stateLayer = L.geoJSON({ type: 'FeatureCollection', features }, {
     style: f => {
@@ -214,10 +199,8 @@ async function showStateView() {
         setInfo(d?.name ?? 'State', d?.income ?? 0, 'State median — switch to County to see internal variation');
       });
       layer.on('mouseout', function() { stateLayer.resetStyle(this); resetInfo(); });
-      // Click state → switch to county view
       layer.on('click', () => switchView('county'));
 
-      // Income label on state
       if (d) {
         const center = layer.getBounds().getCenter();
         const icon = L.divIcon({
@@ -240,7 +223,6 @@ async function showStateView() {
 /* ── COUNTY VIEW ── */
 async function showCountyView() {
   setLoading(true, 'Loading county boundaries…');
-  clearTractLayer();
   clearStateLabels();
   if (stateLayer) { map.removeLayer(stateLayer); stateLayer = null; }
 
@@ -270,83 +252,35 @@ async function showCountyView() {
       ctyFeatureByFips[fips] = { layer, bounds: layer.getBounds() };
       layer.on('mouseover', function() {
         this.setStyle({ weight: 2.5, color: '#fff', fillOpacity: 0.95 });
-        setInfo(d?.name ?? 'County', d?.income ?? 0, 'Tap to drill into census tracts');
+        setInfo(d?.name ?? 'County', d?.income ?? 0, 'Tap to highlight');
       });
       layer.on('mouseout', function() { ctyLayer.resetStyle(this); resetInfo(); });
-      layer.on('click', () => { if (d) drillDown(fips, d.name, d.income); });
+      layer.on('click', () => {
+        if (!d) return;
+        map.fitBounds(layer.getBounds(), { padding: [40,40] });
+        ctyLayer.resetStyle();
+        layer.setStyle({ weight: 3, color: '#e8641a', fillOpacity: 0.95 });
+        setTimeout(() => { if (ctyLayer) ctyLayer.resetStyle(layer); }, 2000);
+        const stMedian = STATE_INCOME[fips.slice(0,2)]?.income ?? 0;
+        const diff = stMedian > 0 ? ((d.income / stMedian - 1) * 100).toFixed(0) : 0;
+        const sign = d.income >= stMedian ? '+' : '';
+        setCallout(d.name, `Median income: <strong>${fmt$(d.income)}</strong><br>${sign}${diff}% vs state median (${fmt$(stMedian)})`);
+        setInfo(d.name, d.income, d.name + ' county median');
+      });
     }
   }).addTo(map);
 
   map.fitBounds(ctyLayer.getBounds(), { padding: [10,10] });
-  setCallout('County view', `Same two states — now 318 counties/parishes. County incomes range from <strong>$27k</strong> to <strong>$134k</strong>. Tap any county to zoom to census tracts.`);
+  setCallout('County view', `Same two states — now 318 counties/parishes. County incomes range from <strong>$27k</strong> to <strong>$134k</strong>. Tap any county to zoom in.`);
   resetInfo();
   setLoading(false);
 }
 
-/* ── TRACT DRILL-DOWN ── */
-async function drillDown(fips, name, ctyIncome) {
-  setLoading(true, `Loading tracts for ${name}…`);
-  cur = { fips, name, income: ctyIncome };
-
-  try {
-    const st = fips.slice(0,2), co = fips.slice(2);
-    const [geo, inc] = await Promise.all([fetchTractGeo(st, co), fetchTractIncome(st, co)]);
-
-    const incVals = Object.values(inc).map(d => d.income);
-    const breaks  = quantileBreaks(incVals, PAL.length);
-    drawLegend(breaks);
-
-    if (ctyLayer) map.removeLayer(ctyLayer);
-
-    trLayer = L.geoJSON(geo, {
-      style: f => {
-        const d = inc[f.properties.GEOID];
-        return { fillColor: (d&&d.income>0) ? colorFor(d.income, breaks) : '#1c2a38', fillOpacity: 0.85, color: '#1a3a5c', weight: 0.6 };
-      },
-      onEachFeature: (f, layer) => {
-        const d = inc[f.properties.GEOID];
-        layer.on('mouseover', function() {
-          this.setStyle({ weight: 2.5, color: '#fff', fillOpacity: 0.95 });
-          setInfo(d?.name ?? f.properties.NAME, d?.income ?? 0, name+' · census tract');
-        });
-        layer.on('mouseout', function() { trLayer.resetStyle(this); setInfo(name, ctyIncome, 'County median · hover a tract'); });
-      }
-    }).addTo(map);
-
-    map.fitBounds(trLayer.getBounds(), { padding: [15,15] });
-
-    document.getElementById('back-btn').style.display = 'inline-block';
-    document.getElementById('ev-tag').style.display   = 'block';
-
-    const valid = incVals.filter(v => v > 0);
-    const mn = Math.min(...valid), mx = Math.max(...valid);
-    setCallout('MAUP revealed · '+name,
-      `Tracts: <strong>${fmt$(mn)}</strong> → <strong>${fmt$(mx)}</strong> — a <span style="color:#e8641a;font-weight:700">${(mx/mn).toFixed(0)}× spread</span> the county average conceals.`);
-    setInfo(name, ctyIncome, 'County median · hover a tract for details');
-
-  } catch(e) { setCallout('Error', e.message); }
-  setLoading(false);
-}
-
-/* ── BACK TO COUNTIES ── */
-function backToCounties() {
-  cur = null;
-  clearTractLayer();
-  document.getElementById('back-btn').style.display = 'none';
-  document.getElementById('ev-tag').style.display   = 'none';
-  currentView = 'county';
-  updateToggle('county');
-  showCountyView();
-}
-
 /* ── VIEW SWITCHER ── */
 async function switchView(view) {
-  if (view === currentView && view !== 'county') return;
+  if (view === currentView) return;
   currentView = view;
   updateToggle(view);
-  cur = null;
-  document.getElementById('back-btn').style.display = 'none';
-  document.getElementById('ev-tag').style.display   = 'none';
   clearSearch();
   if (view === 'state')  await showStateView();
   if (view === 'county') await showCountyView();
@@ -358,8 +292,7 @@ function updateToggle(view) {
 }
 
 /* ── CLEAR HELPERS ── */
-function clearTractLayer()  { if (trLayer)    { map.removeLayer(trLayer);    trLayer    = null; } }
-function clearCountyLayer() { if (ctyLayer)   { map.removeLayer(ctyLayer);   ctyLayer   = null; } }
+function clearCountyLayer() { if (ctyLayer) { map.removeLayer(ctyLayer); ctyLayer = null; } }
 function clearStateLabels() { stateLabels.forEach(m => map.removeLayer(m)); stateLabels = []; }
 
 /* ── COUNTY SEARCH ── */
@@ -391,7 +324,6 @@ async function selectCounty(fips) {
   hideDropdown();
   clearSearch();
 
-  // Make sure we're on county view first
   if (currentView === 'state') {
     currentView = 'county';
     updateToggle('county');
@@ -407,18 +339,22 @@ async function selectCounty(fips) {
     if (!ctyLayer) await showCountyView();
   }
 
-  // Zoom to the county
   const entry = ctyFeatureByFips[fips];
   if (entry) {
-    map.fitBounds(entry.bounds, { padding: [30,30] });
-    // Flash highlight
+    map.fitBounds(entry.bounds, { padding: [40,40] });
+    ctyLayer.resetStyle();
     entry.layer.setStyle({ weight: 3, color: '#e8641a', fillOpacity: 0.95 });
-    setTimeout(() => { if (ctyLayer) ctyLayer.resetStyle(entry.layer); }, 1800);
+    setTimeout(() => { if (ctyLayer) ctyLayer.resetStyle(entry.layer); }, 2000);
   }
 
-  // Drill into tracts
   const d = COUNTY_INCOME[fips];
-  if (d) drillDown(fips, d.name, d.income);
+  if (d) {
+    const stMedian = STATE_INCOME[fips.slice(0,2)]?.income ?? 0;
+    const diff = stMedian > 0 ? ((d.income / stMedian - 1) * 100).toFixed(0) : 0;
+    const sign = d.income >= stMedian ? '+' : '';
+    setCallout(d.name, `Median income: <strong>${fmt$(d.income)}</strong><br>${sign}${diff}% vs state median (${fmt$(stMedian)})`);
+    setInfo(d.name, d.income, d.name + ' county median');
+  }
 }
 
 function hideDropdown() {
@@ -427,35 +363,6 @@ function hideDropdown() {
 function clearSearch() {
   document.getElementById('search-input').value = '';
   document.getElementById('search-dropdown').style.display = 'none';
-}
-
-/* ── CENSUS API FETCHERS ── */
-async function fetchTractIncome(st, co) {
-  const url  = `${ACS}?get=B19013_001E,NAME&for=tract:*&in=state:${st}+county:${co}&key=${CENSUS_KEY}`;
-  const rows = await fetch(url).then(r => r.json());
-  const out  = {};
-  for (let i = 1; i < rows.length; i++) {
-    const [inc,,s,c,tr] = rows[i];
-    out[s+c+tr] = { income: +inc||0, name: `Tract ${(+tr/100).toFixed(2)}` };
-  }
-  return out;
-}
-
-async function fetchTractGeo(st, co) {
-  const where  = encodeURIComponent(`STATE='${st}' AND COUNTY='${co}'`);
-  const suffix = `?where=${where}&outFields=GEOID,NAME,TRACT,STATE,COUNTY&returnGeometry=true&geometryPrecision=5&outSR=4326&f=geojson`;
-  const bases  = [
-    'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/Tracts_Blocks/MapServer/0',
-    'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/Tracts_Blocks/MapServer/2',
-    'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer/8',
-  ];
-  for (const b of bases) {
-    try {
-      const data = await fetch(b+suffix).then(r => r.json());
-      if (data.features?.length > 0 && String(data.features[0].properties.GEOID).length === 11) return data;
-    } catch {}
-  }
-  throw new Error('Tract boundaries unavailable.');
 }
 
 /* ── BOOT ── */

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dallas EV Equity Maps</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b1622; color: #e8edf2; }
+    #app { display: flex; flex-direction: column; height: 100vh; }
+
+    /* HEADER */
+    #header { background: linear-gradient(135deg,#1a3a5c,#0e2336); border-bottom: 3px solid #e8641a; padding: 8px 14px; flex-shrink: 0; }
+    #header h1 { font-size: 15px; font-weight: 700; }
+    #header p  { font-size: 10px; color: #8ab4d4; margin-top: 1px; }
+
+    /* TOOLBAR */
+    #toolbar { display: flex; align-items: center; gap: 8px; margin-top: 7px; flex-wrap: wrap; }
+    a.home-btn { background: none; border: 1px solid #2a4d6e; color: #6899ba; padding: 3px 10px; border-radius: 10px; font-size: 10px; text-decoration: none; white-space: nowrap; }
+
+    /* TABS */
+    #tabs { display: flex; gap: 0; overflow-x: auto; flex-shrink: 0; background: #0d1e2e; border-bottom: 1px solid #1a3a5c; padding: 0 14px; }
+    .tab {
+      padding: 9px 16px; font-size: 12px; font-weight: 500; cursor: pointer;
+      color: #6899ba; border-bottom: 2px solid transparent; white-space: nowrap;
+      background: none; border-top: none; border-left: none; border-right: none;
+      transition: color .15s, border-color .15s; -webkit-tap-highlight-color: transparent;
+    }
+    .tab.active { color: #e8edf2; border-bottom-color: #e8641a; }
+    .tab:hover:not(.active) { color: #8ab4d4; }
+
+    /* MAP */
+    #map-wrap { flex: 1; position: relative; min-height: 0; }
+    #map { width: 100%; height: 100%; }
+
+    /* CALLOUT */
+    #callout {
+      position: absolute; top: 10px; left: 10px; z-index: 900;
+      background: rgba(11,22,34,.93); border: 1px solid #e8641a;
+      border-radius: 8px; padding: 9px 12px; max-width: 220px;
+      font-size: 12px; line-height: 1.5; pointer-events: none;
+    }
+    #callout .tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #e8641a; margin-bottom: 3px; }
+
+    /* LEGEND */
+    #legend {
+      display: none; position: absolute; bottom: 72px; right: 10px; z-index: 900;
+      background: rgba(11,22,34,.93); border: 1px solid #2a4d6e;
+      border-radius: 8px; padding: 8px 11px; min-width: 144px; font-size: 11px;
+    }
+    #legend h3 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #6899ba; margin-bottom: 4px; }
+    .lrow { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+    .lswatch { width: 16px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+    /* INFO BAR */
+    #info {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 900;
+      background: rgba(11,22,34,.96); border-top: 1px solid #2a4d6e;
+      padding: 7px 14px 9px; display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; color: #6899ba;
+    }
+    #info-left  { font-size: 13px; font-weight: 600; color: #e8edf2; }
+    #info-right { font-size: 11px; color: #6899ba; text-align: right; }
+
+    /* PLACEHOLDER OVERLAY */
+    #placeholder {
+      position: absolute; inset: 0; z-index: 800;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; pointer-events: none;
+    }
+    .ph-badge {
+      background: rgba(11,22,34,.88); border: 1px solid #2a4d6e;
+      border-radius: 10px; padding: 12px 20px; text-align: center;
+      font-size: 13px; color: #4a6e8e; max-width: 240px; line-height: 1.5;
+    }
+    .ph-badge strong { color: #6899ba; display: block; margin-bottom: 4px; font-size: 14px; }
+
+    /* LOADING */
+    #loading { position: absolute; inset: 0; z-index: 1000; background: rgba(11,22,34,.88); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: 13px; color: #8ab4d4; }
+    .spin { width: 36px; height: 36px; border: 3px solid #2a4d6e; border-top-color: #e8641a; border-radius: 50%; animation: sp .85s linear infinite; }
+    @keyframes sp { to { transform: rotate(360deg); } }
+
+    .leaflet-control-zoom a { background: #1a3a5c !important; color: #e8edf2 !important; border-color: #2a4d6e !important; }
+    .leaflet-control-attribution { font-size: 9px !important; background: rgba(11,22,34,.7) !important; color: #6899ba !important; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>Dallas EV Equity — City Maps</h1>
+    <p>354 census tracts · 806 block groups · 2021–24 buildout window</p>
+    <div id="toolbar">
+      <a href="index.html" class="home-btn">← Dashboard</a>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div id="tabs">
+    <button class="tab active" id="tab-chargers"  onclick="setTab('chargers')">Charger Locations</button>
+    <button class="tab"        id="tab-density"   onclick="setTab('density')">Port Density</button>
+    <button class="tab"        id="tab-income"    onclick="setTab('income')">Income Quintiles</button>
+    <button class="tab"        id="tab-hotspots"  onclick="setTab('hotspots')">Hot / Cold Spots</button>
+  </div>
+
+  <div id="map-wrap">
+    <div id="map"></div>
+
+    <div id="callout">
+      <div class="tag" id="callout-tag">Charger Locations</div>
+      <span id="callout-body">Public EV charging stations in Dallas city limits. Circles sized by number of ports.</span>
+    </div>
+
+    <div id="legend"><h3 id="legend-title">Legend</h3><div id="legend-body"></div></div>
+
+    <div id="placeholder">
+      <div class="ph-badge"><strong id="ph-title">Charger Locations</strong><span id="ph-body">Add charger point data to populate this map.</span></div>
+    </div>
+
+    <div id="info">
+      <div id="info-left">Hover or tap a feature</div>
+      <div id="info-right" id="info-right">Dallas, TX · ACS 2019–23 · AFDC 2021–24</div>
+    </div>
+
+    <div id="loading"><div class="spin"></div><div id="loading-msg">Loading…</div></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ── MAP ── */
+const map = L.map('map', {
+  center: [32.7767, -96.7970],
+  zoom: 11,
+  minZoom: 9,
+  zoomControl: false,
+  tap: true,
+});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '© CartoDB © OSM', subdomains: 'abcd', maxZoom: 19,
+}).addTo(map);
+L.control.zoom({ position: 'topright' }).addTo(map);
+
+/* ── TAB CONFIG ── */
+const TABS = {
+  chargers: {
+    tag:     'Charger Locations',
+    callout: 'Public EV charging stations in Dallas city limits. Circles sized by number of ports.',
+    ph:      'Add charger point data to populate this map.',
+    info:    'AFDC public stations · 2021–24 additions highlighted',
+  },
+  density: {
+    tag:     'Port Density',
+    callout: 'Choropleth of EV port count per 1,000 residents by census tract. Toggle tract vs block group.',
+    ph:      'Add tract/block-group GeoJSON with port-density values.',
+    info:    'NB model outcome · tract (354 units) or block group (806 units)',
+  },
+  income: {
+    tag:     'Income Quintiles',
+    callout: 'Tracts shaded by 2020 income quintile. Overlays new ports 2021–24 as proportional circles.',
+    ph:      'Add income-quintile GeoJSON and port overlay.',
+    info:    'ACS 2019–23 median household income · 5 quintiles',
+  },
+  hotspots: {
+    tag:     'Hot / Cold Spots',
+    callout: 'Local Moran\'s I cluster map. Red = high-high clusters; blue = low-low cold spots.',
+    ph:      'Add LISA cluster classification GeoJSON (HH / LL / HL / LH / NS).',
+    info:    'Global Moran\'s I = 0.22 (tract) · 0.06 (block group)',
+  },
+};
+
+let currentTab = 'chargers';
+
+function setTab(id) {
+  if (id === currentTab) return;
+  currentTab = id;
+
+  /* Update tab highlights */
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+
+  const cfg = TABS[id];
+  document.getElementById('callout-tag').textContent   = cfg.tag;
+  document.getElementById('callout-body').textContent  = cfg.callout;
+  document.getElementById('ph-title').textContent      = cfg.tag;
+  document.getElementById('ph-body').textContent       = cfg.ph;
+  document.getElementById('info-left').textContent     = 'Hover or tap a feature';
+  document.getElementById('info-right').textContent    = cfg.info;
+
+  /* Each tab's rendering logic goes here as maps are built */
+  renderTab(id);
+}
+
+/* ── PER-TAB RENDER (expand as each map is built) ── */
+function renderTab(id) {
+  /* Placeholder: map resets to Dallas view */
+  map.setView([32.7767, -96.7970], 11);
+  document.getElementById('placeholder').style.display = 'flex';
+  document.getElementById('legend').style.display = 'none';
+}
+
+/* ── INIT ── */
+renderTab('chargers');
+</script>
+</body>
+</html>
