@@ -113,6 +113,9 @@ a { color: inherit; }
   transition: background .15s, color .15s, border-color .15s;
 }
 .ma-cv-pill:hover { background: var(--ma-accent); border-color: var(--ma-accent); color: var(--ma-paper); }
+.ma-nav-cta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ma-cv-pill.ma-ev-pill { background: transparent; color: var(--ma-ink); }
+.ma-cv-pill.ma-ev-pill:hover { background: var(--ma-accent); border-color: var(--ma-accent); color: var(--ma-paper); }
 
 /* ─── Creative dropdown ─────────────────────────────────────────── */
 .ma-nav-drop { position: relative; }
@@ -640,7 +643,10 @@ a { color: inherit; }
         </div>
       </div>
     </div>
-    <a class="ma-cv-pill" href="CV.pdf" target="_blank" rel="noopener">CV ↗</a>
+    <div class="ma-nav-cta">
+      <a class="ma-cv-pill ma-ev-pill" href="ev-dashboard/index.html">EV Dashboard →</a>
+      <a class="ma-cv-pill" href="CV.pdf" target="_blank" rel="noopener">CV ↗</a>
+    </div>
   </nav>
 
   <main class="ma-page">
