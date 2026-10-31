@@ -12,74 +12,71 @@
     #app { display: flex; flex-direction: column; height: 100vh; }
 
     /* HEADER */
-    #header { background: linear-gradient(135deg,#1a3a5c,#0e2336); border-bottom: 3px solid #e8641a; padding: 8px 14px; flex-shrink: 0; }
+    #header { background: linear-gradient(135deg,#1a3a5c,#0e2336); border-bottom: 3px solid #e8641a; padding: 7px 14px; flex-shrink: 0; }
     #header h1 { font-size: 15px; font-weight: 700; }
     #header p  { font-size: 10px; color: #8ab4d4; margin-top: 1px; }
-    #toolbar   { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+    #toolbar   { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
     a.home-btn { background: none; border: 1px solid #2a4d6e; color: #6899ba; padding: 3px 10px; border-radius: 10px; font-size: 10px; text-decoration: none; white-space: nowrap; }
 
-    /* TAB + YEAR ROW */
-    #tab-row { display: flex; align-items: stretch; background: #0d1e2e; border-bottom: 1px solid #1a3a5c; flex-shrink: 0; padding: 0 14px; }
-    #tabs    { display: flex; flex: 1; overflow-x: auto; }
-    .tab {
-      padding: 8px 14px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap;
-      color: #6899ba; border-bottom: 2px solid transparent; background: none;
-      border-top: none; border-left: none; border-right: none;
-      transition: color .15s, border-color .15s; -webkit-tap-highlight-color: transparent;
+    /* CONTROL ROWS */
+    .ctrl-row {
+      display: flex; align-items: center; gap: 0; flex-shrink: 0;
+      background: #0d1e2e; border-bottom: 1px solid #1a3a5c;
+      padding: 5px 12px; overflow-x: auto; gap: 5px;
     }
-    .tab.active { color: #e8edf2; border-bottom-color: #e8641a; }
-    .tab:hover:not(.active) { color: #8ab4d4; }
+    .ctrl-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: #4a6e8e; white-space: nowrap; margin-right: 4px;
+    }
+    .ctrl-sep { width: 1px; background: #1a3a5c; height: 20px; margin: 0 6px; flex-shrink: 0; }
 
-    /* YEAR TOGGLE */
-    #year-wrap { display: flex; align-items: center; gap: 7px; padding: 0 0 0 12px; border-left: 1px solid #1a3a5c; flex-shrink: 0; }
-    #year-label { font-size: 10px; color: #4a6e8e; }
-    #year-toggle { display: flex; border: 1px solid #2a4d6e; border-radius: 14px; overflow: hidden; }
-    .yr-btn { padding: 3px 11px; font-size: 11px; font-weight: 600; cursor: pointer; background: transparent; border: none; color: #6899ba; transition: background .15s, color .15s; -webkit-tap-highlight-color: transparent; }
-    .yr-btn.active { background: #e8641a; color: #fff; }
-
-    /* INDICATOR ROW (overlay tab only) */
-    #ind-row { display: none; background: #0d1e2e; border-bottom: 1px solid #1a3a5c; flex-shrink: 0; padding: 5px 14px; gap: 6px; flex-wrap: wrap; }
-    .ind-btn { padding: 4px 11px; font-size: 11px; font-weight: 500; cursor: pointer; border-radius: 12px; border: 1px solid #2a4d6e; background: transparent; color: #6899ba; white-space: nowrap; transition: all .15s; -webkit-tap-highlight-color: transparent; }
-    .ind-btn.active { background: #1a3a5c; border-color: #4ec9b0; color: #4ec9b0; }
+    /* PILL BUTTONS */
+    .pill {
+      padding: 4px 11px; font-size: 11px; font-weight: 500; cursor: pointer;
+      border-radius: 12px; border: 1px solid #2a4d6e; background: transparent;
+      color: #6899ba; white-space: nowrap;
+      transition: all .15s; -webkit-tap-highlight-color: transparent;
+    }
+    .pill:hover { border-color: #4a6e8e; color: #8ab4d4; }
+    .pill.active-choro { background: #1a3a5c; border-color: #4ec9b0; color: #4ec9b0; }
+    .pill.active-sta   { background: #1a3a5c; border-color: #e8641a; color: #e8641a; }
+    .pill.none-active  { background: #1a3a5c; border-color: #2a4d6e; color: #6899ba; }
 
     /* MAP */
     #map-wrap { flex: 1; position: relative; min-height: 0; }
     #map { width: 100%; height: 100%; }
 
-    /* YEAR BADGE */
-    #year-badge { position: absolute; top: 10px; right: 10px; z-index: 900; background: rgba(11,22,34,.92); border: 2px solid #e8641a; border-radius: 8px; padding: 5px 13px; font-size: 22px; font-weight: 700; color: #e8641a; pointer-events: none; }
-
     /* CALLOUT */
-    #callout { position: absolute; top: 10px; left: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #e8641a; border-radius: 8px; padding: 8px 12px; max-width: 200px; font-size: 11px; line-height: 1.5; pointer-events: none; }
+    #callout {
+      position: absolute; top: 10px; left: 10px; z-index: 900;
+      background: rgba(11,22,34,.93); border: 1px solid #e8641a;
+      border-radius: 8px; padding: 8px 12px; max-width: 200px;
+      font-size: 11px; line-height: 1.5; pointer-events: none;
+    }
     #callout .ctag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: #e8641a; margin-bottom: 3px; }
 
     /* LEGEND */
-    #legend { position: absolute; bottom: 60px; right: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; min-width: 140px; font-size: 11px; display: none; }
+    #legend { position: absolute; bottom: 54px; right: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; min-width: 142px; font-size: 11px; display: none; }
     #legend h3 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #6899ba; margin-bottom: 4px; }
     .lrow { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
     .lsw  { width: 14px; height: 10px; border-radius: 2px; flex-shrink: 0; }
 
     /* STATION LEGEND */
-    #sta-legend { position: absolute; bottom: 60px; left: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; font-size: 11px; display: none; }
+    #sta-legend { position: absolute; bottom: 54px; left: 10px; z-index: 900; background: rgba(11,22,34,.93); border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 11px; font-size: 11px; display: none; }
     #sta-legend h3 { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #6899ba; margin-bottom: 5px; }
-    .sleg-row { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
-    .sleg-dot { border-radius: 50%; flex-shrink: 0; }
+    .srow { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
+    .sdot { border-radius: 50%; flex-shrink: 0; }
 
     /* INFO BAR */
-    #info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 900; background: rgba(11,22,34,.96); border-top: 1px solid #2a4d6e; padding: 6px 14px 8px; display: flex; align-items: center; justify-content: space-between; min-height: 44px; }
+    #info { position: absolute; bottom: 0; left: 0; right: 0; z-index: 900; background: rgba(11,22,34,.96); border-top: 1px solid #2a4d6e; padding: 5px 14px 7px; display: flex; align-items: center; justify-content: space-between; min-height: 40px; }
     #info-left  { font-size: 13px; font-weight: 600; color: #e8edf2; }
     #info-sub   { font-size: 10px; color: #6899ba; margin-top: 1px; }
-    #info-val   { font-size: 20px; font-weight: 700; color: #4ec9b0; text-align: right; white-space: nowrap; }
+    #info-val   { font-size: 18px; font-weight: 700; color: #4ec9b0; text-align: right; white-space: nowrap; }
 
     /* LOADING */
     #loading { position: absolute; inset: 0; z-index: 1000; background: rgba(11,22,34,.88); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; font-size: 13px; color: #8ab4d4; }
     .spin { width: 36px; height: 36px; border: 3px solid #2a4d6e; border-top-color: #e8641a; border-radius: 50%; animation: sp .85s linear infinite; }
     @keyframes sp { to { transform: rotate(360deg); } }
-
-    /* PLACEHOLDER */
-    #placeholder { position: absolute; inset: 0; z-index: 800; display: none; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-    .ph-badge { background: rgba(11,22,34,.88); border: 1px solid #2a4d6e; border-radius: 10px; padding: 14px 22px; text-align: center; font-size: 13px; color: #4a6e8e; max-width: 260px; line-height: 1.5; }
-    .ph-badge strong { color: #6899ba; display: block; margin-bottom: 4px; font-size: 14px; }
 
     .leaflet-control-zoom a { background: #1a3a5c !important; color: #e8edf2 !important; border-color: #2a4d6e !important; }
     .leaflet-control-attribution { font-size: 9px !important; background: rgba(11,22,34,.7) !important; color: #6899ba !important; }
@@ -89,59 +86,57 @@
 <div id="app">
   <div id="header">
     <h1>Dallas EV Equity — City Maps</h1>
-    <p>354 census tracts · AFDC snapshots 2020 &amp; 2024 · ACS 2019–23 indicators</p>
+    <p>354 census tracts · AFDC 2020 &amp; 2024 · ACS 2019–23</p>
     <div id="toolbar"><a href="index.html" class="home-btn">← Dashboard</a></div>
   </div>
 
-  <div id="tab-row">
-    <div id="tabs">
-      <button class="tab active" id="tab-chargers" onclick="setTab('chargers')">Charger Locations</button>
-      <button class="tab"        id="tab-density"  onclick="setTab('density')">Port Density</button>
-      <button class="tab"        id="tab-overlay"  onclick="setTab('overlay')">Indicator Overlay</button>
-      <button class="tab"        id="tab-hotspots" onclick="setTab('hotspots')">Hot / Cold Spots</button>
-    </div>
-    <div id="year-wrap">
-      <span id="year-label">Year</span>
-      <div id="year-toggle">
-        <button class="yr-btn active" id="yr-2020" onclick="setYear(2020)">2020</button>
-        <button class="yr-btn"        id="yr-2024" onclick="setYear(2024)">2024</button>
-      </div>
-    </div>
+  <!-- ROW 1: CHOROPLETH SELECTOR -->
+  <div class="ctrl-row">
+    <span class="ctrl-label">Map</span>
+    <button class="pill none-active" id="choro-none"        onclick="setChoro(null)">None</button>
+    <button class="pill"             id="choro-ports"       onclick="setChoro('ports')">Port Density</button>
+    <div class="ctrl-sep"></div>
+    <button class="pill"             id="choro-median_income"   onclick="setChoro('median_income')">Income</button>
+    <button class="pill"             id="choro-pov_rate"        onclick="setChoro('pov_rate')">Poverty</button>
+    <button class="pill"             id="choro-edu_bach_plus"   onclick="setChoro('edu_bach_plus')">Education</button>
+    <button class="pill"             id="choro-sf_detached_pct" onclick="setChoro('sf_detached_pct')">Single-family</button>
+    <button class="pill"             id="choro-employment_rate" onclick="setChoro('employment_rate')">Employment</button>
+    <button class="pill"             id="choro-minority_pct"    onclick="setChoro('minority_pct')">Minority %</button>
+    <button class="pill"             id="choro-black_pct"       onclick="setChoro('black_pct')">Black %</button>
+    <button class="pill"             id="choro-hispanic_pct"    onclick="setChoro('hispanic_pct')">Hispanic %</button>
+    <button class="pill"             id="choro-no_vehicle_pct"  onclick="setChoro('no_vehicle_pct')">No vehicle</button>
+    <button class="pill"             id="choro-renter_pct"      onclick="setChoro('renter_pct')">Renter %</button>
+    <button class="pill"             id="choro-pop_density"     onclick="setChoro('pop_density')">Pop Density</button>
   </div>
 
-  <div id="ind-row">
-    <button class="ind-btn active" data-ind="median_income"   onclick="setIndicator(this)">Income</button>
-    <button class="ind-btn"        data-ind="pov_rate"        onclick="setIndicator(this)">Poverty</button>
-    <button class="ind-btn"        data-ind="edu_bach_plus"   onclick="setIndicator(this)">Education</button>
-    <button class="ind-btn"        data-ind="sf_detached_pct" onclick="setIndicator(this)">Single-family</button>
-    <button class="ind-btn"        data-ind="employment_rate" onclick="setIndicator(this)">Employment</button>
-    <button class="ind-btn"        data-ind="minority_pct"    onclick="setIndicator(this)">Minority %</button>
-    <button class="ind-btn"        data-ind="black_pct"       onclick="setIndicator(this)">Black %</button>
-    <button class="ind-btn"        data-ind="hispanic_pct"    onclick="setIndicator(this)">Hispanic %</button>
-    <button class="ind-btn"        data-ind="no_vehicle_pct"  onclick="setIndicator(this)">No vehicle</button>
-    <button class="ind-btn"        data-ind="renter_pct"      onclick="setIndicator(this)">Renter</button>
+  <!-- ROW 2: STATIONS + YEAR -->
+  <div class="ctrl-row">
+    <span class="ctrl-label">Stations</span>
+    <button class="pill none-active" id="sta-off"  onclick="setSta('off')">Off</button>
+    <button class="pill"             id="sta-2020" onclick="setSta('2020')">2020</button>
+    <button class="pill"             id="sta-2024" onclick="setSta('2024')">2024</button>
+    <button class="pill"             id="sta-both" onclick="setSta('both')">Both</button>
+    <div class="ctrl-sep"></div>
+    <span class="ctrl-label">Port density year</span>
+    <button class="pill active-choro" id="yr-2020" onclick="setPortYear(2020)">2020</button>
+    <button class="pill"              id="yr-2024" onclick="setPortYear(2024)">2024</button>
   </div>
 
   <div id="map-wrap">
     <div id="map"></div>
 
     <div id="callout">
-      <div class="ctag" id="ctag">Charger Locations</div>
-      <span id="cbody">Public EV stations in Dallas city. Orange = new 2021–24, teal = existing. Circle size = port count.</span>
+      <div class="ctag" id="ctag">Dallas EV Map</div>
+      <span id="cbody">Select a choropleth layer above, then toggle stations to overlay charger locations.</span>
     </div>
-
-    <div id="year-badge">2020</div>
 
     <div id="legend"><h3 id="leg-title">Legend</h3><div id="leg-body"></div></div>
 
     <div id="sta-legend">
       <h3>Stations</h3>
-      <div class="sleg-row"><div class="sleg-dot" style="width:10px;height:10px;background:#4ec9b0;border:1px solid #0b1622"></div><span id="sleg-existing">Existing 2020</span></div>
-      <div class="sleg-row" id="sleg-new-row"><div class="sleg-dot" style="width:10px;height:10px;background:#e8641a;border:1px solid #0b1622"></div><span>New 2021–24</span></div>
-    </div>
-
-    <div id="placeholder">
-      <div class="ph-badge"><strong>Hot / Cold Spots</strong>Per-tract LISA classifications require re-running the spatial model. Run <code>run_baseline.py</code> with LISA output enabled, then regenerate.</div>
+      <div class="srow" id="sl-teal"><div class="sdot" style="width:10px;height:10px;background:#4ec9b0;border:1px solid #0b1622"></div><span id="sl-teal-label">2020 stock</span></div>
+      <div class="srow" id="sl-orange" style="display:none"><div class="sdot" style="width:10px;height:10px;background:#e8641a;border:1px solid #0b1622"></div><span>New 2021–24</span></div>
+      <div class="srow" id="sl-size" style="margin-top:4px;color:#4a6e8e;font-size:10px">Circle ∝ port count</div>
     </div>
 
     <div id="info">
@@ -152,7 +147,7 @@
       <div id="info-val">—</div>
     </div>
 
-    <div id="loading"><div class="spin"></div><div id="load-msg">Loading map data…</div></div>
+    <div id="loading"><div class="spin"></div>Loading map data…</div>
   </div>
 </div>
 
@@ -168,261 +163,214 @@ L.control.zoom({ position:'topright' }).addTo(map);
 
 /* ── INDICATOR CONFIG ── */
 const IND = {
-  median_income:   { label:'Median Income',    fmt: v => '$'+Math.round(v/1000)+'k',  pal:'green' },
-  pov_rate:        { label:'Poverty Rate',     fmt: v => v.toFixed(1)+'%',            pal:'red'   },
-  edu_bach_plus:   { label:"Bachelor's+",      fmt: v => v.toFixed(1)+'%',            pal:'blue'  },
-  sf_detached_pct: { label:'Single-family %',  fmt: v => v.toFixed(1)+'%',            pal:'purple'},
-  employment_rate: { label:'Employment Rate',  fmt: v => v.toFixed(1)+'%',            pal:'green' },
-  minority_pct:    { label:'Minority %',       fmt: v => v.toFixed(1)+'%',            pal:'orange'},
-  black_pct:       { label:'Black %',          fmt: v => v.toFixed(1)+'%',            pal:'orange'},
-  hispanic_pct:    { label:'Hispanic %',       fmt: v => v.toFixed(1)+'%',            pal:'orange'},
-  no_vehicle_pct:  { label:'No Vehicle %',     fmt: v => v.toFixed(1)+'%',            pal:'red'   },
-  renter_pct:      { label:'Renter %',         fmt: v => v.toFixed(1)+'%',            pal:'blue'  },
+  median_income:   { label:'Median Income',   fmt: v=>'$'+Math.round(v/1000)+'k', pal:'green'  },
+  pov_rate:        { label:'Poverty Rate',    fmt: v=>v.toFixed(1)+'%',           pal:'red'    },
+  edu_bach_plus:   { label:"Bachelor's+",     fmt: v=>v.toFixed(1)+'%',           pal:'blue'   },
+  sf_detached_pct: { label:'Single-family',   fmt: v=>v.toFixed(1)+'%',           pal:'purple' },
+  employment_rate: { label:'Employment Rate', fmt: v=>v.toFixed(1)+'%',           pal:'green'  },
+  minority_pct:    { label:'Minority %',      fmt: v=>v.toFixed(1)+'%',           pal:'orange' },
+  black_pct:       { label:'Black %',         fmt: v=>v.toFixed(1)+'%',           pal:'orange' },
+  hispanic_pct:    { label:'Hispanic %',      fmt: v=>v.toFixed(1)+'%',           pal:'orange' },
+  no_vehicle_pct:  { label:'No Vehicle %',    fmt: v=>v.toFixed(1)+'%',           pal:'red'    },
+  renter_pct:      { label:'Renter %',        fmt: v=>v.toFixed(1)+'%',           pal:'blue'   },
+  pop_density:     { label:'Pop Density',     fmt: v=>Math.round(v)+'/km²',       pal:'purple' },
 };
-
 const PALS = {
   green:  ['#edf8fb','#b2e2e2','#66c2a4','#2ca25f','#006d2c','#00441b'],
   red:    ['#fff5f0','#fee0d2','#fcbba1','#fc9272','#e34a33','#a50f15'],
   blue:   ['#eff3ff','#bdd7e7','#6baed6','#3182bd','#08519c','#08306b'],
   purple: ['#f2f0f7','#dadaeb','#bcbddc','#9e9ac8','#756bb1','#54278f'],
-  teal:   ['#e5f5f9','#99d8c9','#66c2a4','#41ae76','#238b45','#005824'],
   orange: ['#fff7ec','#fee8c8','#fdd49e','#fdbb84','#e34a33','#b30000'],
 };
-
 const PORT_PAL = ['#1a3a5c','#fef0d9','#fdd49e','#fdbb84','#e34a33','#b30000'];
 
 /* ── STATE ── */
-let currentTab  = 'chargers';
-let currentYear = 2020;
-let currentInd  = 'median_income';
-let TRACTS = null;   // GeoJSON FeatureCollection
-let STATIONS = null; // {2020:[...], 2024:[...]}
-let ids2020 = null;  // Set of station IDs in 2020 snapshot
-let tractLayer  = null;
-let stationLayer = null;
+let currentChoro = null;   // null | 'ports' | indicator key
+let currentSta   = 'off';  // 'off' | '2020' | '2024' | 'both'
+let portYear     = 2020;
+let TRACTS = null, STATIONS = null, ids2020 = null;
+let tractLayer = null, stationLayer = null;
 
-/* ── LOAD DATA ── */
+/* ── LOAD ── */
 async function loadData() {
-  document.getElementById('loading').style.display = 'flex';
-  const base = window.location.pathname.endsWith('/') ?
-    window.location.href : window.location.href.replace(/\/[^/]*$/, '/');
-  const [tResp, sResp] = await Promise.all([
+  const base = window.location.href.replace(/\/[^/]*$/, '/');
+  const [tRes, sRes] = await Promise.all([
     fetch(base + 'dallas_tracts.geojson'),
     fetch(base + 'dallas_stations.json'),
   ]);
-  TRACTS   = await tResp.json();
-  STATIONS = await sResp.json();
+  TRACTS   = await tRes.json();
+  STATIONS = await sRes.json();
   ids2020  = new Set(STATIONS['2020'].map(s => s.id));
   document.getElementById('loading').style.display = 'none';
-  renderTab(currentTab, currentYear, currentInd);
 }
 
 /* ── COLOUR HELPERS ── */
-function quantileBreaks(vals, n) {
-  const s = vals.filter(v => v != null && !isNaN(v)).sort((a,b)=>a-b);
+function qBreaks(vals, n) {
+  const s = vals.filter(v => v!=null && !isNaN(v)).sort((a,b)=>a-b);
   return Array.from({length:n}, (_,i) => s[Math.floor((i+1)*s.length/n)-1]);
 }
 function colorFor(val, breaks, pal) {
-  if (val == null || isNaN(val)) return '#1c2a38';
-  for (let i=0; i<breaks.length; i++) if (val <= breaks[i]) return pal[i];
+  if (val==null||isNaN(val)) return '#1c2a38';
+  for (let i=0;i<breaks.length;i++) if (val<=breaks[i]) return pal[i];
   return pal[pal.length-1];
 }
 
+/* ── CHOROPLETH LAYER ── */
+function drawChoro(key, yr) {
+  if (tractLayer) { map.removeLayer(tractLayer); tractLayer = null; }
+  if (!key) { hideLegend(); updateCallout(); return; }
+
+  let getVal, breaks, pal, title, fmt;
+
+  if (key === 'ports') {
+    const col = yr===2020 ? 'ports_2020' : 'ports_2024';
+    const nonzero = TRACTS.features.map(f=>f.properties[col]).filter(v=>v>0);
+    const brk5 = qBreaks(nonzero, 5);
+    breaks = [0, ...brk5];
+    pal    = PORT_PAL;
+    getVal = p => p[col];
+    title  = `Ports · ${yr}`;
+    fmt    = v => v + (v===1?' port':' ports');
+  } else {
+    const cfg  = IND[key];
+    pal        = PALS[cfg.pal];
+    const vals = TRACTS.features.map(f=>f.properties[key]).filter(v=>v!=null&&!isNaN(v));
+    breaks     = qBreaks(vals, pal.length);
+    getVal     = p => p[key];
+    title      = cfg.label;
+    fmt        = cfg.fmt;
+  }
+
+  tractLayer = L.geoJSON(TRACTS, {
+    style: f => ({
+      fillColor: colorFor(getVal(f.properties), breaks, pal),
+      fillOpacity: 0.75, color: '#0b1622', weight: 0.4,
+    }),
+    onEachFeature: (f, layer) => {
+      const p = f.properties;
+      layer.on('mouseover', function() {
+        this.setStyle({ weight:1.5, color:'#fff', fillOpacity:0.92 });
+        const v = getVal(p);
+        document.getElementById('info-left').textContent = 'Tract '+p.GEOID.slice(-6);
+        document.getElementById('info-sub').textContent  = `Pop ${(p.pop||0).toLocaleString()} · ports 2020: ${p.ports_2020} · 2024: ${p.ports_2024}`;
+        document.getElementById('info-val').textContent  = v!=null ? fmt(v) : '—';
+      });
+      layer.on('mouseout', function() { tractLayer && tractLayer.resetStyle(this); resetInfo(); });
+    }
+  }).addTo(map);
+
+  buildLegend(breaks, pal, title, fmt);
+  updateCallout();
+}
+
+/* ── STATION LAYER ── */
+function drawStations(mode) {
+  if (stationLayer) { map.removeLayer(stationLayer); stationLayer = null; }
+  if (mode === 'off') { document.getElementById('sta-legend').style.display='none'; updateCallout(); return; }
+
+  stationLayer = L.layerGroup();
+  const sets = [];
+  if (mode==='2020'||mode==='both') sets.push({ pts:STATIONS['2020'], yr:2020 });
+  if (mode==='2024'||mode==='both') sets.push({ pts:STATIONS['2024'], yr:2024 });
+
+  sets.forEach(({ pts, yr }) => {
+    pts.forEach(s => {
+      const isNew = yr===2024 && !ids2020.has(s.id);
+      const color = isNew ? '#e8641a' : '#4ec9b0';
+      const r = Math.max(3, 3 + Math.sqrt(s.ports) * 1.4);
+      const m = L.circleMarker([s.lat, s.lon], {
+        radius:r, fillColor:color, fillOpacity:0.85, color:'#0b1622', weight:0.8,
+      });
+      m.on('mouseover', () => {
+        document.getElementById('info-left').textContent = s.name;
+        document.getElementById('info-sub').textContent  = isNew?'New 2021–24':(yr===2020?'In service 2020':'Pre-2021 station');
+        document.getElementById('info-val').textContent  = s.ports+(s.ports===1?' port':' ports');
+      });
+      m.on('mouseout', resetInfo);
+      stationLayer.addLayer(m);
+    });
+  });
+  stationLayer.addTo(map);
+
+  const shows2024 = mode==='2024'||mode==='both';
+  document.getElementById('sl-teal-label').textContent = mode==='2020'?'2020 stock':mode==='both'?'Pre-2021':'Pre-2021 stock';
+  document.getElementById('sl-orange').style.display   = shows2024 ? 'flex' : 'none';
+  document.getElementById('sta-legend').style.display  = 'block';
+  updateCallout();
+}
+
 /* ── LEGEND ── */
-function buildLegend(breaks, pal, title, fmtFn) {
-  const fmtShort = v => {
-    if (v >= 1000000) return '$'+(v/1000000).toFixed(1)+'M';
-    if (v >= 1000)    return '$'+(v/1000).toFixed(0)+'k';
-    return v.toFixed ? v.toFixed(1) : v;
-  };
+function buildLegend(breaks, pal, title, fmt) {
+  const fmtS = v => { if(v>=1000000) return '$'+(v/1e6).toFixed(1)+'M'; if(v>=1000) return '$'+(v/1000).toFixed(0)+'k'; return v.toFixed?v.toFixed(1):v; };
   document.getElementById('leg-title').textContent = title;
-  document.getElementById('leg-body').innerHTML = pal.map((c,i) => {
+  document.getElementById('leg-body').innerHTML = pal.map((c,i)=>{
     const lo = i===0 ? 0 : breaks[i-1];
     const hi = breaks[i];
-    const txt = i===0 && c === PORT_PAL[0] ? '0 ports' :
-                `${fmtShort(lo)} – ${fmtShort(hi)}`;
+    const txt = (i===0 && c===PORT_PAL[0]) ? '0 ports' : `${fmtS(lo)} – ${fmtS(hi)}`;
     return `<div class="lrow"><div class="lsw" style="background:${c}"></div><span>${txt}</span></div>`;
   }).join('');
   document.getElementById('legend').style.display = 'block';
 }
+function hideLegend() { document.getElementById('legend').style.display='none'; }
 
-function hideLegend() { document.getElementById('legend').style.display = 'none'; }
-
-function buildStaLegend(yr) {
-  const el = document.getElementById('sta-legend');
-  document.getElementById('sleg-existing').textContent = yr === 2020 ? 'Station' : 'Existing (pre-2021)';
-  document.getElementById('sleg-new-row').style.display = yr === 2020 ? 'none' : 'flex';
-  el.style.display = 'block';
-}
-function hideStaLegend() { document.getElementById('sta-legend').style.display = 'none'; }
-
-/* ── CLEAR LAYERS ── */
-function clearLayers() {
-  if (tractLayer)   { map.removeLayer(tractLayer);   tractLayer   = null; }
-  if (stationLayer) { map.removeLayer(stationLayer); stationLayer = null; }
-}
-
-/* ── TRACT CHOROPLETH ── */
-function drawTracts(getVal, breaks, pal, hoverFmt) {
-  tractLayer = L.geoJSON(TRACTS, {
-    style: f => {
-      const v = getVal(f.properties);
-      return { fillColor: colorFor(v, breaks, pal), fillOpacity: 0.75, color: '#0b1622', weight: 0.4 };
-    },
-    onEachFeature: (f, layer) => {
-      const p = f.properties;
-      layer.on('mouseover', function() {
-        this.setStyle({ weight: 1.5, color: '#fff', fillOpacity: 0.92 });
-        const v = getVal(p);
-        document.getElementById('info-left').textContent = 'Tract ' + p.GEOID.slice(-6);
-        document.getElementById('info-sub').textContent  =
-          `Pop ${(p.pop||0).toLocaleString()} · ports 2020: ${p.ports_2020} · 2024: ${p.ports_2024}`;
-        document.getElementById('info-val').textContent  = v != null ? hoverFmt(v) : '—';
-      });
-      layer.on('mouseout', function() {
-        tractLayer.resetStyle(this);
-        resetInfo();
-      });
-    }
-  }).addTo(map);
-}
-
-/* ── STATION CIRCLES ── */
-function drawStations(yr) {
-  const pts = STATIONS[String(yr)];
-  stationLayer = L.layerGroup();
-  pts.forEach(s => {
-    const isNew = yr === 2024 && !ids2020.has(s.id);
-    const color = isNew ? '#e8641a' : '#4ec9b0';
-    const r = Math.max(3, 3 + Math.sqrt(s.ports) * 1.4);
-    const m = L.circleMarker([s.lat, s.lon], {
-      radius: r, fillColor: color, fillOpacity: 0.85,
-      color: '#0b1622', weight: 0.8,
-    });
-    m.on('mouseover', () => {
-      document.getElementById('info-left').textContent = s.name;
-      document.getElementById('info-sub').textContent  = isNew ? 'New 2021–24' : (yr===2020?'In service 2020':'Pre-2021 station');
-      document.getElementById('info-val').textContent  = s.ports + (s.ports===1?' port':' ports');
-    });
-    m.on('mouseout', resetInfo);
-    stationLayer.addLayer(m);
-  });
-  stationLayer.addTo(map);
+/* ── CALLOUT ── */
+function updateCallout() {
+  const cLines = [];
+  if (currentChoro==='ports') cLines.push(`Port stock · ${portYear}`);
+  else if (currentChoro)       cLines.push(IND[currentChoro]?.label);
+  if (currentSta!=='off')      cLines.push(`Stations · ${currentSta}`);
+  if (!cLines.length) {
+    document.getElementById('ctag').textContent = 'Dallas EV Map';
+    document.getElementById('cbody').textContent = 'Select a choropleth layer and/or station overlay using the controls above.';
+  } else {
+    document.getElementById('ctag').textContent = cLines.join(' + ');
+    document.getElementById('cbody').textContent =
+      (currentChoro==='ports' ? `Ports per tract (${portYear} AFDC snapshot). ` :
+       currentChoro ? `${IND[currentChoro]?.label} by tract · ACS 2019–23. ` : '') +
+      (currentSta!=='off' ? `Orange = new 2021–24, teal = existing.` : '');
+  }
 }
 
 /* ── INFO BAR ── */
 function resetInfo() {
-  const tabLabels = { chargers:'stations', density:'tracts', overlay:'tracts', hotspots:'tracts' };
   document.getElementById('info-left').textContent = 'Hover or tap a feature';
   document.getElementById('info-sub').textContent  = '354 city tracts · Dallas, TX';
   document.getElementById('info-val').textContent  = '—';
 }
 
-/* ── CALLOUT TEXT ── */
-const CALLOUTS = {
-  chargers: (yr) => ({
-    tag: 'Charger Locations',
-    body: yr===2020
-      ? '131 public stations in Dallas city as of Dec 2020. Circle size = ports.'
-      : '255 stations as of Dec 2024. Orange = new 2021–24 (124 stations). Teal = existing.',
-  }),
-  density: (yr) => ({
-    tag: 'Port Density',
-    body: `Ports per 10,000 residents by census tract · ${yr} snapshot. Dark blue = 0 ports.`,
-  }),
-  overlay: (yr, ind) => ({
-    tag: IND[ind]?.label + ' · ' + yr,
-    body: `Choropleth = ${IND[ind]?.label.toLowerCase()}. Circles = ${yr} EV stations. Orange = new 2021–24.`,
-  }),
-  hotspots: () => ({
-    tag: 'Hot / Cold Spots',
-    body: 'Tract-level LISA cluster map. Per-tract classifications pending.',
-  }),
-};
-
-function updateCallout(tab, yr, ind) {
-  const fn = CALLOUTS[tab];
-  const c  = tab==='overlay' ? fn(yr, ind) : fn(yr);
-  document.getElementById('ctag').textContent  = c.tag;
-  document.getElementById('cbody').textContent = c.body;
+/* ── PILL ACTIVE STATE ── */
+function setChoroBtn(key) {
+  document.querySelectorAll('[id^="choro-"]').forEach(b => b.classList.remove('active-choro','none-active'));
+  const el = document.getElementById('choro-' + (key || 'none'));
+  if (!key) el.classList.add('none-active');
+  else      el.classList.add('active-choro');
 }
-
-/* ── RENDER ── */
-function renderTab(tab, yr, ind) {
-  clearLayers();
-  hideLegend();
-  hideStaLegend();
-  document.getElementById('placeholder').style.display = 'none';
-  document.getElementById('year-badge').textContent = yr;
-  updateCallout(tab, yr, ind);
-
-  if (!TRACTS) return;
-
-  if (tab === 'chargers') {
-    drawStations(yr);
-    buildStaLegend(yr);
-    resetInfo();
-  }
-
-  else if (tab === 'density') {
-    const col   = yr===2020 ? 'ports_2020' : 'ports_2024';
-    const vals  = TRACTS.features.map(f => f.properties[col]).filter(v => v > 0);
-    const brks  = quantileBreaks(vals, 5);
-    const allBrks = [0, ...brks];
-    const pal   = PORT_PAL;
-    drawTracts(
-      p => p[col],
-      allBrks,
-      pal,
-      v => v + (v===1?' port':' ports')
-    );
-    buildLegend(allBrks, pal, `Ports · ${yr}`, v => v.toFixed ? v.toFixed(0) : v);
-    drawStations(yr);
-    buildStaLegend(yr);
-    resetInfo();
-  }
-
-  else if (tab === 'overlay') {
-    const cfg   = IND[ind];
-    const pal   = PALS[cfg.pal];
-    const vals  = TRACTS.features.map(f => f.properties[ind]).filter(v => v != null && !isNaN(v));
-    const brks  = quantileBreaks(vals, pal.length);
-    drawTracts(p => p[ind], brks, pal, cfg.fmt);
-    buildLegend(brks, pal, cfg.label, cfg.fmt);
-    drawStations(yr);
-    buildStaLegend(yr);
-    resetInfo();
-  }
-
-  else if (tab === 'hotspots') {
-    document.getElementById('placeholder').style.display = 'flex';
-    resetInfo();
-  }
+function setStaBtn(mode) {
+  document.querySelectorAll('[id^="sta-"]').forEach(b => b.classList.remove('active-sta','none-active'));
+  const el = document.getElementById('sta-' + mode);
+  if (mode==='off') el.classList.add('none-active');
+  else              el.classList.add('active-sta');
 }
 
 /* ── CONTROLS ── */
-function setTab(id) {
-  if (id === currentTab) return;
-  currentTab = id;
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  document.getElementById('ind-row').style.display = (id === 'overlay') ? 'flex' : 'none';
-  if (TRACTS) renderTab(id, currentYear, currentInd);
+function setChoro(key) {
+  currentChoro = key;
+  setChoroBtn(key);
+  drawChoro(key, portYear);
 }
 
-function setYear(yr) {
-  if (yr === currentYear) return;
-  currentYear = yr;
-  document.getElementById('yr-2020').classList.toggle('active', yr===2020);
-  document.getElementById('yr-2024').classList.toggle('active', yr===2024);
-  if (TRACTS) renderTab(currentTab, yr, currentInd);
+function setSta(mode) {
+  currentSta = mode;
+  setStaBtn(mode);
+  drawStations(mode);
 }
 
-function setIndicator(btn) {
-  document.querySelectorAll('.ind-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentInd = btn.dataset.ind;
-  if (TRACTS) renderTab(currentTab, currentYear, currentInd);
+function setPortYear(yr) {
+  portYear = yr;
+  document.getElementById('yr-2020').classList.toggle('active-choro', yr===2020);
+  document.getElementById('yr-2024').classList.toggle('active-choro', yr===2024);
+  if (currentChoro==='ports') drawChoro('ports', yr);
+  updateCallout();
 }
 
 /* ── BOOT ── */
