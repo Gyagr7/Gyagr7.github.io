@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAUP — Median Income · Texas</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b1622; color: #e8edf2; }
+
+    #app { display: flex; flex-direction: column; height: 100vh; }
+
+    /* ── HEADER ── */
+    #header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #0e2336 100%);
+      border-bottom: 3px solid #e8641a;
+      padding: 10px 16px 8px;
+      flex-shrink: 0;
+    }
+    #header h1 { font-size: 16px; font-weight: 700; letter-spacing: 0.01em; }
+    #header .sub { font-size: 11px; color: #8ab4d4; margin-top: 2px; }
+    #nav {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 6px; font-size: 11px; color: #6899ba;
+    }
+    #nav .sep { opacity: 0.4; }
+    #back-btn {
+      display: none; background: #e8641a; border: none; color: #fff;
+      padding: 3px 11px; border-radius: 12px; font-size: 11px;
+      font-weight: 600; cursor: pointer; touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── MAP ── */
+    #map-wrap { flex: 1; position: relative; min-height: 0; }
+    #map { width: 100%; height: 100%; }
+
+    /* ── CALLOUT (top-left) ── */
+    #callout {
+      position: absolute; top: 10px; left: 10px; z-index: 900;
+      background: rgba(11, 22, 34, 0.93);
+      border: 1px solid #e8641a; border-radius: 8px;
+      padding: 9px 12px; max-width: 220px;
+      font-size: 12px; line-height: 1.45; pointer-events: none;
+    }
+    #callout .tag {
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #e8641a; margin-bottom: 4px;
+    }
+
+    /* ── EV LINK TAG (top-right) ── */
+    #ev-tag {
+      display: none; position: absolute; top: 10px; right: 10px; z-index: 900;
+      background: rgba(11, 22, 34, 0.93);
+      border: 1px solid #2a4d6e; border-radius: 8px;
+      padding: 8px 11px; max-width: 200px;
+      font-size: 11px; line-height: 1.4; pointer-events: none;
+    }
+    #ev-tag .tag { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #4ec9b0; margin-bottom: 4px; }
+
+    /* ── LEGEND ── */
+    #legend {
+      position: absolute; bottom: 92px; right: 10px; z-index: 900;
+      background: rgba(11, 22, 34, 0.93);
+      border: 1px solid #2a4d6e; border-radius: 8px;
+      padding: 8px 11px; min-width: 148px; font-size: 11px;
+    }
+    #legend h3 {
+      font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: #6899ba; margin-bottom: 5px;
+    }
+    .lrow { display: flex; align-items: center; gap: 7px; margin: 2px 0; }
+    .lswatch { width: 16px; height: 11px; border-radius: 2px; flex-shrink: 0; }
+
+    /* ── INFO PANEL (bottom) ── */
+    #info {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 900;
+      background: rgba(11, 22, 34, 0.96);
+      border-top: 1px solid #2a4d6e;
+      padding: 9px 16px 12px;
+      display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px;
+    }
+    #info-name { font-size: 14px; font-weight: 600; }
+    #info-sub  { font-size: 11px; color: #6899ba; margin-top: 2px; }
+    #info-val  { font-size: 28px; font-weight: 700; color: #4ec9b0; text-align: right; }
+    #info-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.06em; color: #6899ba; text-align: right; margin-top: 1px; }
+
+    /* ── LOADING ── */
+    #loading {
+      position: absolute; inset: 0; z-index: 1000;
+      background: rgba(11, 22, 34, 0.88);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+      font-size: 13px; color: #8ab4d4;
+    }
+    .spin {
+      width: 36px; height: 36px;
+      border: 3px solid #2a4d6e; border-top-color: #e8641a;
+      border-radius: 50%; animation: sp 0.85s linear infinite;
+    }
+    @keyframes sp { to { transform: rotate(360deg); } }
+
+    /* Leaflet dark overrides */
+    .leaflet-control-zoom a { background: #1a3a5c !important; color: #e8edf2 !important; border-color: #2a4d6e !important; }
+    .leaflet-control-zoom a:hover { background: #2a4d6e !important; }
+    .leaflet-control-attribution { font-size: 9px !important; background: rgba(11,22,34,0.7) !important; color: #6899ba !important; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>Modifiable Areal Unit Problem (MAUP)</h1>
+    <div class="sub">Median household income · same data · different units · different picture</div>
+    <div id="nav">
+      <span id="nav-root">Texas · county level</span>
+      <span class="sep" id="nav-sep" style="display:none">›</span>
+      <span id="nav-county" style="display:none"></span>
+      <button id="back-btn" onclick="backToCounties()">← All counties</button>
+    </div>
+  </div>
+
+  <div id="map-wrap">
+    <div id="map"></div>
+
+    <div id="callout">
+      <div class="tag">MAUP in action</div>
+      <span id="callout-body">Tap any county to zoom to census tracts — the income picture changes dramatically at a finer scale.</span>
+    </div>
+
+    <div id="ev-tag">
+      <div class="tag">EV paper connection</div>
+      In our EV study, <strong>poverty</strong> is weak at tract level but a strong predictor at block-group level — the same MAUP effect.
+    </div>
+
+    <div id="legend">
+      <h3>Median household income</h3>
+      <div id="legend-body"></div>
+    </div>
+
+    <div id="info">
+      <div>
+        <div id="info-name">Hover or tap a county</div>
+        <div id="info-sub">Texas · 254 counties</div>
+      </div>
+      <div>
+        <div id="info-val">—</div>
+        <div id="info-label">Median income</div>
+      </div>
+    </div>
+
+    <div id="loading">
+      <div class="spin"></div>
+      <div id="loading-msg">Loading Texas income data…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ── PALETTE: 6-class sequential, light→dark (low→high income) ── */
+const PAL = ['#edf8fb','#b2e2e2','#66c2a4','#2ca25f','#006d2c','#00441b'];
+
+/* ── STATE ── */
+let map, ctyLayer, trLayer;
+let ctyData   = {};   // '48113' → {income, name}
+let ctyGeoJSON = null;
+let cur = null;       // {fips, name, income} of selected county
+
+/* ── MAP ── */
+map = L.map('map', { center: [31.2, -99.8], zoom: 6, minZoom: 5, zoomControl: false, tap: true });
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+  attribution: '© <a href="https://carto.com">CartoDB</a> © <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+  subdomains: 'abcd', maxZoom: 19
+}).addTo(map);
+
+L.control.zoom({ position: 'topright' }).addTo(map);
+
+/* ── COLOR HELPERS ── */
+function quantileBreaks(vals, n) {
+  const s = vals.filter(v => v > 0).sort((a, b) => a - b);
+  return Array.from({ length: n }, (_, i) => s[Math.floor((i + 1) * s.length / n) - 1]);
+}
+
+function colorFor(val, breaks) {
+  if (!val || val <= 0) return '#1c2a38';
+  for (let i = 0; i < breaks.length; i++) if (val <= breaks[i]) return PAL[i];
+  return PAL[PAL.length - 1];
+}
+
+function drawLegend(breaks) {
+  const fmt = v => v >= 1000 ? '$' + (v / 1000).toFixed(0) + 'k' : '$' + v;
+  document.getElementById('legend-body').innerHTML = PAL.map((c, i) => {
+    const lo = i === 0 ? 0 : breaks[i - 1] + 1;
+    return `<div class="lrow"><div class="lswatch" style="background:${c}"></div><span>${fmt(lo)} – ${fmt(breaks[i])}</span></div>`;
+  }).join('');
+}
+
+function fmt$(n) { return (!n || n <= 0) ? 'N/A' : '$' + n.toLocaleString(); }
+
+/* ── CENSUS API FETCHERS ── */
+const ACS = 'https://api.census.gov/data/2022/acs/acs5';
+
+async function fetchCountyIncome() {
+  const rows = await fetch(`${ACS}?get=B19013_001E,NAME&for=county:*&in=state:48`).then(r => r.json());
+  const out = {};
+  for (let i = 1; i < rows.length; i++) {
+    const [inc, name, st, co] = rows[i];
+    out[st + co] = { income: +inc || 0, name: name.split(',')[0].trim() };
+  }
+  return out;
+}
+
+async function fetchTractIncome(st, co) {
+  const rows = await fetch(`${ACS}?get=B19013_001E,NAME&for=tract:*&in=state:${st}+county:${co}`).then(r => r.json());
+  const out = {};
+  for (let i = 1; i < rows.length; i++) {
+    const [inc, , s, c, tr] = rows[i];
+    out[s + c + tr] = { income: +inc || 0, name: `Tract ${(+tr / 100).toFixed(2)}` };
+  }
+  return out;
+}
+
+/* ── TIGERWEB: try multiple service/layer combos ── */
+async function fetchTractGeo(st, co) {
+  const where  = encodeURIComponent(`STATE='${st}' AND COUNTY='${co}'`);
+  const fields = 'GEOID,NAME,TRACT,STATE,COUNTY';
+  const suffix = `?where=${where}&outFields=${fields}&returnGeometry=true&geometryPrecision=5&outSR=4326&f=geojson`;
+  const bases  = [
+    'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/Tracts_Blocks/MapServer/0',
+    'https://tigerweb.geo.census.gov/arcgis/rest/services/Census2020/Tracts_Blocks/MapServer/2',
+    'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Current/MapServer/8',
+    'https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_ACS2022/MapServer/10',
+  ];
+  for (const b of bases) {
+    try {
+      const data = await fetch(b + suffix).then(r => r.json());
+      if (data.features?.length > 0 && String(data.features[0].properties.GEOID).length === 11) return data;
+    } catch {}
+  }
+  throw new Error('Tract boundaries unavailable — check internet connection.');
+}
+
+/* ── COUNTY VIEW ── */
+async function initCounties() {
+  setLoading(true, 'Loading Texas income data…');
+  try {
+    const [topo, income] = await Promise.all([
+      fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json').then(r => r.json()),
+      fetchCountyIncome()
+    ]);
+
+    /* Filter TopoJSON to Texas counties */
+    const all = topojson.feature(topo, topo.objects.counties);
+    const txFeatures = all.features.filter(f => String(f.id).padStart(5, '0').startsWith('48'));
+    ctyGeoJSON = { type: 'FeatureCollection', features: txFeatures };
+    ctyData = income;
+
+    const breaks = quantileBreaks(Object.values(income).map(d => d.income), PAL.length);
+    drawLegend(breaks);
+
+    ctyLayer = L.geoJSON(ctyGeoJSON, {
+      style: f => {
+        const fips = String(f.id).padStart(5, '0');
+        const d = income[fips];
+        return { fillColor: d ? colorFor(d.income, breaks) : '#1c2a38', fillOpacity: 0.85, color: '#1a3a5c', weight: 0.8 };
+      },
+      onEachFeature: (f, layer) => {
+        const fips = String(f.id).padStart(5, '0');
+        const d    = income[fips];
+        layer.on('mouseover', function () {
+          this.setStyle({ weight: 2.5, color: '#fff', fillOpacity: 0.95 });
+          setInfo(d?.name ?? 'County', d?.income ?? 0, 'Tap to see census tracts within this county');
+        });
+        layer.on('mouseout', function () {
+          ctyLayer.resetStyle(this);
+          resetInfo();
+        });
+        layer.on('click', () => { if (d) drillDown(fips, d.name, d.income); });
+      }
+    }).addTo(map);
+
+    map.fitBounds(ctyLayer.getBounds(), { padding: [10, 10] });
+  } catch (e) {
+    setCallout('Load error', e.message);
+  }
+  setLoading(false);
+}
+
+/* ── DRILL INTO COUNTY TRACTS ── */
+async function drillDown(fips, name, ctyIncome) {
+  setLoading(true, `Loading tracts for ${name}…`);
+  cur = { fips, name, income: ctyIncome };
+
+  try {
+    const st = fips.slice(0, 2), co = fips.slice(2);
+    const [geo, inc] = await Promise.all([fetchTractGeo(st, co), fetchTractIncome(st, co)]);
+
+    const incVals = Object.values(inc).map(d => d.income);
+    const breaks  = quantileBreaks(incVals, PAL.length);
+    drawLegend(breaks);
+
+    if (ctyLayer) map.removeLayer(ctyLayer);
+
+    trLayer = L.geoJSON(geo, {
+      style: f => {
+        const d = inc[f.properties.GEOID];
+        return { fillColor: (d && d.income > 0) ? colorFor(d.income, breaks) : '#1c2a38', fillOpacity: 0.85, color: '#1a3a5c', weight: 0.6 };
+      },
+      onEachFeature: (f, layer) => {
+        const d = inc[f.properties.GEOID];
+        layer.on('mouseover', function () {
+          this.setStyle({ weight: 2.5, color: '#fff', fillOpacity: 0.95 });
+          setInfo(d?.name ?? f.properties.NAME, d?.income ?? 0, name + ' · census tract');
+        });
+        layer.on('mouseout', function () {
+          trLayer.resetStyle(this);
+          setInfo(name, ctyIncome, 'County median  ·  hover a tract for details');
+        });
+      }
+    }).addTo(map);
+
+    map.fitBounds(trLayer.getBounds(), { padding: [15, 15] });
+
+    /* Update nav */
+    document.getElementById('nav-root').textContent = 'Texas';
+    document.getElementById('nav-sep').style.display = 'inline';
+    document.getElementById('nav-county').textContent = name + ' · tract level';
+    document.getElementById('nav-county').style.display = 'inline';
+    document.getElementById('back-btn').style.display  = 'inline-block';
+    document.getElementById('ev-tag').style.display    = 'block';
+
+    /* Compute spread for callout */
+    const valid = incVals.filter(v => v > 0);
+    const mn = Math.min(...valid), mx = Math.max(...valid);
+    const ratio = (mx / mn).toFixed(0);
+    setCallout(
+      'MAUP revealed · ' + name,
+      `Tracts range from <strong>${fmt$(mn)}</strong> to <strong>${fmt$(mx)}</strong> — a <span style="color:#e8641a;font-weight:700">${ratio}× spread</span> the county average conceals.`
+    );
+
+    setInfo(name, ctyIncome, 'County median  ·  hover a tract for details');
+
+  } catch (e) {
+    setCallout('Error', e.message);
+  }
+  setLoading(false);
+}
+
+/* ── BACK TO COUNTIES ── */
+function backToCounties() {
+  if (trLayer) { map.removeLayer(trLayer); trLayer = null; }
+  ctyLayer.addTo(map);
+  map.fitBounds(ctyLayer.getBounds(), { padding: [10, 10] });
+
+  const breaks = quantileBreaks(Object.values(ctyData).map(d => d.income), PAL.length);
+  drawLegend(breaks);
+
+  document.getElementById('nav-root').textContent    = 'Texas · county level';
+  document.getElementById('nav-sep').style.display   = 'none';
+  document.getElementById('nav-county').style.display = 'none';
+  document.getElementById('back-btn').style.display  = 'none';
+  document.getElementById('ev-tag').style.display    = 'none';
+
+  setCallout('MAUP in action', 'Tap any county to zoom to census tracts — the income picture changes dramatically at a finer scale.');
+  resetInfo();
+  cur = null;
+}
+
+/* ── UI HELPERS ── */
+function setInfo(name, income, sub) {
+  document.getElementById('info-name').textContent = name;
+  document.getElementById('info-val').textContent  = fmt$(income);
+  document.getElementById('info-sub').textContent  = sub;
+}
+
+function resetInfo() {
+  if (cur) {
+    setInfo(cur.name, cur.income, 'County median  ·  hover a tract for details');
+  } else {
+    document.getElementById('info-name').textContent = 'Hover or tap a county';
+    document.getElementById('info-val').textContent  = '—';
+    document.getElementById('info-sub').textContent  = 'Texas · 254 counties';
+  }
+}
+
+function setCallout(title, body) {
+  document.getElementById('callout').innerHTML =
+    `<div class="tag">${title}</div><span>${body}</span>`;
+}
+
+function setLoading(show, msg = '') {
+  document.getElementById('loading').style.display = show ? 'flex' : 'none';
+  if (msg) document.getElementById('loading-msg').textContent = msg;
+}
+
+/* ── BOOT ── */
+initCounties();
+</script>
+</body>
+</html>

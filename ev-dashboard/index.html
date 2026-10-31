@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV Equity Dashboard — Dallas</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b1622; color: #e8edf2; }
+
+    #app { display: flex; flex-direction: column; height: 100vh; }
+
+    /* HEADER */
+    #header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #0e2336 100%);
+      border-bottom: 3px solid #e8641a;
+      padding: 18px 20px 14px;
+      text-align: center;
+    }
+    #header h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.01em; }
+    #header .sub { font-size: 12px; color: #8ab4d4; margin-top: 4px; }
+    #header .byline { font-size: 11px; color: #4a6e8e; margin-top: 6px; }
+
+    /* GRID */
+    #grid {
+      flex: 1; display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 14px; padding: 16px;
+      min-height: 0;
+    }
+
+    /* PANEL CARDS */
+    .panel {
+      background: rgba(26, 58, 92, 0.3);
+      border: 1px solid #2a4d6e;
+      border-radius: 12px;
+      padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      cursor: pointer; text-decoration: none; color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+      position: relative; overflow: hidden;
+    }
+    .panel:active, .panel:hover { background: rgba(26, 58, 92, 0.6); border-color: #e8641a; }
+
+    .panel-num {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: #e8641a;
+    }
+    .panel-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+    .panel-desc  { font-size: 12px; color: #8ab4d4; line-height: 1.5; flex: 1; }
+
+    .panel-arrow {
+      position: absolute; bottom: 14px; right: 16px;
+      font-size: 20px; color: #2a4d6e;
+    }
+
+    /* Key stat badge */
+    .stat-badge {
+      display: inline-block;
+      background: rgba(11, 22, 34, 0.8);
+      border: 1px solid #2a4d6e; border-radius: 8px;
+      padding: 5px 10px; font-size: 13px; font-weight: 700;
+      color: #4ec9b0; align-self: flex-start; margin-top: auto;
+    }
+    .stat-badge span { font-weight: 400; font-size: 10px; color: #6899ba; display: block; }
+
+    /* FOOTER */
+    #footer {
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid #1a3a5c;
+      font-size: 10px; color: #4a6e8e;
+    }
+    #footer strong { color: #6899ba; }
+
+    /* Panel accent corners */
+    .panel::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 0; height: 0;
+      border-style: solid; border-width: 0 30px 30px 0;
+      border-color: transparent #2a4d6e transparent transparent;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>EV Charging Equity — Dallas, TX</h1>
+    <div class="sub">Supplementary interactive dashboard · poster session companion</div>
+    <div class="byline">Gyaneshwar Agrahari · Department of Mathematics, LSU · gangamgyanu99@gmail.com</div>
+  </div>
+
+  <div id="grid">
+
+    <!-- 1. MAUP DEMO -->
+    <a href="maup_income_texas.html" class="panel">
+      <div class="panel-num">Demo 1</div>
+      <div class="panel-title">MAUP: Income Across Texas</div>
+      <div class="panel-desc">
+        Interactive choropleth map. Tap any Texas county to zoom into census tracts and watch how the income picture changes — the same Modifiable Areal Unit Problem that affects our EV analysis.
+      </div>
+      <div class="stat-badge">12× <span>Q4 vs Q1 income gap (tracts)</span></div>
+      <div class="panel-arrow">›</div>
+    </a>
+
+    <!-- 2. TIMING -->
+    <a href="timing.html" class="panel">
+      <div class="panel-num">Demo 2</div>
+      <div class="panel-title">Who Got Chargers First?</div>
+      <div class="panel-desc">
+        Cumulative buildout by income quintile, 2017–2024. The wealthiest tracts had 54% of their 2024 stock installed before the study period began. The poorest had 15–33%.
+      </div>
+      <div class="stat-badge">2–3 yrs <span>Head start for Q5 vs Q1–Q2</span></div>
+      <div class="panel-arrow">›</div>
+    </a>
+
+    <!-- 3. FOREST PLOT -->
+    <a href="forest.html" class="panel">
+      <div class="panel-num">Demo 3</div>
+      <div class="panel-title">What Predicts New Chargers?</div>
+      <div class="panel-desc">
+        Interactive forest plot comparing negative binomial model results at tract vs block-group scale. Toggle between views to see how poverty shifts from non-significant to highly significant — MAUP in the models.
+      </div>
+      <div class="stat-badge">0.74 → 0.32 <span>Poverty IRR: tract → block group</span></div>
+      <div class="panel-arrow">›</div>
+    </a>
+
+    <!-- 4. KEY NUMBERS -->
+    <div class="panel" style="cursor:default" onclick="">
+      <div class="panel-num">Study at a glance</div>
+      <div class="panel-title">Dallas EV Equity, 2021–24</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; flex:1; margin-top:4px;">
+        <div style="background:rgba(11,22,34,0.6); border:1px solid #2a4d6e; border-radius:6px; padding:8px 10px;">
+          <div style="font-size:22px; font-weight:700; color:#4ec9b0">351</div>
+          <div style="font-size:10px; color:#6899ba; text-transform:uppercase; letter-spacing:0.05em">new public ports 2021–24</div>
+        </div>
+        <div style="background:rgba(11,22,34,0.6); border:1px solid #2a4d6e; border-radius:6px; padding:8px 10px;">
+          <div style="font-size:22px; font-weight:700; color:#e8641a">85%</div>
+          <div style="font-size:10px; color:#6899ba; text-transform:uppercase; letter-spacing:0.05em">tracts added no ports</div>
+        </div>
+        <div style="background:rgba(11,22,34,0.6); border:1px solid #2a4d6e; border-radius:6px; padding:8px 10px;">
+          <div style="font-size:22px; font-weight:700; color:#4ec9b0">2.77×</div>
+          <div style="font-size:10px; color:#6899ba; text-transform:uppercase; letter-spacing:0.05em">education IRR (tract NB)</div>
+        </div>
+        <div style="background:rgba(11,22,34,0.6); border:1px solid #2a4d6e; border-radius:6px; padding:8px 10px;">
+          <div style="font-size:22px; font-weight:700; color:#e8641a">0.19</div>
+          <div style="font-size:10px; color:#6899ba; text-transform:uppercase; letter-spacing:0.05em">SF housing IRR (bkg NB)</div>
+        </div>
+      </div>
+      <div style="font-size:10px; color:#4a6e8e; margin-top:4px">
+        ACS 2019–23 · AFDC · OSM · TxDOT · 354 tracts / 806 block groups
+      </div>
+    </div>
+
+  </div>
+
+  <div id="footer">
+    <span>Requires internet · Leaflet / Census API / CartoDB tiles</span>
+    <span><strong>Tap a panel</strong> to open · use browser back to return here</span>
+  </div>
+</div>
+</body>
+</html>

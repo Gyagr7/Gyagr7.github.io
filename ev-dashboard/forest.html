@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What Predicts New Chargers? — Dallas EV Equity</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b1622; color: #e8edf2; }
+
+    #app { display: flex; flex-direction: column; height: 100vh; }
+
+    #header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #0e2336 100%);
+      border-bottom: 3px solid #e8641a;
+      padding: 10px 16px 8px; flex-shrink: 0;
+    }
+    #header h1 { font-size: 16px; font-weight: 700; }
+    #header p  { font-size: 11px; color: #8ab4d4; margin-top: 2px; }
+    a.home-btn {
+      display: inline-block; margin-top: 5px;
+      background: none; border: 1px solid #2a4d6e;
+      color: #8ab4d4; padding: 2px 10px; border-radius: 10px;
+      font-size: 11px; text-decoration: none;
+    }
+
+    #main { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: 12px; gap: 10px; }
+
+    /* TOGGLE */
+    #toggle {
+      display: flex; gap: 0; align-self: center; flex-shrink: 0;
+      border: 1px solid #2a4d6e; border-radius: 20px; overflow: hidden;
+    }
+    .tog-btn {
+      padding: 5px 16px; font-size: 12px; cursor: pointer; border: none;
+      background: transparent; color: #6899ba; font-weight: 500;
+      transition: background 0.15s, color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .tog-btn.active { background: #1a3a5c; color: #e8edf2; }
+
+    /* CHART */
+    #chart-wrap { flex: 1; min-height: 0; }
+    #chart-wrap svg { width: 100%; height: 100%; }
+
+    /* LEGEND ROW */
+    #leg-row {
+      display: flex; align-items: center; gap: 18px; justify-content: center;
+      flex-shrink: 0; font-size: 12px;
+    }
+    .leg-item { display: flex; align-items: center; gap: 6px; }
+    .leg-dot  { width: 12px; height: 12px; border-radius: 50%; }
+
+    /* KEY CALLOUT */
+    #key-card {
+      background: rgba(26, 58, 92, 0.5);
+      border: 1px solid #e8641a; border-radius: 8px;
+      padding: 8px 12px; font-size: 11px; line-height: 1.5; flex-shrink: 0;
+    }
+    #key-card strong { color: #e8641a; }
+
+    /* axis / chart labels */
+    .ax-label { fill: #6899ba; font-family: -apple-system, 'Segoe UI', sans-serif; }
+    .row-label { fill: #c8d8e8; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 11px; }
+    .highlight-row { fill: rgba(232, 100, 26, 0.08); }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>What Predicts New EV Chargers? (2021–24)</h1>
+    <p>Negative binomial model · Rate ratio per +1 SD · 95% CI · log scale · outcome: new ports added</p>
+    <a href="index.html" class="home-btn">← Dashboard</a>
+  </div>
+
+  <div id="main">
+    <div id="toggle">
+      <button class="tog-btn active" onclick="setView('both')" id="btn-both">Tract &amp; Block Group</button>
+      <button class="tog-btn"       onclick="setView('tract')" id="btn-tract">Tract only</button>
+      <button class="tog-btn"       onclick="setView('bkg')"   id="btn-bkg">Block Group only</button>
+    </div>
+
+    <div id="chart-wrap">
+      <svg id="svg" viewBox="0 0 740 340" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <div id="leg-row">
+      <div class="leg-item"><div class="leg-dot" style="background:#e8641a"></div><span>Census tract (354 units)</span></div>
+      <div class="leg-item"><div class="leg-dot" style="background:#4ec9b0"></div><span>Block group (806 units)</span></div>
+      <div class="leg-item" style="margin-left:8px; color:#6899ba; font-size:11px">Filled = significant (p&lt;0.05) · Open = n.s.</div>
+    </div>
+
+    <div id="key-card">
+      <strong>MAUP in the models:</strong>
+      Poverty is <strong>not significant at tract level</strong> (IRR 0.74, 95% CI 0.48–1.13, p=0.16)
+      but emerges as a <strong>strong predictor at block-group level</strong> (IRR 0.32, 95% CI 0.18–0.56, p&lt;0.001).
+      The same aggregate data, a finer unit — a completely different conclusion.
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ── MODEL DATA: NB, new ports 2021-24, +commercial 2020 ── */
+const PREDS = [
+  {
+    key: 'income',
+    label: 'Median income',
+    tract: { irr: 0.671, lo: 0.354, hi: 1.274, p: 0.223 },
+    bkg:   { irr: 0.611, lo: 0.261, hi: 1.431, p: 0.257 },
+  },
+  {
+    key: 'poverty',
+    label: 'Poverty rate',
+    highlight: true,
+    tract: { irr: 0.739, lo: 0.483, hi: 1.131, p: 0.164 },
+    bkg:   { irr: 0.315, lo: 0.175, hi: 0.564, p: 0.0001 },
+  },
+  {
+    key: 'edu',
+    label: 'Bachelor\'s degree share',
+    tract: { irr: 2.767, lo: 1.716, hi: 4.463, p: 0.00003 },
+    bkg:   { irr: 2.933, lo: 1.356, hi: 6.345, p: 0.006 },
+  },
+  {
+    key: 'sfh',
+    label: '% single-family housing',
+    tract: { irr: 0.299, lo: 0.157, hi: 0.571, p: 0.0003 },
+    bkg:   { irr: 0.185, lo: 0.092, hi: 0.373, p: 0.00001 },
+  },
+  {
+    key: 'emp',
+    label: 'Employment rate',
+    tract: { irr: 0.772, lo: 0.444, hi: 1.342, p: 0.358 },
+    bkg:   { irr: 0.316, lo: 0.198, hi: 0.504, p: 0.00001 },
+  },
+  {
+    key: 'poi',
+    label: 'Commercial activity (POIs)',
+    tract: { irr: 1.698, lo: 1.236, hi: 2.332, p: 0.001 },
+    bkg:   { irr: 2.442, lo: 1.662, hi: 3.589, p: 0.00001 },
+  },
+];
+
+const COL_TRACT = '#e8641a';
+const COL_BKG   = '#4ec9b0';
+
+let currentView = 'both';
+
+/* ── SVG HELPERS ── */
+const VW = 740, VH = 340;
+let ML, MR = 18, MT = 20, MB = 30;
+let PW, PH;
+const NROWS = PREDS.length;
+let ROW_H;
+
+/* log scale */
+const LOG_MIN = Math.log10(0.08), LOG_MAX = Math.log10(10);
+
+function xOfIRR(irr) {
+  const logv = Math.log10(Math.max(irr, 0.05));
+  return ML + (logv - LOG_MIN) / (LOG_MAX - LOG_MIN) * PW;
+}
+
+function svgEl(tag, attrs, text) {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function sig(p) { return p < 0.05; }
+
+function sigLabel(p) {
+  if (p < 0.001) return '***';
+  if (p < 0.01)  return '**';
+  if (p < 0.05)  return '*';
+  return 'n.s.';
+}
+
+/* ── BUILD CHART ── */
+function buildChart(view) {
+  const svg = document.getElementById('svg');
+  svg.innerHTML = '';
+
+  const showTract = view !== 'bkg';
+  const showBKG   = view !== 'tract';
+  const rowsPerPred = (showTract && showBKG) ? 2 : 1;
+
+  /* Layout */
+  ML = 148;
+  PW = VW - ML - MR;
+  PH = VH - MT - MB;
+  ROW_H = PH / (NROWS * rowsPerPred + 0.5);
+
+  /* Background */
+  svg.appendChild(svgEl('rect', { x: 0, y: 0, width: VW, height: VH, fill: '#0b1622' }));
+  svg.appendChild(svgEl('rect', { x: ML, y: MT, width: PW, height: PH, fill: '#0d1e2e', rx: 4 }));
+
+  /* X-axis ticks & grid */
+  const ticks = [0.1, 0.2, 0.3, 0.5, 1, 2, 3, 5, 8];
+  ticks.forEach(v => {
+    const x = xOfIRR(v);
+    if (x < ML || x > ML + PW) return;
+    svg.appendChild(svgEl('line', { x1: x, y1: MT, x2: x, y2: MT + PH, stroke: '#1a3a5c', 'stroke-width': v === 1 ? 1.5 : 0.7 }));
+    svg.appendChild(svgEl('text', { x, y: MT + PH + 12, 'text-anchor': 'middle', 'font-size': 9, class: 'ax-label' }, v));
+  });
+
+  /* Reference line at 1.0 */
+  const x1 = xOfIRR(1);
+  svg.appendChild(svgEl('line', { x1, y1: MT, x2: x1, y2: MT + PH, stroke: '#4a6e8e', 'stroke-width': 1.2 }));
+  svg.appendChild(svgEl('text', { x: x1, y: MT - 5, 'text-anchor': 'middle', 'font-size': 9, fill: '#6899ba' }, 'IRR = 1'));
+
+  /* X-axis label */
+  svg.appendChild(svgEl('text', { x: ML + PW / 2, y: VH - 4, 'text-anchor': 'middle', 'font-size': 10, class: 'ax-label' }, 'Incidence rate ratio per +1 SD (log scale) — left of 1 = fewer ports, right = more'));
+
+  /* Axes */
+  svg.appendChild(svgEl('line', { x1: ML, y1: MT, x2: ML, y2: MT + PH, stroke: '#2a4d6e', 'stroke-width': 1 }));
+  svg.appendChild(svgEl('line', { x1: ML, y1: MT + PH, x2: ML + PW, y2: MT + PH, stroke: '#2a4d6e', 'stroke-width': 1 }));
+
+  /* Rows */
+  PREDS.forEach((pred, pi) => {
+    const baseRow = pi * rowsPerPred;
+    const rowY0   = MT + baseRow * ROW_H + ROW_H * 0.1;
+
+    /* Highlight band */
+    if (pred.highlight) {
+      svg.appendChild(svgEl('rect', {
+        x: ML, y: rowY0 - ROW_H * 0.15,
+        width: PW, height: ROW_H * rowsPerPred + ROW_H * 0.2,
+        fill: 'rgba(232, 100, 26, 0.08)',
+      }));
+    }
+
+    /* Row separator */
+    if (pi > 0) {
+      svg.appendChild(svgEl('line', { x1: ML, y1: rowY0 - ROW_H * 0.15, x2: ML + PW, y2: rowY0 - ROW_H * 0.15, stroke: '#1a3a5c', 'stroke-width': 0.5 }));
+    }
+
+    /* Row label */
+    const labelY = rowY0 + (rowsPerPred === 2 ? ROW_H * 0.5 : ROW_H * 0.45);
+    svg.appendChild(svgEl('text', {
+      x: ML - 8, y: labelY, 'text-anchor': 'end',
+      'font-size': pred.highlight ? 11 : 10.5, class: 'row-label',
+      'font-weight': pred.highlight ? 700 : 400,
+      fill: pred.highlight ? '#e8c090' : '#c8d8e8',
+    }, pred.label));
+
+    const drawSeries = (series, color, offsetRow) => {
+      const cy = rowY0 + (offsetRow + 0.45) * ROW_H;
+      const cx = xOfIRR(series.irr);
+      const lx = xOfIRR(series.lo);
+      const hx = xOfIRR(series.hi);
+      const isSig = sig(series.p);
+
+      /* CI line */
+      svg.appendChild(svgEl('line', { x1: lx, y1: cy, x2: hx, y2: cy, stroke: color, 'stroke-width': 1.5, opacity: 0.8 }));
+      /* Whiskers */
+      svg.appendChild(svgEl('line', { x1: lx, y1: cy - 3, x2: lx, y2: cy + 3, stroke: color, 'stroke-width': 1.5 }));
+      svg.appendChild(svgEl('line', { x1: hx, y1: cy - 3, x2: hx, y2: cy + 3, stroke: color, 'stroke-width': 1.5 }));
+      /* Point */
+      svg.appendChild(svgEl('circle', {
+        cx, cy, r: 5.5,
+        fill: isSig ? color : 'transparent',
+        stroke: color, 'stroke-width': 2,
+      }));
+      /* IRR value label */
+      const label = series.irr.toFixed(2) + ' ' + sigLabel(series.p);
+      svg.appendChild(svgEl('text', {
+        x: hx + 5, y: cy + 4,
+        'font-size': 9.5, fill: isSig ? color : '#6899ba',
+        'font-weight': isSig ? 600 : 400,
+      }, label));
+    };
+
+    if (showTract && showBKG) {
+      drawSeries(pred.tract, COL_TRACT, 0);
+      drawSeries(pred.bkg,   COL_BKG,   1);
+    } else if (showTract) {
+      drawSeries(pred.tract, COL_TRACT, 0);
+    } else {
+      drawSeries(pred.bkg,   COL_BKG,   0);
+    }
+  });
+
+  /* Scale labels */
+  svg.appendChild(svgEl('text', { x: ML - 4, y: MT + PH / 2 + 4, 'text-anchor': 'end', 'font-size': 9, fill: '#4a6e8e', transform: `rotate(-90, ${ML - 4}, ${MT + PH / 2})` }, ''));
+}
+
+/* ── TOGGLE ── */
+function setView(v) {
+  currentView = v;
+  ['both', 'tract', 'bkg'].forEach(id => {
+    document.getElementById('btn-' + id).classList.toggle('active', id === v);
+  });
+  buildChart(v);
+}
+
+/* ── INIT ── */
+buildChart('both');
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who Got Chargers First? — Dallas EV Equity</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0b1622; color: #e8edf2; }
+
+    #app { display: flex; flex-direction: column; height: 100vh; }
+
+    /* HEADER */
+    #header {
+      background: linear-gradient(135deg, #1a3a5c 0%, #0e2336 100%);
+      border-bottom: 3px solid #e8641a;
+      padding: 10px 16px 8px; flex-shrink: 0;
+    }
+    #header h1 { font-size: 16px; font-weight: 700; }
+    #header p  { font-size: 11px; color: #8ab4d4; margin-top: 2px; }
+    #home-btn  {
+      display: inline-block; margin-top: 5px;
+      background: none; border: 1px solid #2a4d6e;
+      color: #8ab4d4; padding: 2px 10px; border-radius: 10px;
+      font-size: 11px; cursor: pointer; text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* MAIN */
+    #main { flex: 1; display: flex; flex-direction: column; min-height: 0; padding: 12px; gap: 10px; }
+
+    /* CHART */
+    #chart-wrap { flex: 1; min-height: 0; }
+    #chart-wrap svg { width: 100%; height: 100%; }
+
+    /* LEGEND */
+    #legend {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      padding: 6px 0; flex-shrink: 0;
+    }
+    .litem { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; user-select: none; }
+    .ldash { width: 24px; height: 3px; border-radius: 2px; }
+
+    /* CALLOUTS */
+    #callouts {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px; flex-shrink: 0;
+    }
+    .card {
+      background: rgba(26, 58, 92, 0.5);
+      border: 1px solid #2a4d6e; border-radius: 8px; padding: 8px 12px;
+      font-size: 11px; line-height: 1.5;
+    }
+    .card .val { font-size: 20px; font-weight: 700; margin: 2px 0; }
+    .card .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #6899ba; }
+
+    /* SVG annotation styles (set via JS) */
+    .anno-line { stroke: #4a6e8e; stroke-width: 1; stroke-dasharray: 4 3; }
+    .anno-label { fill: #8ab4d4; font-family: -apple-system, 'Segoe UI', sans-serif; }
+    .axis-line  { stroke: #2a4d6e; stroke-width: 1; }
+    .axis-label { fill: #6899ba; font-family: -apple-system, 'Segoe UI', sans-serif; }
+    .grid-line  { stroke: #1a3a5c; stroke-width: 0.8; }
+    .data-line  { fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    .data-dot   { r: 5; stroke: #0b1622; stroke-width: 1.5; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>Who Got Dallas's New EV Chargers — and When?</h1>
+    <p>Cumulative share of each income group's 2024 port stock, by year of installation</p>
+    <a href="index.html" class="home-btn" id="home-btn">← Dashboard</a>
+  </div>
+
+  <div id="main">
+    <div id="chart-wrap">
+      <svg id="svg" viewBox="0 0 760 380" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+
+    <div id="legend"></div>
+
+    <div id="callouts">
+      <div class="card">
+        <div class="label">By end of 2020</div>
+        <div class="val" style="color:#01665e">54% <span style="font-size:13px;font-weight:400">Q5</span></div>
+        <div style="color:#e8641a; font-weight:600">vs 15–33% Q1–Q2</div>
+        <div style="margin-top:3px; color:#8ab4d4">Wealthiest quintile had more than half its chargers before the study period even began.</div>
+      </div>
+      <div class="card">
+        <div class="label">Median installation year</div>
+        <div class="val" style="color:#01665e">2020 <span style="font-size:13px;font-weight:400">Q5</span></div>
+        <div style="color:#e8641a; font-weight:600">vs 2022–2023 Q1–Q2</div>
+        <div style="margin-top:3px; color:#8ab4d4">A 2–3 year head start that compounds: operators cluster near existing infrastructure.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ── DATA ── */
+const Q = [
+  { id: 'Q1', label: 'Q1 — Lowest income', color: '#e8641a', ports: 27,  share2020: 0.333, share2022: 0.407, medYear: 2023 },
+  { id: 'Q2', label: 'Q2',                  color: '#f0a050', ports: 52,  share2020: 0.154, share2022: 0.404, medYear: 2023 },
+  { id: 'Q3', label: 'Q3 — Middle',          color: '#c8c84a', ports: 74,  share2020: 0.176, share2022: 0.622, medYear: 2022 },
+  { id: 'Q4', label: 'Q4',                  color: '#4ec9b0', ports: 269, share2020: 0.331, share2022: 0.688, medYear: 2021 },
+  { id: 'Q5', label: 'Q5 — Highest income', color: '#01a087', ports: 102, share2020: 0.539, share2022: 0.961, medYear: 2020 },
+];
+
+/* Anchor years and interpolation */
+const ANCHORS = [2017, 2020, 2022, 2024];
+
+function shareAt(q, year) {
+  const vals = { 2017: 0, 2020: q.share2020, 2022: q.share2022, 2024: 1.0 };
+  if (year <= 2017) return 0;
+  if (year >= 2024) return 1;
+  for (let i = 0; i < ANCHORS.length - 1; i++) {
+    const a = ANCHORS[i], b = ANCHORS[i + 1];
+    if (year >= a && year <= b) {
+      const t = (year - a) / (b - a);
+      return vals[a] + t * (vals[b] - vals[a]);
+    }
+  }
+}
+
+/* Build point array for each quintile (one point per 0.1 year step) */
+function buildPoints(q) {
+  const pts = [];
+  for (let y = 2017; y <= 2024; y += 0.1) {
+    pts.push({ y, s: shareAt(q, y) });
+  }
+  pts.push({ y: 2024, s: 1.0 });
+  return pts;
+}
+
+/* ── SVG CHART ── */
+const svg = document.getElementById('svg');
+const VW = 760, VH = 380;
+const ML = 52, MR = 20, MT = 22, MB = 44;
+const PW = VW - ML - MR, PH = VH - MT - MB;
+const YEARS = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+
+function xOf(year) { return ML + (year - 2017) / 7 * PW; }
+function yOf(share) { return MT + (1 - share) * PH; }
+
+function el(tag, attrs, text) {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  Object.entries(attrs).forEach(([k, v]) => e.setAttribute(k, v));
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+function buildChart() {
+  /* Background */
+  svg.appendChild(el('rect', { x: 0, y: 0, width: VW, height: VH, fill: '#0b1622' }));
+  svg.appendChild(el('rect', { x: ML, y: MT, width: PW, height: PH, fill: '#0d1e2e', rx: 4 }));
+
+  /* Grid lines & y-axis labels */
+  [0, 0.25, 0.5, 0.75, 1.0].forEach(s => {
+    const y = yOf(s);
+    svg.appendChild(el('line', { x1: ML, y1: y, x2: ML + PW, y2: y, class: 'grid-line' }));
+    svg.appendChild(el('text', { x: ML - 6, y: y + 4, 'text-anchor': 'end', 'font-size': 10, class: 'axis-label' }, Math.round(s * 100) + '%'));
+  });
+
+  /* Y-axis label */
+  const ytitle = el('text', { x: 12, y: MT + PH / 2, 'text-anchor': 'middle', 'font-size': 10, class: 'axis-label', transform: `rotate(-90, 12, ${MT + PH / 2})` }, '% of 2024 ports installed');
+  svg.appendChild(ytitle);
+
+  /* X-axis labels */
+  YEARS.forEach(yr => {
+    const x = xOf(yr);
+    svg.appendChild(el('line', { x1: x, y1: MT + PH, x2: x, y2: MT + PH + 4, class: 'axis-line' }));
+    svg.appendChild(el('text', { x, y: MT + PH + 14, 'text-anchor': 'middle', 'font-size': 10, class: 'axis-label' }, yr));
+  });
+
+  /* Axes */
+  svg.appendChild(el('line', { x1: ML, y1: MT, x2: ML, y2: MT + PH, class: 'axis-line' }));
+  svg.appendChild(el('line', { x1: ML, y1: MT + PH, x2: ML + PW, y2: MT + PH, class: 'axis-line' }));
+
+  /* Study period band (2021-2024) */
+  const x21 = xOf(2021);
+  svg.appendChild(el('rect', { x: x21, y: MT, width: xOf(2024) - x21, height: PH, fill: 'rgba(232, 100, 26, 0.05)' }));
+  svg.appendChild(el('line', { x1: x21, y1: MT, x2: x21, y2: MT + PH, class: 'anno-line' }));
+  svg.appendChild(el('text', { x: x21 + 4, y: MT + 12, 'font-size': 9, class: 'anno-label' }, '← Study period 2021–24'));
+
+  /* 2020 reference line */
+  const x20 = xOf(2020);
+  svg.appendChild(el('line', { x1: x20, y1: MT, x2: x20, y2: MT + PH, stroke: '#2a4d6e', 'stroke-width': 1, 'stroke-dasharray': '3 3' }));
+
+  /* Draw data lines */
+  Q.forEach(q => {
+    const pts = buildPoints(q);
+    const d = pts.map((p, i) => `${i === 0 ? 'M' : 'L'}${xOf(p.y).toFixed(1)},${yOf(p.s).toFixed(1)}`).join(' ');
+    const path = el('path', { d, class: 'data-line', stroke: q.color, id: 'line-' + q.id });
+    svg.appendChild(path);
+
+    /* Animate line draw */
+    const len = path.getTotalLength?.() ?? 800;
+    path.style.strokeDasharray  = len;
+    path.style.strokeDashoffset = len;
+    path.style.transition = `stroke-dashoffset 1.8s ease-out ${Q.indexOf(q) * 0.15}s`;
+    requestAnimationFrame(() => { path.style.strokeDashoffset = 0; });
+
+    /* Dots at anchor years */
+    ANCHORS.forEach(yr => {
+      const s = shareAt(q, yr);
+      svg.appendChild(el('circle', { cx: xOf(yr), cy: yOf(s), r: 4.5, fill: q.color, class: 'data-dot', id: `dot-${q.id}-${yr}` }));
+    });
+  });
+
+  /* Annotation: gap at 2020 */
+  const yQ5 = yOf(Q[4].share2020), yQ1 = yOf(Q[0].share2020), yQ2 = yOf(Q[1].share2020);
+  /* Arrow bracket */
+  svg.appendChild(el('line', { x1: x20 + 10, y1: yQ5, x2: x20 + 10, y2: yQ1, stroke: '#e8edf2', 'stroke-width': 1 }));
+  svg.appendChild(el('text', { x: x20 + 14, y: (yQ5 + yQ1) / 2 + 4, 'font-size': 9.5, fill: '#e8edf2' }, '2–3 yr gap'));
+
+  /* End labels */
+  Q.forEach(q => {
+    svg.appendChild(el('text', { x: xOf(2024) + 4, y: yOf(1.0) + Q.indexOf(q) * 0 /* stacked at 100% */, 'font-size': 9.5, fill: q.color }, ''));
+  });
+}
+
+/* ── LEGEND ── */
+function buildLegend() {
+  const wrap = document.getElementById('legend');
+  Q.forEach(q => {
+    const item = document.createElement('div');
+    item.className = 'litem';
+    item.innerHTML = `<div class="ldash" style="background:${q.color}"></div><span>${q.label} (${q.ports} ports, median yr ${q.medYear})</span>`;
+    item.addEventListener('click', () => highlightLine(q.id));
+    wrap.appendChild(item);
+  });
+}
+
+let highlighted = null;
+function highlightLine(id) {
+  Q.forEach(q => {
+    const line = document.getElementById('line-' + q.id);
+    if (!line) return;
+    if (id === q.id) {
+      line.style.strokeWidth = '4';
+      line.style.opacity = '1';
+    } else {
+      line.style.strokeWidth = '1.5';
+      line.style.opacity = '0.3';
+    }
+  });
+  if (highlighted === id) {
+    Q.forEach(q => {
+      const l = document.getElementById('line-' + q.id);
+      if (l) { l.style.strokeWidth = '2.5'; l.style.opacity = '1'; }
+    });
+    highlighted = null;
+  } else {
+    highlighted = id;
+  }
+}
+
+buildChart();
+buildLegend();
+</script>
+</body>
+</html>
